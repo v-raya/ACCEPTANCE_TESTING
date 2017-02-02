@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-# Specify your gem's dependencies in capybara_tests.gemspec
 gem 'capybara'
-gem 'rspec'
 gem 'rake'
+gem 'rspec'
+gem 'selenium-webdriver', '2.53.4'
