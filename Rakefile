@@ -1,9 +1,13 @@
 require 'bundler'
+require 'rspec/core/rake_task'
+require 'rspec_junit_formatter'
 
 task :default => [:spec]
 
-require 'rspec/core/rake_task'
-
 RSpec::Core::RakeTask.new do |t|
   t.rspec_opts = %w(-fp --color --require spec_helper)
+  if ENV['GENERATE_TEST_REPORTS'] == 'yes'
+    t.rspec_opts << '--format RspecJunitFormatter'
+    t.rspec_opts << "--out reports/TESTS-rspec.xml"
+  end
 end

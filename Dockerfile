@@ -14,13 +14,11 @@ RUN \
 
 RUN bundle config --global frozen 1
 
-RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
-
+ADD . $WORKDIR
 COPY Gemfile /usr/src/app/
 COPY Gemfile.lock /usr/src/app/
 RUN bundle install
 
-COPY . /usr/src/app
-
-ENV RUN_HEADLESS true
+ENV USE_XVFB true
+ENV GENERATE_TEST_REPORTS yes

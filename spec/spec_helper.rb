@@ -1,13 +1,15 @@
-#require 'capybara/accessible'
 require 'capybara/rspec'
 require 'capybara/webkit'
 require 'headless'
+require 'helper_methods'
 
 module AcceptanceTesting
   def self.setup
 
-    @run_headless = ENV['RUN_HEADLESS'] === 'true'
-    @active_driver = (ENV['CAPYBARA_DRIVER'] || :selenium).to_sym
+    driver_option = ENV['CAPYBARA_DRIVER']
+    is_driver_defined = driver_option.nil? || driver_option.empty?
+    @active_driver = (is_driver_defined ? :selenium : driver_option).to_sym
+    @use_xvfb = ENV['USE_XVFB'] === 'true'
     @app_url = ENV['APP_URL']
 
     raise 'You must pass the app url with APP_URL=<url>.' unless @app_url
@@ -23,7 +25,7 @@ module AcceptanceTesting
       config.allow_unknown_urls
     end
 
-    if @run_headless
+    if @use_xvfb
       # Start Xvfb display server
       @headless_manager = Headless.new
       @headless_manager.start
