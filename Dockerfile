@@ -22,3 +22,4 @@ RUN bundle install
 
 ENV USE_XVFB true
 ENV GENERATE_TEST_REPORTS yes
+ENTRYPOINT rake

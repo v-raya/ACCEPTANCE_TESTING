@@ -1,4 +1,4 @@
-describe 'Looking for a Person using the searchbox on homepage', :type => :feature do
+describe 'Homepage Autocompleter', type: :feature do
   it 'finds a result by first name' do
     visit '/'
     autocompleter_fill_in 'People', 'Houston'
