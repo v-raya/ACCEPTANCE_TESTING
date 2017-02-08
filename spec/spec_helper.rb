@@ -1,13 +1,49 @@
 require 'capybara/rspec'
+require 'capybara/webkit'
+require 'headless'
+require 'helper_methods'
 
 module AcceptanceTesting
-  def self.setup
+
+  def self.get_driver
+    driver_option = ENV['CAPYBARA_DRIVER']
+    is_driver_defined = driver_option.nil? || driver_option.empty?
+    is_driver_defined ? :selenium : (driver_option).to_sym
+  end
+
+  def self.setup_env_settings
+    driver_option = ENV['CAPYBARA_DRIVER']
+    is_driver_defined = driver_option.nil? || driver_option.empty?
+    @active_driver = get_driver
+    @use_xvfb = ENV['USE_XVFB'] == 'true'
+    @app_url = ENV['APP_URL']
+  end
+
+  def self.setup_xvfb
+    @headless_manager = Headless.new
+    @headless_manager.start
+  end
+
+  def self.setup_capybara
     Capybara.configure do |config|
-      config.app_host               = ENV['TEST_URL'] || 'http://192.168.99.100:3000'
+      config.app_host               = @app_url
       config.run_server             = false
-      config.default_driver         = :selenium
+      config.default_driver         = @active_driver
       config.default_max_wait_time  = 5
     end
+
+    Capybara::Webkit.configure(&:allow_unknown_urls)
+  end
+
+  def self.setup
+    setup_env_settings
+    raise 'You must pass the app url with APP_URL=<url>.' unless @app_url
+    setup_xvfb if @use_xvfb
+    setup_capybara
+  end
+
+  def self.teardown
+    @headless.destroy if @run_headless
   end
 end
 

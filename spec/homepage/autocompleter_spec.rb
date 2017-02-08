@@ -1,25 +1,25 @@
-describe 'Looking for a Person using the searchbox on homepage', :type => :feature do
+describe 'Homepage Autocompleter', type: :feature do
   it 'finds a result by first name' do
     visit '/'
-    fill_in 'People', with: 'Bob'
+    autocompleter_fill_in 'People', 'Houston'
     within '.react-autosuggest__suggestions-list' do
-      expect(page).to have_content 'Bob Lowe'
+      expect(page).to have_content 'Houston de Griff'
     end
   end
 
   it 'finds a result by last name' do
     visit '/'
-    fill_in 'People', with: 'Lowe'
+    autocompleter_fill_in 'People', 'Griff'
     within '.react-autosuggest__suggestions-list' do
-      expect(page).to have_content 'Bob Lowe'
+      expect(page).to have_content 'Houston de Griff'
     end
   end
 
   it 'finds a result by DOB' do
     visit '/'
-    fill_in 'People', with: '11/23/1988'
+    autocompleter_fill_in 'People', '1905'
     within '.react-autosuggest__suggestions-list' do
-      expect(page).to have_content 'Bob Lowe'
+      expect(page).to have_content 'Boris Badboy'
     end
   end
 end
