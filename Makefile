@@ -10,8 +10,5 @@ publish:
 	@ make build
 	${INFO} "Publishing image"
 	@ docker push $(REPOSITORY_NAME):$(REPOSITORY_TAG)
-	@ make logout
-	${INFO} "Image published"
-
-logout:
 	@ docker logout
+	${INFO} "Image published"

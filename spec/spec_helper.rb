@@ -4,10 +4,17 @@ require 'headless'
 require 'helper_methods'
 
 module AcceptanceTesting
+
+  def self.get_driver
+    driver_option = ENV['CAPYBARA_DRIVER']
+    is_driver_defined = driver_option.nil? || driver_option.empty?
+    is_driver_defined ? :selenium : (driver_option).to_sym
+  end
+
   def self.setup_env_settings
     driver_option = ENV['CAPYBARA_DRIVER']
     is_driver_defined = driver_option.nil? || driver_option.empty?
-    @active_driver = (is_driver_defined ? :selenium : driver_option).to_sym
+    @active_driver = get_driver
     @use_xvfb = ENV['USE_XVFB'] == 'true'
     @app_url = ENV['APP_URL']
   end
