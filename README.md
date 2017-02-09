@@ -35,7 +35,7 @@ $ APP_URL=http://192.168.2.12:3000/ rake                        # Test against h
 ### Setup
 - Your machine must have [Docker](https://docs.docker.com/engine/installation/) and [Docker Machine](https://docs.docker.com/docker-for-windows/) installed.
 - Also [Docker Compose](https://docs.docker.com/compose/) is needed
-- Build the Docker image with: `docker-machine build`
+- Build the Docker image with: `docker-compose build`
 
 
 ### Running specs
