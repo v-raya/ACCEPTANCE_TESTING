@@ -2,6 +2,7 @@ require 'capybara/rspec'
 require 'capybara/webkit'
 require 'headless'
 require 'helper_methods'
+require 'pry'
 
 module AcceptanceTesting
 
