@@ -1,12 +1,13 @@
+# frozen_string_literal: true
 describe 'Homepage Autocompleter', type: :feature do
-# Perform log in prior to all tests
+  # Perform log in prior to all tests
   before do
-      visit '/'
-      username_input = page.find('input[name=username]')
-      username_input.send_keys 'guest'
-      password_input = page.find('input[name=password]')
-      password_input.send_keys 'guest'
-      click_button('Login')
+    visit '/'
+    username_input = page.find('input[name=username]')
+    username_input.send_keys 'guest'
+    password_input = page.find('input[name=password]')
+    password_input.send_keys 'guest'
+    click_button('Login')
   end
 
   # Checks to ensure login is successful
@@ -41,7 +42,6 @@ describe 'Homepage Autocompleter', type: :feature do
       expect(page).to have_content 'Boris Badboy'
     end
   end
-
 
   # validate that searching on "Pete" would return "Pete" records
   it 'Validating all records contain partial search criteria - Pt 1' do

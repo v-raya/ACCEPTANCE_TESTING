@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'bundler'
 require 'rspec/core/rake_task'
 require 'rspec_junit_formatter'

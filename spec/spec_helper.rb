@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'capybara/rspec'
 require 'capybara/webkit'
 require 'headless'
@@ -5,11 +6,10 @@ require 'helper_methods'
 require 'pry'
 
 module AcceptanceTesting
-
   def self.get_driver
     driver_option = ENV['CAPYBARA_DRIVER']
     is_driver_defined = driver_option.nil? || driver_option.empty?
-    is_driver_defined ? :selenium : (driver_option).to_sym
+    is_driver_defined ? :selenium : driver_option.to_sym
   end
 
   def self.setup_env_settings
