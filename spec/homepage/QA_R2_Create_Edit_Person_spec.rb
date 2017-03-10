@@ -36,7 +36,6 @@ describe 'R2 Create Person', type: :feature do
     select 'Central American'
     find('label', text: 'Native Hawaiian or Other Pacific Islander').click
     select 'Guamanian'
-    # binding.pry
     click_button 'Save'
     expect(page).to have_content('John')
     expect(page).to have_content('Jacob')
@@ -53,7 +52,7 @@ describe 'R2 Create Person', type: :feature do
     expect(page).to have_content('Placement')
     expect(page).to have_content('Yes - Central American')
     expect(page).to have_content('Asian - Chinese')
-    # binding.pry
+
     # click on the pencil icon in header to invoke the edit page
     within '.card-header' do
       find(:css, 'i.fa.fa-pencil').click
@@ -77,20 +76,28 @@ describe 'R2 Create Person', type: :feature do
       expect(page).to have_field('City', with: 'Carmel')
       expect(page).to have_select('State', selected: 'Arizona')
       expect(page).to have_select('Address Type', selected: 'Placement')
-      expect(page).to have_select('ethnicity-detail', selected: 'Central American')
+      expect(page).to have_select('ethnicity-detail',
+                                  selected: 'Central American')
       expect(page).to have_checked_field('Yes')
       expect(page).to have_unchecked_field('No', disabled: true)
       expect(page).to have_select('Asian-race-detail', selected: 'Chinese')
       expect(page).to have_checked_field('Asian')
       expect(page).to have_unchecked_field('White')
-      expect(page).to have_select('Native_Hawaiian_or_Other_Pacific_Islander-race-detail', selected: 'Guamanian')
-      expect(page).to have_checked_field('Native Hawaiian or Other Pacific Islander')
+      expect(page).to have_select(
+        'Native_Hawaiian_or_Other_Pacific_Islander-race-detail',
+        selected: 'Guamanian'
+      )
+      expect(page).to have_checked_field(
+        'Native Hawaiian or Other Pacific Islander'
+      )
       expect(page).to have_unchecked_field('race-Unknown')
       expect(page).to have_unchecked_field('race-Abandoned')
       expect(page).to have_unchecked_field('race-Declined_to_answer')
       expect(page).to have_unchecked_field('ethnicity-Unknown', disabled: true)
-      expect(page).to have_unchecked_field('ethnicity-Abandoned', disabled: true)
-      expect(page).to have_unchecked_field('ethnicity-Declined_to_answer', disabled: true)
+      expect(page).to have_unchecked_field('ethnicity-Abandoned',
+                                           disabled: true)
+      expect(page).to have_unchecked_field('ethnicity-Declined_to_answer',
+                                           disabled: true)
     end
     expect(page).to have_link 'Cancel'
     expect(page).to have_button 'Save'
@@ -139,7 +146,8 @@ describe 'R2 Create Person', type: :feature do
       click_link 'Cancel'
     end
 
-    # Validate new data entered is unsaved when 'Canceled' button clicked and old data unchanged
+    # Validate new data entered is unsaved when 'Canceled' button clicked
+    # and old data unchanged
     expect(page).to have_content('John')
     expect(page).to have_content('Jacob')
     expect(page).to have_content('Jingleheimer-Schmidt')
