@@ -5,6 +5,7 @@ GEM
       public_suffix (~> 2.0, >= 2.0.2)
     ast (2.3.0)
     builder (3.2.3)
+    byebug (9.0.6)
     capybara (2.12.0)
       addressable
       mime-types (>= 1.16)
@@ -36,6 +37,9 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
+    pry-byebug (3.4.2)
+      byebug (~> 9.0)
+      pry (~> 0.10)
     public_suffix (2.0.5)
     rack (2.0.1)
     rack-test (0.6.3)
@@ -84,6 +88,7 @@ DEPENDENCIES
   capybara-webkit (= 1.12.0)
   headless (= 2.3.1)
   pry
+  pry-byebug
   rake (= 12.0.0)
   rspec (= 3.5.0)
   rspec_junit_formatter (= 0.2.3)
