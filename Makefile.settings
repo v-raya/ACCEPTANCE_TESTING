@@ -1,7 +1,7 @@
 REPOSITORY_NAME ?= cwds/acceptance_testing
 REPOSITORY_TAG := $(shell echo $$(git rev-parse --short HEAD))
 
-.PHONY: build publish logout
+.PHONY: build publish test clean
 .DEFAULT_GOAL := build
 
 # Set shell

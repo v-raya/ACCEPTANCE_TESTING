@@ -1,4 +1,5 @@
 FROM ruby:2.3
+LABEL application=acceptance_black_box
 RUN \
   apt-get update -y && \
   apt-get upgrade -y && \
