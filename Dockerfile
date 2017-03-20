@@ -17,10 +17,7 @@ RUN bundle config --global frozen 1
 
 WORKDIR /usr/src/app
 ADD . $WORKDIR
-COPY Gemfile /usr/src/app/
-COPY Gemfile.lock /usr/src/app/
 RUN bundle install
 
 ENV USE_XVFB true
 ENV GENERATE_TEST_REPORTS yes
-ENTRYPOINT rake
