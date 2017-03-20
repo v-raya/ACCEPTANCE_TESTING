@@ -1,3 +1,7 @@
+# Project variables
+DOCKER_COMPOSE_FILE ?= docker-compose.yml
+TEST_TARGET_URL ?= http://accelerator.mycasebook.org/
+
 include Makefile.settings
 
 test:
@@ -5,12 +9,16 @@ test:
 	${INFO} "Pulling latest images..."
 	@ docker-compose pull
 	${INFO} "Building images..."
-	@ docker-compose build -t $(REPOSITORY_NAME):$(REPOSITORY_TAG)
+	@ docker-compose build
 	${INFO} "Running tests..."
 	${INFO} " ... selenium:"
-	@ -APP_URL=http://10.200.3.163/ CAPYBARA_DRIVER=selenium docker-compose run acceptance_test
+	@ -CAPYBARA_DRIVER=selenium APP_URL=$(TEST_TARGET_URL) docker-compose -f $(DOCKER_COMPOSE_FILE) up acceptance_test
+	@ docker cp $$(docker-compose ps -q acceptance_test):/usr/src/app/reports/. reports
+	@ docker-compose -f $(DOCKER_COMPOSE_FILE) down
 	${INFO} " ... webkit:"
-	@ -APP_URL=http://10.200.3.163/ CAPYBARA_DRIVER=webkit docker-compose run acceptance_test
+	@ -CAPYBARA_DRIVER=webkit APP_URL=$(TEST_TARGET_URL) docker-compose -f $(DOCKER_COMPOSE_FILE) up acceptance_test
+	@ docker cp $$(docker-compose ps -q acceptance_test):/usr/src/app/reports/. reports
+	@ docker-compose -f $(DOCKER_COMPOSE_FILE) down
 
 build:
 	${INFO} "Building image"

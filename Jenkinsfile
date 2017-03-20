@@ -3,7 +3,10 @@ node('Slave') {
 
     try {
         stage('Test') {
-            sh 'make test'
+            withEnv(["TEST_TARGET_URL=${TEST_TARGET_URL}",
+                     "DOCKER_COMPOSE_FILE=${DOCKER_COMPOSE_FILE}"]) {
+                sh 'make test'
+            }
         }
     }
     finally {
