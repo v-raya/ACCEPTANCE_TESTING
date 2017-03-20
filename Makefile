@@ -34,8 +34,10 @@ publish:
 	${INFO} "Image published"
 
 clean:
+	${INFO} "shutting down testing container"
+	@ docker-compose -f $(DOCKER_COMPOSE_FILE) down
 	${INFO} "Removing dangling images..."
 	@ docker images -q -f label=application=acceptance_black_box -f dangling=true | xargs -I ARGS docker rmi -f ARGS
 	${INFO} "Remove reports directory"
-	@ rm -r ./reports
+	@ -rm -r ./reports
 	${INFO} "Clean complete"
