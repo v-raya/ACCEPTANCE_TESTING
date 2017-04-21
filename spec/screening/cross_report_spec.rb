@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe 'Cross Report card', type: :feature do
   # Selecting Create Person on homepage
   before do
@@ -25,12 +27,23 @@ describe 'Cross Report card', type: :feature do
         expect(page).to have_unchecked_field('Department of justice')
         expect(page).to have_unchecked_field('Law enforcement')
         expect(page).to have_unchecked_field('Licensing')
+        expect(page).not_to have_field('District_attorney-agency-name')
+        expect(page).not_to have_field('Department_of_justice-agency-name')
+        expect(page).not_to have_field('Law_enforcement-agency-name')
+        expect(page).not_to have_field('Licensing-agency-name')
         expect(page).to have_button 'Cancel'
         expect(page).to have_button 'Save'
         click_button 'Save'
+        # Verify nothing on show view except headers
+        expect(page).to have_content('Cross reported to')
+        expect(page).to have_content('District attorney')
+        expect(page).to have_content('Department of justice')
+        expect(page).to have_content('Law enforcement')
+        expect(page).to have_content('Licensing')
       end
-      # Test that saving saving a blank card results in no data being saved.
+      # Verify that saving a blank card results in no data being saved.
       within '.card-header' do
+        expect(page).to have_content 'CROSS REPORT'
         find(:css, 'i.fa.fa-pencil').click
         expect(page).to have_content 'CROSS REPORT'
       end
@@ -43,6 +56,16 @@ describe 'Cross Report card', type: :feature do
         expect(page).to have_content('Licensing')
       end
       within '.card-body' do
+        # Verify card is unfilled
+        expect(page).to have_content('Cross reported to')
+        expect(page).to have_unchecked_field('District attorney')
+        expect(page).to have_unchecked_field('Department of justice')
+        expect(page).to have_unchecked_field('Law enforcement')
+        expect(page).to have_unchecked_field('Licensing')
+        expect(page).not_to have_field('District_attorney-agency-name')
+        expect(page).not_to have_field('Department_of_justice-agency-name')
+        expect(page).not_to have_field('Law_enforcement-agency-name')
+        expect(page).not_to have_field('Licensing-agency-name')
         # fill in with allowable alphanumeric and special char
         find('label', text: 'District attorney').click
         fill_in 'District_attorney-agency-name', with: 'Jan 1 $ully'
@@ -82,9 +105,9 @@ describe 'Cross Report card', type: :feature do
         expect(page).to have_button 'Cancel'
         expect(page).to have_button 'Save'
         find('label', text: 'District attorney').click
-        expect(page).not_to have_content('Jan Sully')
+        expect(page).not_to have_content('Jan 1 $ully')
         find('label', text: 'Department of justice').click
-        expect(page).not_to have_content('Sacramento DOJ')
+        expect(page).not_to have_content('S@cramento D0J')
         find('label', text: 'Law enforcement').click
         expect(page).not_to have_content('S@crament0 P%lice Dept')
         find('label', text: 'Licensing').click
@@ -94,6 +117,12 @@ describe 'Cross Report card', type: :feature do
         expect(page).to have_unchecked_field('Law enforcement')
         expect(page).to have_unchecked_field('Licensing')
         # revise fields with new data
+        find('label', text: 'Licensing').click
+        fill_in 'Licensing-agency-name', with: 'Jack Hume'
+        li_input = find_field('Licensing-agency-name')
+        9.times do
+          li_input.send_keys [:backspace]
+        end
         find('label', text: 'District attorney').click
         fill_in 'District_attorney-agency-name', with: 'Jack Hume'
         click_button 'Cancel'
