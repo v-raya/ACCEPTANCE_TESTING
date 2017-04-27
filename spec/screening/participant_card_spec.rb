@@ -121,7 +121,14 @@ describe 'Partcipant Card tests', type: :feature do
         expect(page).to have_content("#{person1[:fname]} " \
                                      '(UNKNOWN LAST NAME)')
       end
+      role_input = find_field('First Name')
+      5.times do
+        role_input.send_keys(:backspace)
+      end
       fill_in('Last Name', with: person1[:lname])
+      expect(page).to have_content("(UNKNOWN FIRST NAME) " \
+                                   "#{person1[:lname]}")
+      fill_in('First Name', with: person1[:fname])
       expect(page).to have_content("#{person1[:fname]} " \
                                    "#{person1[:lname]}")
       within '.card-header' do
@@ -161,7 +168,6 @@ describe 'Partcipant Card tests', type: :feature do
         expect(page).to have_content(person1[:addrtype])
         expect(page).to have_content(person1[:phonenum])
         expect(page).to have_content(person1[:phonetype])
-        # expect(page).to have_content(person1[:dob])
         expect(page).to have_content(person1[:gender])
         expect(page).to have_content(person1[:ssn])
         expect(page).to have_content(person1[:addr])
@@ -194,7 +200,6 @@ describe 'Partcipant Card tests', type: :feature do
         expect(page).to have_content(person1[:addrtype])
         expect(page).to have_content(person1[:phonenum])
         expect(page).to have_content(person1[:phonetype])
-        # expect(page).to have_content(person1[:dob])
         expect(page).to have_content(person1[:gender])
         expect(page).to have_content(person1[:ssn])
         expect(page).to have_content(person1[:addr])
