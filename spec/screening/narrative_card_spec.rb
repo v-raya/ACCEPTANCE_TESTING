@@ -1,8 +1,11 @@
 # frozen_string_literal: true
+require 'helper_methods'
+
 describe 'Narrative card', type: :feature do
   # Selecting Create Person on homepage
   it 'Testing narrative card' do
     visit '/'
+    login_user
     click_link 'Start Screening'
     within '#narrative-card' do
       within '.card-header' do

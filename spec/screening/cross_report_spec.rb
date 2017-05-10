@@ -4,6 +4,7 @@ describe 'Cross Report card', type: :feature do
   # Selecting Create Person on homepage
   before do
     visit '/'
+    login_user
     click_link 'Start Screening'
   end
 

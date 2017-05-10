@@ -1,13 +1,11 @@
 # frozen_string_literal: true
+require 'helper_methods'
+
 describe 'Homepage Autocompleter', type: :feature do
   # Perform log in prior to all tests
   before do
     visit '/'
-    username_input = page.find('input[name=username]')
-    username_input.send_keys 'guest'
-    password_input = page.find('input[name=password]')
-    password_input.send_keys 'guest'
-    click_button('Login')
+    login_user
   end
 
   # Checks to ensure login is successful

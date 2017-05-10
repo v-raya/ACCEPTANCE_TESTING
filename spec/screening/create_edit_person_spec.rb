@@ -1,10 +1,12 @@
 # frozen_string_literal: true
 require 'react_select_helpers'
+require 'helper_methods'
 
 describe 'R2 Create Person', type: :feature do
   # Selecting Create Person on homepage
   before do
     visit '/'
+    login_user
     click_link 'Create Person'
   end
 

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 require 'react_select_helpers'
 require 'autocompleter_helpers'
+require 'helper_methods'
 
 person1 = {
   fname: 'JOHN',
@@ -30,11 +31,7 @@ describe 'Partcipant Card tests', type: :feature do
   # Selecting Start Screening on homepage
   before do
     visit '/'
-    username_input = page.find('input[name=username]')
-    username_input.send_keys 'guest'
-    password_input = page.find('input[name=password]')
-    password_input.send_keys 'guest'
-    click_button('Sign In')
+    login_user
     click_link 'Start Screening'
   end
 

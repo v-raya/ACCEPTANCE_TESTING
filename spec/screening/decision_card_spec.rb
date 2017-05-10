@@ -1,9 +1,11 @@
 # frozen_string_literal: true
+require 'helper_methods'
 
 describe 'Decision card', type: :feature do
   # Selecting Start Screening on homepage
   it 'Test decision card' do
     visit '/'
+    login_user
     click_link 'Start Screening'
 
     # Set variable to test 64 char limit and fields to accept any char

@@ -1,18 +1,7 @@
 # frozen_string_literal: true
 require 'react_select_helpers'
 require 'autocompleter_helpers'
-
-def build_regex(words)
-  arr = words.map do |word|
-    "(?=.*#{Regexp.quote(word)})"
-  end
-  Regexp.new(arr.join(''))
-end
-
-def elements_containing(element, *words)
-  elements = page.all(element.to_s, text: build_regex(words))
-  elements
-end
+require 'helper_methods'
 
 scr1 = {
   name: 'Harry1',
@@ -110,11 +99,7 @@ describe 'Test for History of Involvement', type: :feature do
   # Selecting Start Screening on landing
   before do
     visit '/'
-    username_input = page.find('input[name=username]')
-    username_input.send_keys 'guest'
-    password_input = page.find('input[name=password]')
-    password_input.send_keys 'guest'
-    click_button('Sign In')
+    login_user
     click_link 'Start Screening'
   end
 
