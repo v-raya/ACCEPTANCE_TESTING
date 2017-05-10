@@ -33,6 +33,10 @@ module AcceptanceTesting
       config.default_max_wait_time  = 5
     end
 
+    Capybara.register_driver :chrome do |app|
+      Capybara::Selenium::Driver.new(app, browser: :chrome)
+    end
+
     Capybara::Webkit.configure(&:allow_unknown_urls)
   end
 
