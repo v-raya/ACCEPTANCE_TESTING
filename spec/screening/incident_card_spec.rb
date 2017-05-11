@@ -9,14 +9,12 @@ describe 'Incident Information card', type: :feature do
     click_link 'Start Screening'
 
     # Set variable to test 64 char limit and fields to accept any char
-    # tst_date = '03212004'
     tst_cty = 'Del Norte'
     tst_addr = '2870 Gateway Elm Way'
     tst_city = 'Hartford'
     tst_state = 'Connecticut'
     tst_zip = '34578'
     tst_loc = 'Child\'s Home'
-    # tst_date2 = '03212004'
     tst_cty2 = 'Inyo'
     tst_addr2 = '5479 Holly Street'
     tst_city2 = 'New York'
@@ -38,7 +36,6 @@ describe 'Incident Information card', type: :feature do
         click_button 'Save'
         # validate content of show view
         expect(page).to have_content 'Incident Date'
-        # expect(page).to have_content tst_date
         expect(page).to have_content 'Incident County'
         expect(page).to have_content tst_cty
         expect(page).to have_content 'Address'
@@ -76,7 +73,6 @@ describe 'Incident Information card', type: :feature do
         click_button 'Cancel'
         # validate content of show view contains previously saved info
         expect(page).to have_content 'Incident Date'
-        # expect(page).to have_content tst_date
         expect(page).to have_content 'Incident County'
         expect(page).to have_content tst_cty
         expect(page).to have_content 'Address'
@@ -114,7 +110,6 @@ describe 'Incident Information card', type: :feature do
         click_button 'Save'
         # validate content of show view contains previously saved info
         expect(page).to have_content 'Incident Date'
-        # expect(page).to have_content tst_date
         expect(page).to have_content 'Incident County'
         expect(page).to have_content tst_cty2
         expect(page).to have_content 'Address'
