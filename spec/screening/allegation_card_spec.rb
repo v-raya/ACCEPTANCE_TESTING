@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-# frozen_string_literal: true
 require 'react_select_helpers'
 require 'autocompleter_helpers'
 require 'helper_methods'
@@ -8,25 +7,29 @@ person1 = {
   fname: 'VICONE',
   lname: 'ONE',
   role: 'Victim',
-  role2: 'Perpetrator'
+  role2: 'Perpetrator',
+  dob: '08/22/2006'
 }
 person2 = {
   fname: 'VICTWO',
   lname: 'TWO',
   role: 'Victim',
-  role2: 'Non-mandated Reporter'
+  role2: 'Non-mandated Reporter',
+  dob: '08/01/2001'
 }
 person3 = {
   fname: 'PERPONE',
   lname: 'ONE',
   role: 'Perpetrator',
-  role2: 'Mandated Reporter'
+  role2: 'Mandated Reporter',
+  dob: '01/01/1999'
 }
 person4 = {
   fname: 'PERPTWO',
   lname: 'TWO',
   role: 'Perpetrator',
-  role2: 'Victim'
+  role2: 'Victim',
+  dob: '05/01/1991'
 }
 describe 'Allegations Card Tests', type: :feature do
   # Selecting Start Screening on homepage
@@ -51,7 +54,7 @@ describe 'Allegations Card Tests', type: :feature do
     end
     # create and fill-in first card
     within '#search-card' do
-      autocompleter_fill_in 'Search for any person', 'Tet'
+      autocompleter_fill_in 'Search for any person', 'Tete'
       click_button 'Create a new person'
       sleep 0.3
     end
@@ -61,6 +64,7 @@ describe 'Allegations Card Tests', type: :feature do
       find('input#first_name').click
       fill_in('First Name', with: person1[:fname])
       fill_in('Last Name', with: person1[:lname])
+      fill_in('Date of birth', with: person1[:dob])
       fill_in_react_select 'Role', with: person1[:role]
       click_button 'Save'
       expect(page).to have_content("#{person1[:fname]} " \
@@ -87,7 +91,7 @@ describe 'Allegations Card Tests', type: :feature do
     end
     # create and fill-in second card
     within '#search-card', text: 'SEARCH' do
-      autocompleter_fill_in 'Search for any person', 'Tet'
+      autocompleter_fill_in 'Search for any person', 'Tete'
       click_button 'Create a new person'
       sleep 0.3
     end
@@ -97,11 +101,11 @@ describe 'Allegations Card Tests', type: :feature do
       find('input#first_name').click
       fill_in('First Name', with: person2[:fname])
       fill_in('Last Name', with: person2[:lname])
+      fill_in('Date of birth', with: person2[:dob])
       fill_in_react_select 'Role', with: person2[:role]
       click_button 'Save'
       expect(page).to have_content("#{person2[:fname]} " \
                                    "#{person2[:lname]}")
-      # expect(page).to have_content(person2[:role])
       within '.card-header' do
         expect(page).to have_content("#{person2[:fname]} " \
                                      "#{person2[:lname]}")
@@ -109,7 +113,7 @@ describe 'Allegations Card Tests', type: :feature do
     end
     # create and fill-in third card
     within '#search-card', text: 'SEARCH' do
-      autocompleter_fill_in 'Search for any person', 'Tet'
+      autocompleter_fill_in 'Search for any person', 'Tete'
       click_button 'Create a new person'
       sleep 0.3
     end
@@ -119,11 +123,11 @@ describe 'Allegations Card Tests', type: :feature do
       find('input#first_name').click
       fill_in('First Name', with: person3[:fname])
       fill_in('Last Name', with: person3[:lname])
+      fill_in('Date of birth', with: person3[:dob])
       fill_in_react_select 'Role', with: person3[:role]
       click_button 'Save'
       expect(page).to have_content("#{person3[:fname]} " \
                                    "#{person3[:lname]}")
-      # expect(page).to have_content(person3[:role])
       within '.card-header' do
         expect(page).to have_content("#{person3[:fname]} " \
                                      "#{person3[:lname]}")
@@ -166,7 +170,7 @@ describe 'Allegations Card Tests', type: :feature do
     end
 
     within '#search-card', text: 'SEARCH' do
-      autocompleter_fill_in 'Search for any person', 'Tet'
+      autocompleter_fill_in 'Search for any person', 'Tete'
       click_button 'Create a new person'
       sleep 0.3
     end
@@ -176,11 +180,11 @@ describe 'Allegations Card Tests', type: :feature do
       find('input#first_name').click
       fill_in('First Name', with: person4[:fname])
       fill_in('Last Name', with: person4[:lname])
+      fill_in('Date of birth', with: person4[:dob])
       fill_in_react_select 'Role', with: person4[:role]
       click_button 'Save'
       expect(page).to have_content("#{person4[:fname]} " \
                                    "#{person4[:lname]}")
-      # expect(page).to have_content(person4[:role])
       within '.card-header' do
         expect(page).to have_content("#{person4[:fname]} " \
                                      "#{person4[:lname]}")
@@ -251,8 +255,6 @@ describe 'Allegations Card Tests', type: :feature do
       fill_in_react_select 'Role', with: person1[:role2]
       click_button 'Save'
       expect(page).to have_content("#{person1[:fname]} #{person1[:lname]}")
-      # expect(page).to have_content(person3[:role])
-      # expect(page).to have_content(person3[:role2])
       within '.card-header' do
         expect(page).to have_content("#{person1[:fname]} #{person1[:lname]}")
       end
@@ -263,38 +265,39 @@ describe 'Allegations Card Tests', type: :feature do
         expect(table_rows.count).to eq(5)
         # check the person that is a victim and perpetrator show up properly
         within(table_rows[0]) do
-          expect(page).to have_content("#{person2[:fname]} #{person2[:lname]}")
+          expect(page).to have_content("#{person1[:fname]} " \
+                                           "#{person1[:lname]}")
           expect(page).to have_content("#{person3[:fname]} #{person3[:lname]}")
           row0_id = find('input[id^="allegations_"]')[:id]
-          has_react_select_field(row0_id, with: ['Emotional abuse'])
+          has_react_select_field(row0_id, with: ['Physical abuse'])
         end
         within(table_rows[1]) do
-          expect(page).not_to have_content("#{person2[:fname]} " \
-                                           "#{person2[:lname]}")
+          expect(page).not_to have_content("#{person1[:fname]} " \
+                                           "#{person1[:lname]}")
           expect(page).to have_content("#{person4[:fname]} #{person4[:lname]}")
           row1_id = find('input[id^="allegations_"]')[:id]
-          has_react_select_field(row1_id, with: ['At risk, sibling abused'])
+          has_react_select_field(row1_id, with: ['Severe neglect'])
         end
         within(table_rows[2]) do
-          expect(page).not_to have_content("#{person2[:fname]} " \
-                                           "#{person2[:lname]}")
+          expect(page).to have_content("#{person2[:fname]} " \
+                                       "#{person2[:lname]}")
           expect(page).to have_content("#{person1[:fname]} #{person1[:lname]}")
           row2_id = find('input[id^="allegations_"]')[:id]
           has_react_select_field(row2_id, with: [])
         end
         within(table_rows[3]) do
-          expect(page).to have_content("#{person1[:fname]} " \
-                                           "#{person1[:lname]}")
+          expect(page).not_to have_content("#{person2[:fname]} " \
+                                           "#{person2[:lname]}")
           expect(page).to have_content("#{person3[:fname]} #{person3[:lname]}")
           row3_id = find('input[id^="allegations_"]')[:id]
-          has_react_select_field(row3_id, with: ['Physical abuse'])
+          has_react_select_field(row3_id, with: ['Emotional abuse'])
         end
         within(table_rows[4]) do
-          expect(page).not_to have_content("#{person1[:fname]} " \
-                                           "#{person1[:lname]}")
+          expect(page).not_to have_content("#{person2[:fname]} " \
+                                           "#{person2[:lname]}")
           expect(page).to have_content("#{person4[:fname]} #{person4[:lname]}")
-          row3_id = find('input[id^="allegations_"]')[:id]
-          has_react_select_field(row3_id, with: ['Severe neglect'])
+          row4_id = find('input[id^="allegations_"]')[:id]
+          has_react_select_field(row4_id, with: ['At risk, sibling abused'])
         end
       end
     end
@@ -312,47 +315,47 @@ describe 'Allegations Card Tests', type: :feature do
         expect(table_rows.count).to eq(5)
         # check the person that is a victim and perpetrator show up properly
         within(table_rows[0]) do
-          expect(page).to have_content("#{person2[:fname]} #{person2[:lname]}")
+          expect(page).to have_content("#{person1[:fname]} " \
+                                           "#{person1[:lname]}")
           expect(page).to have_content("#{person3[:fname]} #{person3[:lname]}")
           row0_id = find('input[id^="allegations_"]')[:id]
-          has_react_select_field(row0_id, with: ['Emotional abuse'])
+          has_react_select_field(row0_id, with: ['Physical abuse'])
         end
         within(table_rows[1]) do
-          expect(page).not_to have_content("#{person2[:fname]} " \
-                                           "#{person2[:lname]}")
+          expect(page).not_to have_content("#{person1[:fname]} " \
+                                           "#{person1[:lname]}")
           expect(page).to have_content("#{person4[:fname]} #{person4[:lname]}")
           row1_id = find('input[id^="allegations_"]')[:id]
-          has_react_select_field(row1_id, with: ['At risk, sibling abused'])
+          has_react_select_field(row1_id, with: ['Severe neglect'])
         end
         within(table_rows[2]) do
-          expect(page).not_to have_content("#{person2[:fname]} " \
+          expect(page).to have_content("#{person2[:fname]} " \
                                            "#{person2[:lname]}")
           expect(page).to have_content("#{person1[:fname]} #{person1[:lname]}")
           row2_id = find('input[id^="allegations_"]')[:id]
           has_react_select_field(row2_id, with: [])
         end
         within(table_rows[3]) do
-          expect(page).to have_content("#{person1[:fname]} " \
-                                           "#{person1[:lname]}")
+          expect(page).not_to have_content("#{person2[:fname]} " \
+                                           " #{person2[:lname]}")
           expect(page).to have_content("#{person3[:fname]} #{person3[:lname]}")
           row3_id = find('input[id^="allegations_"]')[:id]
-          has_react_select_field(row3_id, with: ['Physical abuse'])
+          has_react_select_field(row3_id, with: ['Emotional abuse'])
         end
         within(table_rows[4]) do
-          expect(page).not_to have_content("#{person1[:fname]} " \
-                                           "#{person1[:lname]}")
+          expect(page).not_to have_content("#{person2[:fname]} " \
+                                           "#{person2[:lname]}")
           expect(page).to have_content("#{person4[:fname]} #{person4[:lname]}")
-          row3_id = find('input[id^="allegations_"]')[:id]
-          has_react_select_field(row3_id, with: ['Severe neglect'])
+          row4_id = find('input[id^="allegations_"]')[:id]
+          has_react_select_field(row4_id, with: ['At risk, sibling abused'])
         end
       end
     end
-    # below here is not tested
     # delete the role of the person with perpetrator
     within person3_card do
       find(:css, 'i.fa.fa-pencil').click
       role_input = find_field('Role')
-      2.times do
+      3.times do
         role_input.send_keys(:backspace)
       end
       has_react_select_field('Role', with: [])
@@ -361,29 +364,30 @@ describe 'Allegations Card Tests', type: :feature do
     # validate deleted person no longer displays
     within '#allegations-card' do
       within('tbody') do
+        sleep 0.3
         table_rows = page.all('tr')
         expect(table_rows.count).to eq(3)
         # check correct display without person3
         within(table_rows[0]) do
-          expect(page).to have_content("#{person2[:fname]} " \
-                                           "#{person2[:lname]}")
+          expect(page).to have_content("#{person1[:fname]} " \
+                                           "#{person1[:lname]}")
           expect(page).to have_content("#{person4[:fname]} #{person4[:lname]}")
           row0_id = find('input[id^="allegations_"]')[:id]
-          has_react_select_field(row0_id, with: ['At risk, sibling abused'])
+          has_react_select_field(row0_id, with: ['Severe neglect'])
         end
         within(table_rows[1]) do
-          expect(page).not_to have_content("#{person2[:fname]} " \
-                                           "#{person2[:lname]}")
+          expect(page).to have_content("#{person2[:fname]} " \
+                                       "#{person2[:lname]}")
           expect(page).to have_content("#{person1[:fname]} #{person1[:lname]}")
           row1_id = find('input[id^="allegations_"]')[:id]
           has_react_select_field(row1_id, with: [])
         end
         within(table_rows[2]) do
-          expect(page).to have_content("#{person1[:fname]} " \
-                                           "#{person1[:lname]}")
+          expect(page).not_to have_content("#{person2[:fname]} " \
+                                           "#{person2[:lname]}")
           expect(page).to have_content("#{person4[:fname]} #{person4[:lname]}")
           row2_id = find('input[id^="allegations_"]')[:id]
-          has_react_select_field(row2_id, with: ['Severe neglect'])
+          has_react_select_field(row2_id, with: ['At risk, sibling abused'])
         end
       end
     end
@@ -397,24 +401,23 @@ describe 'Allegations Card Tests', type: :feature do
       has_react_select_field('Role', with: [])
       click_button 'Save'
     end
-    expect(page).not_to have_content("#{person2[:fname]} #{person2[:lname]}")
     within '#allegations-card' do
       within('tbody') do
+        sleep 0.3
         table_rows = page.all('tr')
         expect(table_rows.count).to eq(1)
         # check correct display without person2
         within(table_rows[0]) do
           expect(page).to have_content("#{person1[:fname]} " \
-                                           "#{person1[:lname]}")
+                                       "#{person1[:lname]}")
           expect(page).to have_content("#{person4[:fname]} #{person4[:lname]}")
-          row2_id = find('input[id^="allegations_"]')[:id]
-          has_react_select_field(row2_id, with: ['Severe neglect'])
+          row0_id = find('input[id^="allegations_"]')[:id]
+          has_react_select_field(row0_id, with: ['Severe neglect'])
         end
       end
     end
     # Verify single perpetrator does not display in allegations
     within person1_card do
-      # find(:css, 'i.fa.fa-times').click
       find(:css, 'i.fa.fa-pencil').click
       role_input = find_field('Role')
       2.times do
@@ -430,6 +433,46 @@ describe 'Allegations Card Tests', type: :feature do
         expect(page).to have_content('Allegation(s)')
         expect(page).not_to have_content("#{person1[:fname]} " \
                                          "#{person1[:lname]}")
+      end
+    end
+    # Adding Alleged Victim to Allegations card
+    within person1_card do
+      find(:css, 'i.fa.fa-pencil').click
+      fill_in_react_select 'Role', with: person1[:role]
+      click_button 'Save'
+    end
+    within '#allegations-card' do
+      within('tbody') do
+        sleep 0.3
+        table_rows = page.all('tr')
+        expect(table_rows.count).to eq(1)
+        within(table_rows[0]) do
+          expect(page).to have_content("#{person1[:fname]} " \
+                                       "#{person1[:lname]}")
+          expect(page).to have_content("#{person4[:fname]} #{person4[:lname]}")
+          row0_id = find('input[id^="allegations_"]')[:id]
+          has_react_select_field(row0_id, with: [])
+        end
+      end
+    end
+    # Testing if one person is alleged perpetrator it doesn't display
+    # To do this remove person1 thru person4 and add one back
+    within person1_card do
+      find(:css, 'i.fa.fa-times').click
+    end
+    within person2_card do
+      find(:css, 'i.fa.fa-times').click
+    end
+    within person3_card do
+      find(:css, 'i.fa.fa-times').click
+    end
+    within '#allegations-card' do
+      within '.card-body' do
+        expect(page).to have_content('Alleged Victim/Children')
+        expect(page).to have_content('Alleged Perpetrator')
+        expect(page).to have_content('Allegation(s)')
+        expect(page).not_to have_content("#{person4[:fname]} " \
+                                         "#{person4[:lname]}")
       end
     end
   end
