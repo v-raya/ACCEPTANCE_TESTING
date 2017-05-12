@@ -10,17 +10,21 @@ describe 'Screening QA Test', type: :feature do
     click_link 'Start Screening'
   end
 
-  scr_info = {
-    title1: 'Child @bandonment1',
-    worker1: 'Jane $ocialWorker1',
-    worker2: 'John Socialworker',
-    comm1: 'Mail',
-    comm2: 'Fax',
+  screen_info_init = {
+    title: 'Child @bandonment1',
+    worker: 'Jane $ocialworker',
+    comm: 'Mail',
     sdate: '08/13/2016',
-    sdate2: '08/12/2016',
     edate: '08/15/2016'
   }
-  scr_info2 = {
+
+  screen_info_chng1 = {
+    worker: 'John Socialworker',
+    comm: 'Fax',
+    sdate: '08/12/2016'
+  }
+
+  screen_info_chng2 = {
     worker: 'Helen Socialworker',
     sdate: '08/22/2016',
     comm: 'Online'
@@ -50,67 +54,67 @@ describe 'Screening QA Test', type: :feature do
         has_react_select_field('Communication Method', with: [])
         expect(page).to have_button('Save')
         expect(page).to have_button('Cancel')
-        fill_in('Title/Name of Screening', with: scr_info[:title1])
-        fill_in('Assigned Social Worker', with: scr_info[:worker1])
-        fill_in('Screening Start Date/Time', with: scr_info[:sdate])
-        fill_in('Screening End Date/Time', with: scr_info[:edate])
-        select scr_info[:comm1], from: 'Communication Method'
+        fill_in('Title/Name of Screening', with: screen_info_init[:title])
+        fill_in('Assigned Social Worker', with: screen_info_init[:worker])
+        fill_in('Screening Start Date/Time', with: screen_info_init[:sdate])
+        fill_in('Screening End Date/Time', with: screen_info_init[:edate])
+        select screen_info_init[:comm], from: 'Communication Method'
         click_button 'Save'
       end
       expect(page).to have_content('SCREENING INFORMATION')
-      expect(page).to have_content(scr_info[:title1])
-      expect(page).to have_content(scr_info[:worker1])
-      expect(page).to have_content(scr_info[:sdate])
-      expect(page).to have_content(scr_info[:sdate])
-      expect(page).to have_content(scr_info[:comm1])
+      expect(page).to have_content(screen_info_init[:title])
+      expect(page).to have_content(screen_info_init[:worker])
+      expect(page).to have_content(screen_info_init[:sdate])
+      expect(page).to have_content(screen_info_init[:edate])
+      expect(page).to have_content(screen_info_init[:comm])
 
       # click on the pencil icon in header to invoke the edit page
       find(:css, 'i.fa.fa-pencil').click
       # Validate info and make edits to the input fields
       expect(page).to have_field('Title/Name of Screening',
-                                 with: scr_info[:title1])
+                                 with: screen_info_init[:title])
       expect(page).to have_field('Assigned Social Worker',
-                                 with: scr_info[:worker1])
+                                 with: screen_info_init[:worker])
       # Need test for how date is displayed once date picker is complete
       expect(page).to have_select('Communication Method',
-                                  selected: scr_info[:comm1])
-      fill_in('Assigned Social Worker', with: scr_info[:worker2])
-      fill_in('Screening Start Date/Time', with: scr_info[:sdate2])
-      select scr_info[:comm2], from: 'Communication Method'
+                                  selected: screen_info_init[:comm])
+      fill_in('Assigned Social Worker', with: screen_info_chng1[:worker])
+      fill_in('Screening Start Date/Time', with: screen_info_chng1[:sdate])
+      select screen_info_chng1[:comm], from: 'Communication Method'
       click_button 'Save'
 
       # Verify new info saved
       expect(page).to have_content('SCREENING INFORMATION')
-      expect(page).to have_content(scr_info[:title1])
-      expect(page).to have_content(scr_info[:worker2])
-      expect(page).to have_content(scr_info[:sdate2])
-      expect(page).to have_content(scr_info[:edate])
-      expect(page).to have_content(scr_info[:comm2])
+      expect(page).to have_content(screen_info_init[:title])
+      expect(page).to have_content(screen_info_chng1[:worker])
+      expect(page).to have_content(screen_info_chng1[:sdate])
+      expect(page).to have_content(screen_info_init[:edate])
+      expect(page).to have_content(screen_info_chng1[:comm])
 
       # click on the pencil icon in header to invoke the edit page
       find(:css, 'i.fa.fa-pencil').click
       # Validate info and make edits to the input fields
       expect(page).to have_field('Title/Name of Screening',
-                                 with: scr_info[:title1])
+                                 with: screen_info_init[:title])
       expect(page).to have_field('Assigned Social Worker',
-                                 with: scr_info[:worker2])
+                                 with: screen_info_chng1[:worker])
       # Need test for how date is displayed once date picker is complete
       expect(page).to have_select('Communication Method',
-                                  selected: scr_info[:comm2])
-      fill_in('Assigned Social Worker', with: scr_info2[:worker])
-      fill_in('Screening Start Date/Time', with: scr_info2[:sdate])
-      select scr_info2[:comm], from: 'Communication Method'
+                                  selected: screen_info_chng1[:comm])
+      fill_in('Assigned Social Worker', with: screen_info_chng2[:worker])
+      fill_in('Screening Start Date/Time', with: screen_info_chng2[:sdate])
+      select screen_info_chng2[:comm], from: 'Communication Method'
     end
     click_button('Cancel', match: :first)
 
     # Verify new info is not saved and previous data is unchanged
     within '#screening-information-card' do
       expect(page).to have_content('SCREENING INFORMATION')
-      expect(page).to have_content(scr_info[:title1])
-      expect(page).to have_content(scr_info[:worker2])
-      expect(page).to have_content(scr_info[:sdate2])
-      expect(page).to have_content(scr_info[:edate])
-      expect(page).to have_content(scr_info[:comm2])
+      expect(page).to have_content(screen_info_init[:title])
+      expect(page).to have_content(screen_info_chng1[:worker])
+      expect(page).to have_content(screen_info_chng1[:sdate])
+      expect(page).to have_content(screen_info_init[:edate])
+      expect(page).to have_content(screen_info_chng1[:comm])
     end
   end
 end
