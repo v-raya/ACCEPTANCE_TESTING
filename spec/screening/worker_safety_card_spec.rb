@@ -1,6 +1,4 @@
 # frozen_string_literal: true
-require 'helper_methods'
-require 'react_select_helpers'
 
 describe 'Worker Safety Card', type: :feature do
   before do

@@ -1,9 +1,12 @@
 # frozen_string_literal: true
+require 'autocompleter_helpers'
 require 'capybara/rspec'
 require 'capybara/webkit'
 require 'headless'
 require 'helper_methods'
 require 'pry'
+require 'react_select_helpers'
+
 
 module AcceptanceTesting
   def self.resolve_driver

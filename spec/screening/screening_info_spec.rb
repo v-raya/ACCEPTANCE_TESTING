@@ -1,6 +1,4 @@
 # frozen_string_literal: true
-require 'react_select_helpers'
-require 'helper_methods'
 
 describe 'Screening QA Test', type: :feature do
   # Selecting Start Screening from homepage

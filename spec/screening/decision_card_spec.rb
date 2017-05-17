@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-require 'helper_methods'
 
 describe 'Decision card', type: :feature do
   # Selecting Start Screening on homepage

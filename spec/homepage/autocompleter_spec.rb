@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-require 'helper_methods'
 
 describe 'Homepage Autocompleter', type: :feature do
   # Perform log in prior to all tests
