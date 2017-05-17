@@ -123,7 +123,7 @@ describe 'Partcipant Card tests', type: :feature do
         role_input.send_keys(:backspace)
       end
       fill_in('Last Name', with: person1[:lname])
-      expect(page).to have_content("(UNKNOWN FIRST NAME) " \
+      expect(page).to have_content('(UNKNOWN FIRST NAME) ' \
                                    "#{person1[:lname]}")
       fill_in('First Name', with: person1[:fname])
       expect(page).to have_content("#{person1[:fname]} " \
