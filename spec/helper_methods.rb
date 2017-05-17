@@ -19,6 +19,10 @@ def elements_containing(element, *words)
   elements
 end
 
+def clear_field(selector)
+  fill_in(selector, with: ' ').send_keys(:backspace)
+end
+
 def login_user
   return unless ENV['USERNAME'] && ENV['PASSWORD']
   username_input = page.find('input[name=username]')
