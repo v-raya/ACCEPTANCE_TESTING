@@ -7,11 +7,18 @@ module ReactSelectHelpers
     input.native.send_keys :return
   end
 
-  def has_react_select_field(selector, with:)
+  def has_react_select_field(selector, with: nil, options: [])
     input = find_field(selector)
-    input_container = input.parent
+    input_container = input.query_scope
     selected_values = input_container.all('.Select-value-label').map(&:text)
-    expect(selected_values).to eq(with)
+    expect(selected_values).to eq(with) if with
+
+    return unless options.any?
+    input_control = input_container.find('.Select')
+    input_control.click
+    options.each do |option|
+      expect(input_control.text).to have_content(option)
+    end
   end
 
   def remove_react_select_option(selector, option)
