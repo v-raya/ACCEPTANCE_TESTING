@@ -1,5 +1,56 @@
 # frozen_string_literal: true
 
+def check_role_options
+  options =  [
+    'Victim',
+    'Perpetrator',
+    'Mandated Reporter',
+    'Non-mandated Reporter',
+    'Anonymous Reporter'
+  ]
+  has_react_select_field('Role', options: options)
+end
+
+def check_language_options
+  language_options =  [
+    'American Sign Language',
+    'Arabic',
+    'Armenian',
+    'Cambodian',
+    'Cantonese',
+    'English',
+    'Farsi',
+    'Filipino',
+    'French',
+    'German',
+    'Hawaiian',
+    'Hebrew',
+    'Hmong',
+    'Ilacano',
+    'Indochinese',
+    'Italian',
+    'Japanese',
+    'Korean',
+    'Lao',
+    'Mandarin',
+    'Mien',
+    'Other Chinese',
+    'Other Non-English',
+    'Polish',
+    'Portuguese',
+    'Romanian',
+    'Russian',
+    'Samoan',
+    'Sign Language (Not ASL)',
+    'Spanish',
+    'Tagalog',
+    'Thai',
+    'Turkish',
+    'Vietnamese'
+  ]
+  has_react_select_field('Language', options: language_options)
+end
+
 person1 = {
   fname: 'JOHN',
   mname: 'JACOB',
@@ -40,17 +91,17 @@ describe 'Partcipant Card tests', type: :feature do
   end
 
   it 'Test initial rendering of card' do
-    within '#search-card', text: 'SEARCH' do
+    within '#search-card', text: 'Search' do
       autocompleter_fill_in 'Search for any person', 'zz'
       click_button 'Create a new person'
       sleep 0.3
     end
-
-    person1_id = find('div[id^="participants-card-"]', text: 'UNKNOWN')[:id]
+    person1_id = find('div[id^="participants-card-"]', text: 'Unknown')[:id]
     person1_card = find('#' + person1_id)
     within person1_card do
+
       # Verify initial rendering of card
-      expect(page).to have_content('UNKNOWN PERSON')
+      expect(page).to have_content('Unknown Person')
       expect(page).to have_content('First Name')
       expect(page).to have_field('First Name', with: '')
       expect(page).to have_content('Middle Name')
@@ -58,26 +109,28 @@ describe 'Partcipant Card tests', type: :feature do
       expect(page).to have_content('Last Name')
       expect(page).to have_field('Last Name', with: '')
       expect(page).to have_content('Suffix')
-      has_react_select_field('Suffix', with: [])
+      expect(page).to have_select('Suffix', selected: '')
       expect(page).to have_select('Suffix', options: ['', 'Esq', 'II', 'III',
                                                       'IV', 'Jr', 'Sr', 'MD',
                                                       'PhD', 'JD'])
       expect(page).to have_content('Language(s)')
+      check_language_options
       has_react_select_field('languages', with: [])
       expect(page).to have_content('Role')
+      check_role_options
       has_react_select_field('Role', with: [])
       click_button 'Add new phone number'
       expect(page).to have_content('Phone Number')
       expect(page).to have_field('Phone Number', with: '')
       expect(page).to have_content('Phone Number Type')
-      has_react_select_field('Phone Number Type', with: [])
+      expect(page).to have_select('Phone Number Type', selected: '')
       expect(page).to have_select('Phone Number Type', options: ['', 'Cell',
                                                                  'Work', 'Home',
                                                                  'Other'])
       expect(page).to have_content('Date of birth')
       expect(page).to have_field('Date of birth', with: '')
       expect(page).to have_content('Gender')
-      has_react_select_field('Gender', with: [])
+      expect(page).to have_select('Gender', selected: '')
       expect(page).to have_select('Gender', options: ['', 'Male', 'Female',
                                                       'Other'])
       expect(page).to have_content('Social security number')
@@ -88,11 +141,11 @@ describe 'Partcipant Card tests', type: :feature do
       expect(page).to have_content('City')
       expect(page).to have_field('City', with: '')
       expect(page).to have_content('State')
-      has_react_select_field('State', with: [])
+      expect(page).to have_select('State', selected: '')
       expect(page).to have_content('Zip')
       expect(page).to have_field('Zip', with: '')
       expect(page).to have_content('Address Type')
-      has_react_select_field('Address Type', with: [])
+      expect(page).to have_select('Address Type', selected: '')
       expect(page).to have_select('Address Type', options: ['', 'Home',
                                                             'School', 'Work',
                                                             'Placement',
@@ -101,8 +154,7 @@ describe 'Partcipant Card tests', type: :feature do
       expect(page).to have_button 'Save'
       expect(page).to have_button 'Cancel'
       click_button 'Save'
-      expect(page).to have_content('UNKNOWN PERSON')
-      expect(page).to have_content('Unknown person')
+      expect(page).to have_content('Unknown Person')
       expect(page).to have_content('Name')
       expect(page).to have_content('Gender')
       expect(page).to have_content('Date of birth')
@@ -118,27 +170,27 @@ describe 'Partcipant Card tests', type: :feature do
   end
 
   it 'Test reporter logic for roles and cancelling input' do
-    within '#search-card', text: 'SEARCH' do
+    within '#search-card', text: 'Search' do
       autocompleter_fill_in 'Search for any person', 'zz'
       click_button 'Create a new person'
       sleep 0.3
     end
     # test header displays correctly when not all names filled-in
-    person1_id = find('div[id^="participants-card-"]', text: 'UNKNOWN')[:id]
+    person1_id = find('div[id^="participants-card-"]', text: 'Unknown')[:id]
     person1_card = find('#' + person1_id)
     within person1_card do
       find('input#first_name').click
       fill_in('First Name', with: person1[:fname])
       within '.card-header' do
         expect(page).to have_content("#{person1[:fname]} " \
-                                     '(UNKNOWN LAST NAME)')
+                                     '(Unknown last name)')
       end
       role_input = find_field('First Name')
       5.times do
         role_input.send_keys(:backspace)
       end
       fill_in('Last Name', with: person1[:lname])
-      expect(page).to have_content('(UNKNOWN FIRST NAME) ' \
+      expect(page).to have_content('(Unknown first name) ' \
                                    "#{person1[:lname]}")
       fill_in('First Name', with: person1[:fname])
       expect(page).to have_content("#{person1[:fname]} " \
@@ -162,8 +214,8 @@ describe 'Partcipant Card tests', type: :feature do
         select person1[:state], from: 'State'
         fill_in 'Zip', with: person1[:zip]
         select person1[:gender], from: 'Gender'
-        fill_in_react_select 'Language(s)', with: person1[:Language]
-        fill_in_react_select 'Language(s)', with: person1[:Language2]
+        fill_in_react_select 'languages', with: person1[:language]
+        fill_in_react_select 'languages', with: person1[:language2]
         select person1[:addrtype], from: 'Address Type'
         # validate addition reporters cannot be selected
         fill_in_react_select 'Role', with: person1[:role2]
@@ -173,11 +225,11 @@ describe 'Partcipant Card tests', type: :feature do
       end
 
       within '.card-header' do
-        expect(page).to have_content("#{person1[:fname]} " \
-                                     "#{person1[:lname]}")
+        expect(page).to have_content("#{person1[:fname]} #{person1[:mname]} " \
+                                     "#{person1[:lname]} #{person1[:suffix]}")
       end
       within '.card-body' do
-        expect(page).to have_content("#{person1[:fname]} #{person1[:mname]}" \
+        expect(page).to have_content("#{person1[:fname]} #{person1[:mname]} " \
                                      "#{person1[:lname]} #{person1[:suffix]}")
         expect(page).to have_content(person1[:state])
         expect(page).to have_content(person1[:zip])
@@ -193,7 +245,8 @@ describe 'Partcipant Card tests', type: :feature do
       end
 
       within '.card-header' do
-        find(:css, 'i.fa.fa-pencil').click
+        # find(:css, 'a.btn.btn-primary.pull-right').click
+        click_link 'Edit'
       end
       within '.card-body' do
         # validate deleting with backspace
@@ -206,18 +259,16 @@ describe 'Partcipant Card tests', type: :feature do
         expect(page).to have_field('Middle Name', with: person1[:mname])
         expect(page).to have_field('Last Name', with: person1[:lname])
         select person1[:suffix], from: 'Suffix'
-        has_react_select_field('languages', with: %w(person1[:language] \
-                                                     person1[:language2]))
-        has_react_select_field('Gender', with: person1[:lname])
-        expect(page).to have_field('Social security number',
-                                   with: person1[:ssn])
+        has_react_select_field('languages', with: ["#{person1[:language]}", "#{person1[:language2]}"])
+        expect(page).to have_select('Gender', selected: person1[:gender])
+        expect(page).to have_field('Social security number', with: person1[:ssn])
         expect(page).to have_field('Address', with: person1[:addr])
         expect(page).to have_field('City', with: person1[:city])
-        has_react_select_field('State', with: person1[:state])
+        expect(page).to have_select('State', selected: person1[:state])
         expect(page).to have_field('Zip', with: person1[:zip])
-        has_react_select_field('Address Type', with: person1[:addrtype])
+        expect(page).to have_select('Address Type', selected: person1[:addrtype])
         expect(page).to have_field('Phone Number', with: person1[:phonenum])
-        has_react_select_field('Phone Number Type', with: person1[:phonetype])
+        expect(page).to have_select('Phone Number Type', selected: person1[:phonetype])
 
         language_input = find_field('languages')
         2.times do
@@ -254,12 +305,12 @@ describe 'Partcipant Card tests', type: :feature do
     end
   end
   it 'Test two people can be reporter and multiselect in same screening' do
-    within '#search-card', text: 'SEARCH' do
+    within '#search-card', text: 'Search' do
       autocompleter_fill_in 'Search for any person', 'zz'
       click_button 'Create a new person'
       sleep 0.3
     end
-    person1_id = find('div[id^="participants-card-"]', text: 'UNKNOWN')[:id]
+    person1_id = find('div[id^="participants-card-"]', text: 'Unknown')[:id]
     person1_card = find('#' + person1_id)
     within person1_card do
       find('input#first_name').click
@@ -269,17 +320,23 @@ describe 'Partcipant Card tests', type: :feature do
       fill_in_react_select 'Role', with: person1[:role2]
       has_react_select_field('Role', with: [person1[:role1], person1[:role2]])
       click_button 'Save'
-      expect(page).to have_content("#{person1[:fname]} " \
-                                   "#{person1[:lname]}")
+      expect(page).to have_content("#{person1[:fname]} #{person1[:lname]}")
     end
-    within '#search-card', text: 'SEARCH' do
+    within '#search-card', text: 'Search' do
       autocompleter_fill_in 'Search for any person', 'zz'
       click_button 'Create a new person'
       sleep 0.3
     end
-    person2_id = find('div[id^="participants-card-"]', text: 'UNKNOWN')[:id]
+    person2_id = find('div[id^="participants-card-"]', text: 'Unknown')[:id]
     person2_card = find('#' + person2_id)
+
+    # checking that this card shows up first
+    person2_selector = "##{person2_id}"
+    person1_selector = "##{person1_id}"
+    expect(find("#{person2_selector}+div")).to match_css(person1_selector)
+#css-id+div
     within person2_card do
+      # fill in data for person2
       find('input#first_name').click
       fill_in('First Name', with: person2[:fname])
       fill_in('Middle Name', with: person2[:mname])
@@ -291,9 +348,9 @@ describe 'Partcipant Card tests', type: :feature do
       expect(page).to have_content("#{person2[:fname]} #{person2[:mname]} " \
                                    "#{person2[:lname]}, #{person2[:suffix]}")
       within '.card-header' do
-        find(:css, 'i.fa.fa-pencil').click
+        click_link 'Edit'
       end
-      # validate once reporter role is deleted by clicking th 'x' or
+      # validate once reporter role is deleted by clicking the 'x' or
       # backspace, other reporters are available
       find(:css, 'span.Select-value-icon').click
       fill_in_react_select 'Role', with: 'Anonymous Reporter'
@@ -306,65 +363,65 @@ describe 'Partcipant Card tests', type: :feature do
       has_react_select_field('Role', with: ['Non-mandated Reporter'])
     end
   end
-  it 'Test char length and different combo for First, Middle, Last Name' do
-    within '#search-card', text: 'SEARCH' do
+  it 'Test different combo for First, Middle, Last Name' do
+    within '#search-card', text: 'Search' do
       autocompleter_fill_in 'Search for any person', 'zz'
       click_button 'Create a new person'
       sleep 0.3
     end
-    person2_id = find('div[id^="participants-card-"]', text: 'UNKNOWN')[:id]
+    person2_id = find('div[id^="participants-card-"]', text: 'Unknown')[:id]
     person2_card = find('#' + person2_id)
     within person2_card do
       find('input#first_name').click
       fill_in('First Name', with: '')
       fill_in('Middle Name', with: person2[:mname])
       fill_in('Last Name', with: '')
-      expect(page).to have_content("UNKNOWN #{person2[:mname]}")
+      expect(page).to have_content("Unknown #{person2[:mname]}")
 
       # First and Middle Name
       fill_in('First Name', with: person2[:fname])
       expect(page).to have_content(
-        "#{person2[:fname]} #{person2[:mname]} (UNKNOWN LAST NAME)"
+        "#{person2[:fname]} #{person2[:mname]} (Unknown last name)"
       )
       # First, Middle and Suffix
       select person2[:suffix], from: 'Suffix'
       expect(page).to have_content(
-        "#{person2[:fname]} #{person2[:mname]} (UNKNOWN LAST NAME), #{person2[:suffix].upcase}"
+        "#{person2[:fname]} #{person2[:mname]} (Unknown last name), #{person2[:suffix]}"
       )
       # Middle, Last and suffix
       fill_in('Last Name', with: person2[:lname])
       clear_field 'First Name'
       expect(page).to have_content(
-        "(UNKNOWN FIRST NAME) #{person2[:mname]} #{person2[:lname]}, #{person2[:suffix].upcase}"
+        "(Unknown first name) #{person2[:mname]} #{person2[:lname]}, #{person2[:suffix]}"
       )
       # Middle and suffix
       clear_field 'Last Name'
       expect(page).to have_content(
-        "UNKNOWN #{person2[:mname]}, #{person2[:suffix].upcase}"
+        "Unknown #{person2[:mname]}, #{person2[:suffix]}"
       )
       # Suffix only
       clear_field 'Middle Name'
       select person2[:suffix], from: 'Suffix'
-      expect(page).to have_content('UNKNOWN PERSON')
+      expect(page).to have_content('Unknown Person')
 
       # First and Suffix
       fill_in('First Name', with: person2[:fname])
       expect(page).to have_content(
-        "#{person2[:fname]} (UNKNOWN LAST NAME), #{person2[:suffix].upcase}"
+        "#{person2[:fname]} (Unknown last name), #{person2[:suffix]}"
       )
 
       # last and Suffix
       clear_field 'First Name'
       fill_in('Last Name', with: person2[:lname])
       expect(page).to have_content(
-        "(UNKNOWN FIRST NAME) #{person2[:lname]}, #{person2[:suffix].upcase}"
+        "(Unknown first name) #{person2[:lname]}, #{person2[:suffix]}"
       )
 
       # Middle and Last
       select '', from: 'Suffix'
       fill_in('Middle Name', with: person2[:mname])
       expect(page).to have_content(
-        "(UNKNOWN FIRST NAME) #{person2[:mname]} #{person2[:lname]}"
+        "(Unknown first name) #{person2[:mname]} #{person2[:lname]}"
       )
     end
   end
