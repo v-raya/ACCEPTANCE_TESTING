@@ -7,7 +7,6 @@ require 'helper_methods'
 require 'pry'
 require 'react_select_helpers'
 
-
 module AcceptanceTesting
   def self.resolve_driver
     driver_option = ENV['CAPYBARA_DRIVER']
