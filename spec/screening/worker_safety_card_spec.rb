@@ -1,16 +1,33 @@
 # frozen_string_literal: true
 
+def check_select_options
+  options =  [
+    'Dangerous Animal on Premises',
+    'Dangerous Environment',
+    'Firearms in Home',
+    'Gang Affiliation or Gang Activity',
+    'Hostile, Aggressive Client',
+    'Remote or Isolated Location',
+    'Severe Mental Health Status',
+    'Threat or Assault on Staff Member',
+    'Other'
+  ]
+  has_react_select_field('Worker safety alerts', options: options)
+end
+
 describe 'Worker Safety Card', type: :feature do
   before do
     visit '/'
     login_user
+    click_link 'Intake'
     click_link 'Start Screening'
   end
 
   it 'Saving blank card scenario' do
     within '#worker-safety-card' do
+      check_select_options
       within '.card-header' do
-        expect(page).to have_content('WORKER SAFETY')
+        expect(page).to have_content('Worker Safety')
       end
       expect(page).to have_content('Worker safety alerts')
       has_react_select_field('Worker safety alerts', with: [])
@@ -21,15 +38,15 @@ describe 'Worker Safety Card', type: :feature do
       # Saving a blank card and validating
       click_button 'Save'
       within '.card-header' do
-        expect(page).to have_content('WORKER SAFETY')
+        expect(page).to have_content('Worker Safety')
       end
       within '.card-body' do
         expect(page).to have_content('Worker safety alerts')
         expect(page).to have_content('Additional safety information')
       end
       within '.card-header' do
-        expect(page).to have_content('WORKER SAFETY')
-        find(:css, 'i.fa.fa-pencil').click
+        expect(page).to have_content('Worker Safety')
+        click_link 'Edit'
       end
       within '.card-body' do
         expect(page).to have_content('Worker safety alerts')
@@ -42,6 +59,7 @@ describe 'Worker Safety Card', type: :feature do
 
   it 'Selecting and fill in data scenario' do
     within '#worker-safety-card' do
+      check_select_options
       expect(page).to have_content('Worker safety alerts')
       fill_in_react_select 'Worker safety alerts', with: ['Firearms in Home']
       fill_in_react_select 'Worker safety alerts', with: ['Other']
@@ -56,7 +74,7 @@ describe 'Worker Safety Card', type: :feature do
       )
       # Test cancelling scenario
       within '.card-header' do
-        find(:css, 'i.fa.fa-pencil').click
+        click_link 'Edit'
       end
       alert_input = find_field('Worker safety alerts')
       2.times do
@@ -64,7 +82,7 @@ describe 'Worker Safety Card', type: :feature do
       end
       has_react_select_field('Worker safety alerts', with: [])
       fill_in_react_select 'Worker safety alerts',
-                           with: ['Remote or Isolated Location']
+        with: ['Remote or Isolated Location']
       fill_in('Additional safety information', with: 'Et Tu Brute?')
       # Verify new data was not saved on 'Cancel'
       click_button 'Cancel'
