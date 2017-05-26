@@ -10,14 +10,8 @@ module ReactSelectHelpers
   def has_react_select_field(selector, with: nil, options: [])
     input = find_field(selector)
     select_container = find("label[for=#{input[:id]}]+.Select")
-    selected_values = select_container.all('.Select-value-label').map(&:text)
-    expect(selected_values).to eq(with) if with
-
-    return unless options.any?
-    select_container.click
-    options.each do |option|
-      expect(select_container.text).to have_content(option)
-    end
+    check_selected_options(select_container, with) if with
+    check_available_options(select_container, options) if options.any?
   end
 
   def remove_react_select_option(selector, option)
@@ -27,6 +21,18 @@ module ReactSelectHelpers
       /span[contains(.,'#{option}')]/../span[@class='Select-value-icon']
     XPATH
     close_icon.click
+  end
+
+  def check_selected_options(select_container, with)
+    selected_values = select_container.all('.Select-value-label').map(&:text)
+    expect(selected_values).to eq(with)
+  end
+
+  def check_available_options(select_container, options)
+    select_container.click
+    options.each do |option|
+      expect(select_container.text).to have_content(option)
+    end
   end
 end
 

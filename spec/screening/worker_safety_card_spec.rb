@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/MethodLength
 def check_select_options
-  options =  [
+  options = [
     'Dangerous Animal on Premises',
     'Dangerous Environment',
     'Firearms in Home',
@@ -14,6 +15,7 @@ def check_select_options
   ]
   has_react_select_field('Worker safety alerts', options: options)
 end
+# rubocop:enable Metrics/MethodLength
 
 describe 'Worker Safety Card', type: :feature do
   before do
@@ -81,7 +83,7 @@ describe 'Worker Safety Card', type: :feature do
       end
       has_react_select_field('Worker safety alerts', with: [])
       fill_in_react_select 'Worker safety alerts',
-        with: ['Remote or Isolated Location']
+                           with: ['Remote or Isolated Location']
       fill_in('Additional safety information', with: 'Et Tu Brute?')
       # Verify new data was not saved on 'Cancel'
       click_button 'Cancel'

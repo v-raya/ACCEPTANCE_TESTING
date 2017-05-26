@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 def check_role_options
-  options =  [
+  options = [
     'Victim',
     'Perpetrator',
     'Mandated Reporter',
@@ -11,8 +11,9 @@ def check_role_options
   has_react_select_field('Role', options: options)
 end
 
+# rubocop:disable Metrics/MethodLength
 def check_language_options
-  language_options =  [
+  language_options = [
     'American Sign Language',
     'Arabic',
     'Armenian',
@@ -50,6 +51,7 @@ def check_language_options
   ]
   has_react_select_field('Language', options: language_options)
 end
+# rubocop:enable Metrics/MethodLength
 
 person1 = {
   fname: 'JOHN',
@@ -99,7 +101,6 @@ describe 'Partcipant Card tests', type: :feature do
     person1_id = find('div[id^="participants-card-"]', text: 'Unknown')[:id]
     person1_card = find('#' + person1_id)
     within person1_card do
-
       # Verify initial rendering of card
       expect(page).to have_content('Unknown Person')
       expect(page).to have_content('First Name')
@@ -259,7 +260,7 @@ describe 'Partcipant Card tests', type: :feature do
         expect(page).to have_field('Middle Name', with: person1[:mname])
         expect(page).to have_field('Last Name', with: person1[:lname])
         select person1[:suffix], from: 'Suffix'
-        has_react_select_field('languages', with: ["#{person1[:language]}", "#{person1[:language2]}"])
+        has_react_select_field('languages', with: [(person1[:language]).to_s, (person1[:language2]).to_s])
         expect(page).to have_select('Gender', selected: person1[:gender])
         expect(page).to have_field('Social security number', with: person1[:ssn])
         expect(page).to have_field('Address', with: person1[:addr])
@@ -334,7 +335,7 @@ describe 'Partcipant Card tests', type: :feature do
     person2_selector = "##{person2_id}"
     person1_selector = "##{person1_id}"
     expect(find("#{person2_selector}+div")).to match_css(person1_selector)
-#css-id+div
+    # css-id+div
     within person2_card do
       # fill in data for person2
       find('input#first_name').click
