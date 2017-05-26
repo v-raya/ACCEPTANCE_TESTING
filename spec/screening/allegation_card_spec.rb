@@ -39,7 +39,7 @@ describe 'Allegations Card Tests', type: :feature do
   it 'Test Allegation card' do
     within '#allegations-card' do
       within '.card-header' do
-        expect(page).to have_content('ALLEGATIONS')
+        expect(page).to have_content('Allegations')
       end
       within '.card-body' do
         expect(page).to have_content('Alleged Victim/Children')
@@ -55,7 +55,7 @@ describe 'Allegations Card Tests', type: :feature do
       click_button 'Create a new person'
       sleep 0.3
     end
-    person1_id = find('div[id^="participants-card-"]', text: 'UNKNOWN')[:id]
+    person1_id = find('div[id^="participants-card-"]', text: 'Unknown')[:id]
     person1_card = find('#' + person1_id)
     within person1_card do
       find('input#first_name').click
@@ -74,7 +74,7 @@ describe 'Allegations Card Tests', type: :feature do
     # Verify that allegation card does not show the victim
     within '#allegations-card' do
       within '.card-header' do
-        expect(page).to have_content('ALLEGATIONS')
+        expect(page).to have_content('Allegations')
       end
       within '.card-body' do
         expect(page).to have_content('Alleged Victim/Children')
@@ -87,12 +87,12 @@ describe 'Allegations Card Tests', type: :feature do
       end
     end
     # create and fill-in second card
-    within '#search-card', text: 'SEARCH' do
+    within '#search-card', text: 'Search' do
       autocompleter_fill_in 'Search for any person', 'Tete'
       click_button 'Create a new person'
       sleep 0.3
     end
-    person2_id = find('div[id^="participants-card-"]', text: 'UNKNOWN')[:id]
+    person2_id = find('div[id^="participants-card-"]', text: 'Unknown')[:id]
     person2_card = find('#' + person2_id)
     within person2_card do
       find('input#first_name').click
@@ -109,12 +109,12 @@ describe 'Allegations Card Tests', type: :feature do
       end
     end
     # create and fill-in third card
-    within '#search-card', text: 'SEARCH' do
+    within '#search-card', text: 'Search' do
       autocompleter_fill_in 'Search for any person', 'Tete'
       click_button 'Create a new person'
       sleep 0.3
     end
-    person3_id = find('div[id^="participants-card-"]', text: 'UNKNOWN')[:id]
+    person3_id = find('div[id^="participants-card-"]', text: 'Unknown')[:id]
     person3_card = find('#' + person3_id)
     within person3_card do
       find('input#first_name').click
@@ -133,7 +133,7 @@ describe 'Allegations Card Tests', type: :feature do
     # Verify that allegation card does not show the victim
     within '#allegations-card' do
       within '.card-header' do
-        expect(page).to have_content('ALLEGATIONS')
+        expect(page).to have_content('Allegations')
       end
       within '.card-body' do
         expect(page).to have_content('Alleged Victim/Children')
@@ -166,12 +166,12 @@ describe 'Allegations Card Tests', type: :feature do
       end
     end
 
-    within '#search-card', text: 'SEARCH' do
+    within '#search-card', text: 'Search' do
       autocompleter_fill_in 'Search for any person', 'Tete'
       click_button 'Create a new person'
       sleep 0.3
     end
-    person4_id = find('div[id^="participants-card-"]', text: 'UNKNOWN')[:id]
+    person4_id = find('div[id^="participants-card-"]', text: 'Unknown')[:id]
     person4_card = find('#' + person4_id)
     within person4_card do
       find('input#first_name').click
@@ -248,7 +248,7 @@ describe 'Allegations Card Tests', type: :feature do
     end
     # changing roles of person
     within person1_card do
-      find(:css, 'i.fa.fa-pencil').click
+      click_link 'Edit'
       fill_in_react_select 'Role', with: person1[:role2]
       click_button 'Save'
       expect(page).to have_content("#{person1[:fname]} #{person1[:lname]}")
@@ -301,7 +301,7 @@ describe 'Allegations Card Tests', type: :feature do
     # Verify the Allegation card is unchanged when adding a non-perpetrator/
     # victim role
     within person3_card do
-      find(:css, 'i.fa.fa-pencil').click
+      click_link 'Edit'
       fill_in_react_select 'Role', with: person3[:role2]
       has_react_select_field('Role', with: [person3[:role], person3[:role2]])
       click_button 'Save'
@@ -350,7 +350,7 @@ describe 'Allegations Card Tests', type: :feature do
     end
     # delete the role of the person with perpetrator
     within person3_card do
-      find(:css, 'i.fa.fa-pencil').click
+      click_link 'Edit'
       role_input = find_field('Role')
       3.times do
         role_input.send_keys(:backspace)
@@ -390,7 +390,7 @@ describe 'Allegations Card Tests', type: :feature do
     end
     within person2_card do
       # find(:css, 'i.fa.fa-times').click
-      find(:css, 'i.fa.fa-pencil').click
+      click_link 'Edit'
       role_input = find_field('Role')
       2.times do
         role_input.send_keys(:backspace)
@@ -415,7 +415,7 @@ describe 'Allegations Card Tests', type: :feature do
     end
     # Verify single perpetrator does not display in allegations
     within person1_card do
-      find(:css, 'i.fa.fa-pencil').click
+      click_link 'Edit'
       role_input = find_field('Role')
       2.times do
         role_input.send_keys(:backspace)
@@ -434,7 +434,7 @@ describe 'Allegations Card Tests', type: :feature do
     end
     # Adding Alleged Victim to Allegations card
     within person1_card do
-      find(:css, 'i.fa.fa-pencil').click
+      click_link 'Edit'
       fill_in_react_select 'Role', with: person1[:role]
       click_button 'Save'
     end

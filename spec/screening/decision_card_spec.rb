@@ -15,7 +15,7 @@ describe 'Decision card', type: :feature do
 
     within '#decision-card' do
       within '.card-header' do
-        expect(page).to have_content 'DECISION'
+        expect(page).to have_content 'Decision'
       end
       within '.card-body' do
         expect(page).to have_content 'Decision'
@@ -37,9 +37,8 @@ describe 'Decision card', type: :feature do
         expect(page).to have_content 'Additional information'
         expect(page).to have_content 'This is a test for $peci@! char & num8er5'
       end
-      # click on the pencil icon in header to invoke the edit page
       within '.card-header' do
-        find(:css, 'i.fa.fa-pencil').click
+        click_link 'Edit'
       end
       within '.card-body' do
         expect(page).to have_select('Decision',
@@ -52,9 +51,8 @@ describe 'Decision card', type: :feature do
         click_button 'Save'
         expect(page).to have_content char64str
       end
-      # click on the pencil icon in header to invoke the edit page
       within '.card-header' do
-        find(:css, 'i.fa.fa-pencil').click
+        click_link 'Edit'
       end
       within '.card-body' do
         expect(page).not_to have_content('Staff name')
@@ -70,9 +68,8 @@ describe 'Decision card', type: :feature do
         expect(page).to have_content 'Decision'
         expect(page).to have_content 'Information to child welfare services'
       end
-      # click on the pencil icon in header to invoke the edit page
       within '.card-header' do
-        find(:css, 'i.fa.fa-pencil').click
+        click_link 'Edit'
       end
       within '.card-body' do
         expect(page).not_to have_content('Response time')
@@ -109,7 +106,7 @@ describe 'Decision card', type: :feature do
         expect(page).to have_content 'Information to child welfare services'
       end
       within '.card-header' do
-        find(:css, 'i.fa.fa-pencil').click
+        click_link 'Edit'
       end
       within '.card-body' do
         # validate de-selecting removes the conditional fields

@@ -32,7 +32,7 @@ describe 'Screening QA Test', type: :feature do
   it 'Test Screening card' do
     within '#screening-information-card' do
       within '.card-header' do
-        expect(page).to have_content('SCREENING INFORMATION')
+        expect(page).to have_content('Screening Information')
       end
       within '.card-body' do
         # Verify initial rendering of screening card
@@ -49,7 +49,7 @@ describe 'Screening QA Test', type: :feature do
                                    with: '')
         expect(page).to have_field('Screening End Date/Time',
                                    with: '')
-        has_react_select_field('Communication Method', with: [])
+        expect(page).to have_select('Communication Method', selected: '')
         expect(page).to have_button('Save')
         expect(page).to have_button('Cancel')
         fill_in('Title/Name of Screening', with: screen_info_init[:title])
@@ -59,15 +59,14 @@ describe 'Screening QA Test', type: :feature do
         select screen_info_init[:comm], from: 'Communication Method'
         click_button 'Save'
       end
-      expect(page).to have_content('SCREENING INFORMATION')
+      expect(page).to have_content('Screening Information')
       expect(page).to have_content(screen_info_init[:title])
       expect(page).to have_content(screen_info_init[:worker])
       expect(page).to have_content(screen_info_init[:sdate])
       expect(page).to have_content(screen_info_init[:edate])
       expect(page).to have_content(screen_info_init[:comm])
 
-      # click on the pencil icon in header to invoke the edit page
-      find(:css, 'i.fa.fa-pencil').click
+      click_link 'Edit'
       # Validate info and make edits to the input fields
       expect(page).to have_field('Title/Name of Screening',
                                  with: screen_info_init[:title])
@@ -82,15 +81,14 @@ describe 'Screening QA Test', type: :feature do
       click_button 'Save'
 
       # Verify new info saved
-      expect(page).to have_content('SCREENING INFORMATION')
+      expect(page).to have_content('Screening Information')
       expect(page).to have_content(screen_info_init[:title])
       expect(page).to have_content(screen_info_chng1[:worker])
       expect(page).to have_content(screen_info_chng1[:sdate])
       expect(page).to have_content(screen_info_init[:edate])
       expect(page).to have_content(screen_info_chng1[:comm])
 
-      # click on the pencil icon in header to invoke the edit page
-      find(:css, 'i.fa.fa-pencil').click
+      click_link 'Edit'
       # Validate info and make edits to the input fields
       expect(page).to have_field('Title/Name of Screening',
                                  with: screen_info_init[:title])
@@ -107,7 +105,7 @@ describe 'Screening QA Test', type: :feature do
 
     # Verify new info is not saved and previous data is unchanged
     within '#screening-information-card' do
-      expect(page).to have_content('SCREENING INFORMATION')
+      expect(page).to have_content('Screening Information')
       expect(page).to have_content(screen_info_init[:title])
       expect(page).to have_content(screen_info_chng1[:worker])
       expect(page).to have_content(screen_info_chng1[:sdate])

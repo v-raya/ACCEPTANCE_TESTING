@@ -9,7 +9,7 @@ module ReactSelectHelpers
 
   def has_react_select_field(selector, with: nil, options: [])
     input = find_field(selector)
-    select_container = find("label[for=#{input[:id]}]+.Select")
+    select_container = find(:xpath, "//*[@id='#{input[:id]}']/ancestor::div[contains(@class, 'Select ')]")
     check_selected_options(select_container, with) if with
     check_available_options(select_container, options) if options.any?
   end

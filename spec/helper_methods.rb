@@ -30,5 +30,5 @@ def login_user
   password_input = page.find('input[name=password]')
   password_input.send_keys ENV['PASSWORD']
   click_button('Sign In')
-  click_link 'Intake'
+  click_link 'Intake' rescue false
 end

@@ -19,7 +19,7 @@ describe 'Cross Report card', type: :feature do
   it 'Testing of Cross Report' do
     within '#cross-report-card' do
       within '.card-header' do
-        expect(page).to have_content 'CROSS REPORT'
+        expect(page).to have_content 'Cross Report'
       end
       within '.card-body' do
         # Validate initial rendering of the card
@@ -44,9 +44,9 @@ describe 'Cross Report card', type: :feature do
       end
       # Verify that saving a blank card results in no data being saved.
       within '.card-header' do
-        expect(page).to have_content 'CROSS REPORT'
-        find(:css, 'i.fa.fa-pencil').click
-        expect(page).to have_content 'CROSS REPORT'
+        expect(page).to have_content 'Cross Report'
+        click_link 'Edit'
+        expect(page).to have_content 'Cross Report'
       end
       within '.card-body' do
         # validate no value other than header are displayed
@@ -85,9 +85,8 @@ describe 'Cross Report card', type: :feature do
         expect(page).to have_content('Licensing - C0mmunity Care Licen$ing')
       end
       within '.card-header' do
-        # click on the pencil icon in header to invoke the edit page
-        find(:css, 'i.fa.fa-pencil').click
-        expect(page).to have_content 'CROSS REPORT'
+        click_link 'Edit'
+        expect(page).to have_content 'Cross Report'
       end
       within '.card-body' do
         # Validate edit mode fields contain information that was saved
@@ -135,8 +134,7 @@ describe 'Cross Report card', type: :feature do
         expect(page).to have_content('Licensing - C0mmunity Care Licen$ing')
       end
       within '.card-header' do
-        # click on the pencil icon in header to invoke the edit page
-        find(:css, 'i.fa.fa-pencil').click
+        click_link 'Edit'
       end
       # Changing only some of the data
       within '.card-body' do
@@ -154,8 +152,7 @@ describe 'Cross Report card', type: :feature do
         expect(page).to have_content('Licensing - C0mmunity Care Licen$ing')
       end
       within '.card-header' do
-        # click on the pencil icon in header to invoke the edit page
-        find(:css, 'i.fa.fa-pencil').click
+        click_link 'Edit'
       end
       # Validating char limit and acceptance of char types for each field
       within '.card-body' do
@@ -169,8 +166,7 @@ describe 'Cross Report card', type: :feature do
         expect(page).to have_content char128str
       end
       within '.card-header' do
-        # click on the pencil icon in header to invoke the edit page
-        find(:css, 'i.fa.fa-pencil').click
+        click_link 'Edit'
       end
       within '.card-body' do
         find('label', text: 'Law enforcement').click
@@ -182,8 +178,7 @@ describe 'Cross Report card', type: :feature do
         expect(page).to have_content char128str
       end
       within '.card-header' do
-        # click on the pencil icon in header to invoke the edit page
-        find(:css, 'i.fa.fa-pencil').click
+        click_link 'Edit'
       end
       within '.card-body' do
         find('label', text: 'Law enforcement').click
@@ -195,8 +190,7 @@ describe 'Cross Report card', type: :feature do
         expect(page).to have_content char128str
       end
       within '.card-header' do
-        # click on the pencil icon in header to invoke the edit page
-        find(:css, 'i.fa.fa-pencil').click
+        click_link 'Edit'
       end
       within '.card-body' do
         find('label', text: 'Department of justice').click

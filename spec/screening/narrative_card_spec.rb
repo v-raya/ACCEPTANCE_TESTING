@@ -8,7 +8,7 @@ describe 'Narrative card', type: :feature do
     click_link 'Start Screening'
     within '#narrative-card' do
       within '.card-header' do
-        expect(page).to have_content('NARRATIVE')
+        expect(page).to have_content('Narrative')
       end
       # Saving a blank card and validating
       click_button 'Save'
@@ -16,8 +16,8 @@ describe 'Narrative card', type: :feature do
         expect(page).to have_content('Report Narrative')
       end
       within '.card-header' do
-        expect(page).to have_content('NARRATIVE')
-        find(:css, 'i.fa.fa-pencil').click
+        expect(page).to have_content('Narrative')
+        click_link 'Edit'
       end
       within '.card-body' do
         fill_in 'Report Narrative',
@@ -28,7 +28,7 @@ describe 'Narrative card', type: :feature do
         )
       end
       within '.card-header' do
-        find(:css, 'i.fa.fa-pencil').click
+        click_link 'Edit'
       end
       within '.card-body' do
         expect(page).to have_field(

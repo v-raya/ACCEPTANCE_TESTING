@@ -38,7 +38,7 @@ describe 'save a zippy referral', type: :feature do
           click_button 'Create a new person'
           sleep 0.5
         end
-        person_card_id = find('div[id^="participants-card-"]', text: 'UNKNOWN PERSON')[:id]
+        person_card_id = find('div[id^="participants-card-"]', text: 'Unknown Person')[:id]
         within "##{person_card_id}" do
           find('input#first_name').click
           fill_in('First Name', with: person[:fname])

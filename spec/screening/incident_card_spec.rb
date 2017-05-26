@@ -23,7 +23,7 @@ describe 'Incident Information card', type: :feature do
 
     within '#incident-information-card' do
       within '.card-header' do
-        expect(page).to have_content 'INCIDENT INFORMATION'
+        expect(page).to have_content 'Incident Information'
       end
       within '.card-body' do
         select tst_cty, from: 'Incident County'
@@ -49,10 +49,9 @@ describe 'Incident Information card', type: :feature do
         expect(page).to have_content tst_loc
       end
       within '.card-header' do
-        expect(page).to have_content 'INCIDENT INFORMATION'
-        # click on the pencil icon in header to invoke the edit page
-        find(:css, 'i.fa.fa-pencil').click
-        expect(page).to have_content 'INCIDENT INFORMATION'
+        expect(page).to have_content 'Incident Information'
+        click_link 'Edit'
+        expect(page).to have_content 'Incident Information'
       end
       within '.card-body' do
         # Verify saved info is filled in in edit view
@@ -86,10 +85,9 @@ describe 'Incident Information card', type: :feature do
         expect(page).to have_content tst_loc
       end
       within '.card-header' do
-        expect(page).to have_content 'INCIDENT INFORMATION'
-        # click on the pencil icon in header to invoke the edit page
-        find(:css, 'i.fa.fa-pencil').click
-        expect(page).to have_content 'INCIDENT INFORMATION'
+        expect(page).to have_content 'Incident Information'
+        click_link 'Edit'
+        expect(page).to have_content 'Incident Information'
       end
       within '.card-body' do
         # Verify saved info is filled in in edit view
