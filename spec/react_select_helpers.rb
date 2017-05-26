@@ -9,15 +9,14 @@ module ReactSelectHelpers
 
   def has_react_select_field(selector, with: nil, options: [])
     input = find_field(selector)
-    input_container = input.query_scope
-    selected_values = input_container.all('.Select-value-label').map(&:text)
+    select_container = find("label[for=#{input[:id]}]+.Select")
+    selected_values = select_container.all('.Select-value-label').map(&:text)
     expect(selected_values).to eq(with) if with
 
     return unless options.any?
-    input_control = input_container.find('.Select')
-    input_control.click
+    select_container.click
     options.each do |option|
-      expect(input_control.text).to have_content(option)
+      expect(select_container.text).to have_content(option)
     end
   end
 

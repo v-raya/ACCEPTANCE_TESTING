@@ -19,7 +19,6 @@ describe 'Worker Safety Card', type: :feature do
   before do
     visit '/'
     login_user
-    click_link 'Intake'
     click_link 'Start Screening'
   end
 
