@@ -23,12 +23,20 @@ def clear_field(selector)
   fill_in(selector, with: ' ').send_keys(:backspace)
 end
 
-def login_user
+def fill_login_form
   return unless ENV['USERNAME'] && ENV['PASSWORD']
   username_input = page.find('input[name=username]')
   username_input.send_keys ENV['USERNAME']
   password_input = page.find('input[name=password]')
   password_input.send_keys ENV['PASSWORD']
   click_button('Sign In')
-  click_link 'Intake' rescue false
+end
+
+def login_user
+  fill_login_form
+  begin
+    click_link 'Intake'
+  rescue
+    false
+  end
 end
