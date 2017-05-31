@@ -27,7 +27,7 @@ def check_language_options
     'Hawaiian',
     'Hebrew',
     'Hmong',
-    'Ilacano',
+    'Ilocano',
     'Indochinese',
     'Italian',
     'Japanese',
