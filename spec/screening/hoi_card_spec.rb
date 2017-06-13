@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 require 'react_select_helpers'
 require 'autocompleter_helpers'
+require 'helper_methods'
+require 'support/page/screening_page'
 
 def build_regex(words)
   arr = words.map do |word|
@@ -14,424 +16,181 @@ def elements_containing(element, *words)
   elements
 end
 
-scr1 = {
-  name: 'Harry1',
-  worker: 'Florence Nightingale',
-  sdate: '08-13-2016T10:00:00.000Z',
-  edate: '08-13-2016T11:00:00.000Z',
-  comm: 'Mail',
-  decis: 'Promote to referral'
-}
-
-scr2 = {
-  name: 'Harry2',
-  worker: 'Flying Nun',
-  sdate: '08-13-1996T10:00:00.000Z',
-  edate: '08-15-1996T11:00:00.000Z',
-  comm: 'Email'
-}
-
-scr3 = {
-  name: 'Trin',
-  worker: 'Mother Terri',
-  sdate: '07-12-1996T10:00:00.000Z',
-  edate: '07-13-1996T11:00:00.000Z',
-  comm: 'Online',
-  inc_cty: 'Amador',
-  decis: 'Promote to referral'
-}
-
-scr4 = {
-  name: 'Bay',
-  worker: 'Jan Brady',
-  sdate: '07-10-1996T10:00:00.000Z',
-  edate: '07-11-1996T11:00:00.000Z',
-  comm: 'Fax',
-  inc_cty: 'Butte',
-  decis: 'Promote to referral'
-}
-
-scr5 = {
-  name: 'Trin&BayShared',
-  worker: 'Marcia Brady',
-  sdate: '07-09-1996T10:00:00.000Z',
-  edate: '07-10-1996T11:00:00.000Z',
-  comm: 'Fax',
-  inc_cty: 'Del Norte'
-}
-
-scr6 = {
-  name: 'Trin&BaySharedAgain',
-  worker: 'Marcia Brady',
-  sdate: '07-09-1996T10:00:00.000Z',
-  edate: '07-10-1996T11:00:00.000Z',
-  comm: 'Fax',
-  inc_cty: 'Sacramento'
-}
-person1 = {
-  fname: 'XAVIER',
-  lname: 'PERSONONE',
-  role1: 'Victim',
-  role2: 'Mandated Reporter',
-  phonenum: '213-432-4400',
-  phonetype: 'Cell',
-  dob: '08/22/1966',
-  gender: 'Female',
-  ssn: '765-44-4887',
-  addr: '321 S. Main Street',
-  city: 'Carmel',
-  state: 'California',
-  Zip: '90210',
-  addrtype: 'Homeless'
-}
-
-person2 = {
-  fname: 'Jim',
-  lname: 'PERSONTWO',
-  role1: 'Non-mandated Reporter',
-  role2: 'Perpetrator'
-}
-
-person3 = {
-  fname: 'TRIN',
-  lname: 'NIRT',
-  role1: 'Non-mandated Reporter',
-  role2: 'Perpetrator'
-}
-
-person4 = {
-  fname: 'BAY',
-  lname: 'YAB',
-  role1: 'Victim',
-  role2: 'Mandated Reporter'
-}
-
 describe 'Test for History of Involvement', type: :feature do
-  # Selecting Start Screening on landing
-  before do
-    visit '/'
-    username_input = page.find('input[name=username]')
-    username_input.send_keys 'guest'
-    password_input = page.find('input[name=password]')
-    password_input.send_keys 'guest'
-    click_button('Sign In')
-    click_link 'Start Screening'
-  end
 
-  #   it 'Populate first screening' do
-  #     within '#screening-information-card' do
-  #       fill_in('Title/Name of Screening', with: scr1[:name])
-  #       fill_in('Assigned Social Worker', with: scr1[:worker])
-  #       fill_in('Screening Start Date/Time', with: scr1[:sdate])
-  #       fill_in('Screening End Date/Time', with: scr1[:edate])
-  #       select scr1[:comm], from: 'Communication Method'
-  #       click_button 'Save'
-  #     end
-  #     within '#search-card', text: 'SEARCH' do
-  #       autocompleter_fill_in 'Search for any person', person1[:fname]
-  #       within('ul.react-autosuggest__suggestions-list') do
-  #         # page.all('li').each do |element|
-  #           find('li', :text => person1[:fname].capitalize).click
-  #         # end
-  #       end
-  #       sleep 0.3
-  #     end
-  #     person1_id = find('div[id^="participants-card-"]', text: person1[:fname])[:id]
-  #     person1_card = find('#' + person1_id)
-  #     within person1_card do
-  #       expect(page).to have_content("#{person1[:fname]} " \
-  #                                    "#{person1[:lname]}")
-  #       fill_in_react_select 'Role', with: person1[:role2]
-  # #      click_button 'Save'
-  #     end
-  #     within '#decision-card' do
-  #       select scr1[:decis], from: 'Screening Decision'
-  #       click_button 'Save'
-  #     end
-  #   end
-  #   it 'Populate second screening and verify HOI' do
-  #     within '#screening-information-card' do
-  #       fill_in('Title/Name of Screening', with: scr2[:name])
-  #       fill_in('Assigned Social Worker', with: scr2[:worker])
-  #       fill_in('Screening Start Date/Time', with: scr2[:sdate])
-  #       fill_in('Screening End Date/Time', with: scr2[:edate])
-  #       select scr2[:comm], from: 'Communication Method'
-  #       click_button 'Save'
-  #     end
-  #     within '#search-card', text: 'SEARCH' do
-  #       autocompleter_fill_in 'Search for any person', person1[:fname]
-  #       within('ul.react-autosuggest__suggestions-list') do
-  #         # page.all('li').each do |element|
-  #           find('li', :text => person1[:fname].capitalize).click
-  #         # end
-  #       end
-  #       sleep 0.3
-  #     end
-  #     person1_id = find('div[id^="participants-card-"]', text: person1[:fname])[:id]
-  #     person1_card = find('#' + person1_id)
-  #     within person1_card do
-  #       expect(page).to have_content("#{person1[:fname]} " \
-  #                                    "#{person1[:lname]}")
-  #       fill_in_react_select 'Role', with: person1[:role1]
-  #       click_button 'Save'
-  #     end
-  #     within '#history-card' do
-  #       within 'thead' do
-  #         expect(page).to have_content('Date')
-  #         expect(page).to have_content('Type/Status')
-  #         expect(page).to have_content('County/Office')
-  #         expect(page).to have_content('People and Roles')
-  #       end
-  #     end
-  #     # within '#decision-card' do
-  #     #   fill_in('screening_decision', with: scr1[:decis])
-  #     #   click_button 'Save'
-  #     # end
-  #   end
-  it 'Populate screening for Person 3' do
-    within '#screening-information-card' do
-      fill_in('Title/Name of Screening', with: scr3[:name])
-      fill_in('Assigned Social Worker', with: scr3[:worker])
-      fill_in('Screening Start Date/Time', with: scr3[:sdate])
-      fill_in('Screening End Date/Time', with: scr3[:edate])
-      select scr3[:comm], from: 'Communication Method'
-      click_button 'Save'
-    end
-    within '#incident-information-card' do
-      select scr3[:inc_cty], from: 'Incident County'
-    end
-    within '#search-card', text: 'SEARCH' do
-      autocompleter_fill_in 'Search for any person', person3[:fname]
-      within('ul.react-autosuggest__suggestions-list') do
-        # page.all('li').each do |element|
-        find('li', text: person3[:lname]).click
-        # end
-      end
-      sleep 0.3
-    end
-    person3_id = find('div[id^="participants-card-"]', text: person3[:fname])[:id]
-    person3_card = find('#' + person3_id)
-    within person3_card do
-      expect(page).to have_content("#{person3[:fname]} " \
-                                   "#{person3[:lname]}")
-      fill_in_react_select 'Role', with: person3[:role2]
-      #      click_button 'Save'
-    end
-    within '#decision-card' do
-      select scr3[:decis], from: 'Screening Decision'
-      click_button 'Save'
-    end
-  end
-  it 'Populate second screening for person 4' do
-    within '#screening-information-card' do
-      fill_in('Title/Name of Screening', with: scr4[:name])
-      fill_in('Assigned Social Worker', with: scr4[:worker])
-      fill_in('Screening Start Date/Time', with: scr4[:sdate])
-      fill_in('Screening End Date/Time', with: scr4[:edate])
-      select scr4[:comm], from: 'Communication Method'
-      click_button 'Save'
-    end
-    within '#search-card', text: 'SEARCH' do
-      autocompleter_fill_in 'Search for any person', person4[:fname]
-      within('ul.react-autosuggest__suggestions-list') do
-        # page.all('li').each do |element|
-        find('li', text: person4[:lname]).click
-        # end
-      end
-      sleep 0.3
-    end
-    person4_id = find('div[id^="participants-card-"]', text: person4[:fname])[:id]
-    person4_card = find('#' + person4_id)
-    within person4_card do
-      expect(page).to have_content("#{person4[:fname]} " \
-                                   "#{person4[:lname]}")
-      fill_in_react_select 'Role', with: person4[:role1]
-      click_button 'Save'
-    end
-    within '#history-card' do
-      within 'thead' do
-        expect(page).to have_content('Date')
-        expect(page).to have_content('Type/Status')
-        expect(page).to have_content('County/Office')
-        expect(page).to have_content('People and Roles')
-      end
-    end
-  end
-  it 'Populate third screening for person 3 & 4' do
-    within '#screening-information-card' do
-      fill_in('Title/Name of Screening', with: scr5[:name])
-      fill_in('Assigned Social Worker', with: scr5[:worker])
-      fill_in('Screening Start Date/Time', with: scr5[:sdate])
-      fill_in('Screening End Date/Time', with: scr5[:edate])
-      select scr5[:comm], from: 'Communication Method'
-      click_button 'Save'
-    end
-    within '#search-card', text: 'SEARCH' do
-      autocompleter_fill_in 'Search for any person', person3[:fname]
-      within('ul.react-autosuggest__suggestions-list') do
-        # page.all('li').each do |element|
-        find('li', text: person3[:lname]).click
-        # end
-      end
-      sleep 0.3
-      autocompleter_fill_in 'Search for any person', person4[:fname]
-      within('ul.react-autosuggest__suggestions-list') do
-        # page.all('li').each do |element|
-        find('li', text: person4[:lname]).click
-        # end
-      end
-      sleep 0.3
-    end
-    # person4_id = find('div[id^="participants-card-"]', text: person4[:fname])[:id]
-    # person4_card = find('#' + person4_id)
-    # within person1_card do
-    #   expect(page).to have_content("#{person4[:fname]} " \
-    #                                "#{person4[:lname]}")
-    #   fill_in_react_select 'Role', with: person4[:role1]
-    #   click_button 'Save'
-    # end
-    within '#history-card' do
-      within 'thead' do
-        expect(page).to have_content('Date')
-        expect(page).to have_content('Type/Status')
-        expect(page).to have_content('County/Office')
-        expect(page).to have_content('People and Roles')
-      end
-      # within 'tbody' do
-      # expect(page).to have_content(scr5[:sdate])
-        expect(page).to have_content('Screening (Closed)')
-        expect(page).to have_content(person3[:inc_cty])
-        expect(page).to have_content(person3[:fname])
-        expect(page).to have_content(person3[:lname])
-      # end
-      # expect(page).to have_content("Reporter: #{person3[:fname]} #{person3[:lname]}")
-      # expect(page).to have_content("Worker: #{scr3[:worker]}")
-    end
-  end
-  it 'Populate the joint Again screen and verify the history card' do
-    within '#screening-information-card' do
-      fill_in('Title/Name of Screening', with: scr6[:name])
-      fill_in('Assigned Social Worker', with: scr6[:worker])
-      fill_in('Screening Start Date/Time', with: scr6[:sdate])
-      fill_in('Screening End Date/Time', with: scr6[:edate])
-      select scr6[:comm], from: 'Communication Method'
-      click_button 'Save'
-    end
-    within '#search-card', text: 'SEARCH' do
-      autocompleter_fill_in 'Search for any person', person3[:fname]
-      within('ul.react-autosuggest__suggestions-list') do
-        # page.all('li').each do |element|
-        find('li', text: person3[:lname]).click
-        # end
-      end
-      sleep 0.3
-    end
-    within '#history-card' do
-      binding.pry
-      within('tbody') do
-        # n = the number that will be expected when run greenfield
-        # expect(elements_containing(:tr, 'TRIN', 'NIRT').count).to be_greater_than(n)
-        # table_rows = page.all('tr')
-        # # expect(table_rows.count).to eq(2)
-        # n= 2
-        # check initial rendering of the HOI card and fill-in values
-        expect(elements_containing(:tr,
-                                   'Screening (Closed)',
-                                   "#{person3[:fname]} #{person3[:lname]}",
-                                   "Worker: #{scr3[:worker]}").count).to be >= 2
-        # end
-        # within(table_rows[1]) do
-        #   # Need to check date once date picker is done.
-        # n= 2
-        # expect(page).to have_content('Screening (Closed)')
-        # expect(page).to have_content(person3[:inc_cty])
-        expect(elements_containing(:tr, 'Screening (Closed)', "#{person3[:fname]} " \
-                                   "#{person3[:lname]}", 'Worker: ' \
-                                   "#{scr5[:worker]}").count).to be >= 2
-        #   expect(page).to have_content("#{person4[:fname]} " \
-        #                                "#{person4[:lname]}" \
-        #                                ", " \
-        #                                "#{person3[:fname]} " \
-        #                                "#{person3[:lname]}")
-        #   expect(page).to have_content("Worker: " \
-        #                                "#{scr5[:worker]}")
-        # end
-      end
-    end
-    within '#search-card', text: 'SEARCH' do
-      autocompleter_fill_in 'Search for any person', person4[:fname]
-      within('ul.react-autosuggest__suggestions-list') do
-        # page.all('li').each do |element|
-        find('li', text: person4[:lname]).click
-        # end
-      end
-      sleep 0.3
-    end
-    within '#history-card' do
-      within('tbody') do
-        # table_rows = page.all('tr')
-        # expect(table_rows.count).to eq(2)
+  context 'Cases and Referrals in HOI' do
+    let(:screening_page) { ScreeningPage.new }
 
-        # check initial rendering of the HOI card and fill-in values
-          # Need to check date once date picker is done.
-        expect(elements_containing(:tr,
-                                   'Screening (Closed)',
-                                   "#{person3[:fname]} #{person3[:lname]}",
-                                   "Worker: #{scr3[:worker]}").count).to be >= 2
-        expect(elements_containing(:tr, 'Screening (Closed)',
-                                   "#{person4[:fname]} #{person4[:lname]}",
-                                   'Worker: ' \
-                                   "#{scr5[:worker]}").count).to be >= 2
-       expect(elements_containing(:tr, 'Screening (Closed)',
-                                  "#{person4[:fname]} #{person4[:lname]}",
-                                  'Worker: ' \
-                                  "#{scr4[:worker]}").count).to be >= 2
+    before do
+      visit '/'
+      login_user
+      screening_page.visit_screening
+    end
+
+    let(:shared_hoi_1) { {dob: '1997-11-22', first_name: 'Marty', legacy_id: 'M5Xs0Xb0Bv'} }
+    let(:shared_hoi_2) { {dob: '1979-07-24', first_name: 'Missy', legacy_id: 'N80EWpv0Bv'} }
+    let(:shared_hoi_3) { {dob: '1967-02-24', first_name: 'Ricky', legacy_id: 'JdLgp760Bv'} }
+
+    it 'does not display duplicate referrals and cases for people who share history' do
+      within '#history-card table' do
+        expect(page).to have_content 'Date'
+        expect(page).to have_content 'Type/Status'
+        expect(page).to have_content 'County/Office'
+        expect(page).to have_content 'People and Roles'
+      end
+
+      screening_page.add_person_from_search(shared_hoi_1[:dob], shared_hoi_1[:first_name])
+
+      within '#history-of-involvement' do
+        referral_rows = page.all('tr', text: 'Referral')
+        expect(referral_rows.count).to eq 2
+
+        within referral_rows[0] do
+          expect(page).to have_content '02/24/1999 - 12/02/1999'
+          expect(page).to have_content 'Referral (Closed - Immediate)'
+          expect(page).to have_content 'Plumas'
+          expect(page).to have_content 'Victim Perpetrator Allegation(s) & Disposition'
+          expect(page).to have_content 'Marty R. Missy R. Physical Abuse (Substantiated)'
+          expect(page).to have_content 'Reporter: '
+          expect(page).to have_content 'Worker: Daisie K'
+        end
+
+        within referral_rows[1] do
+          expect(page).to have_content '02/28/1999 - 02/01/2000'
+          expect(page).to have_content 'Referral (Closed - Immediate)'
+          expect(page).to have_content 'Plumas'
+          expect(page).to have_content 'Victim Perpetrator Allegation(s) & Disposition'
+          expect(page).to have_content 'Sharon W. Ricky W. Sexual Abuse (Substantiated)'
+          expect(page).to have_content 'Sharon W. Roland W. Sexual Abuse (Substantiated)'
+          expect(page).to have_content 'Roland W. Sexual Abuse (Substantiated)'
+          expect(page).to have_content 'Marty R. Missy R. Sexual Abuse (Inconclusive)'
+          expect(page).to have_content 'Reporter: '
+          expect(page).to have_content 'Worker: Daisie K'
+        end
+
+        case_rows = page.all('tr', text: 'Case')
+        expect(case_rows.count).to eq 1
+
+        within case_rows[0] do
+          expect(page).to have_content '02/24/1999'
+          expect(page).to have_content 'Case (Open - Family Reunification)'
+          expect(page).to have_content 'Plumas'
+          expect(page).to have_content 'Focus Child: Marty R.'
+          expect(page).to have_content 'Parent(s): Ricky W., Missy R.'
+          expect(page).to have_content 'Worker: Daisie K'
+        end
+      end
+
+      screening_page.add_person_from_search(shared_hoi_2[:dob], shared_hoi_2[:first_name])
+
+      within '#history-of-involvement' do
+        referral_rows = page.all('tr', text: 'Referral')
+        expect(referral_rows.count).to eq 2
+
+        case_rows = page.all('tr', text: 'Case')
+        expect(case_rows.count).to eq 3
+
+        within case_rows[0] do
+          expect(page).to have_content '02/28/1999'
+          expect(page).to have_content 'Case (Open - Family Reunification)'
+          expect(page).to have_content 'Plumas'
+          expect(page).to have_content 'Focus Child: Roland W.'
+          expect(page).to have_content 'Parent(s): Ricky W., Missy R.'
+          expect(page).to have_content 'Worker: Daisie K'
+        end
+
+        within case_rows[1] do
+          expect(page).to have_content '02/24/1999'
+          expect(page).to have_content 'Case (Open - Family Reunification)'
+          expect(page).to have_content 'Plumas'
+          expect(page).to have_content 'Focus Child: Marty R.'
+          expect(page).to have_content 'Parent(s): Ricky W., Missy R.'
+          expect(page).to have_content 'Worker: Daisie K'
+        end
+
+        within case_rows[2] do
+          expect(page).to have_content '02/28/1999'
+          expect(page).to have_content 'Case (Open - Family Reunification)'
+          expect(page).to have_content 'Plumas'
+          expect(page).to have_content 'Focus Child: Sharon W.'
+          expect(page).to have_content 'Parent(s): Ricky W., Missy R.'
+          expect(page).to have_content 'Worker: Daisie K'
+        end
+      end
+
+      screening_page.add_person_from_search(shared_hoi_3[:dob], shared_hoi_3[:first_name])
+
+      within '#history-of-involvement' do
+        referral_rows = page.all('tr', text: 'Referral')
+        expect(referral_rows.count).to eq 2
+
+        case_rows = page.all('tr', text: 'Case')
+        expect(case_rows.count).to eq 3
       end
     end
-    # Deleting a person
-    within person4_card do
-      find(:css, 'i.fa.fa-times').click
+
+    let(:open_referral) { {dob: '1955-03-31', first_name: 'Alex', legacy_id: '5YA8w0Q04Z'} }
+
+    it 'displays an open referral correctly' do
+      screening_page.add_person_from_search(open_referral[:dob], open_referral[:first_name])
+
+      within '#history-of-involvement' do
+        referral_rows = page.all('tr', text: 'Referral')
+        expect(referral_rows.count).to eq 1
+
+        within referral_rows[0] do
+          expect(page).to have_content '05/08/1996'
+          expect(page).to have_content 'Referral (Open - Immediate)'
+          expect(page).to have_content 'Modoc'
+          expect(page).to have_content 'Victim Perpetrator Allegation(s) & Disposition'
+          expect(page).to have_content 'Alexandra Z. Alejandro Z. Emotional Abuse (Pending decision)'
+          expect(page).to have_content 'Alejandro Z. Alexandra Z. Severe Neglect (Pending decision)'
+          expect(page).to have_content 'Alejandro Z. Alejandro Z. Physical Abuse (Pending decision)'
+          expect(page).to have_content 'Reporter: '
+          expect(page).to have_content 'Worker: Tester W'
+        end
+      end
     end
-    within '#history-card' do
-      within('.tbody') do
-        # table_rows = page.all('tr')
-        # # expect(table_rows.count).to eq(2)
-        expect(elements_containing(:tr,
-                                   'Screening (Closed)',
-                                   "#{person3[:fname]} #{person3[:lname]}",
-                                   "Worker: #{scr3[:worker]}").count).to be >= 2
-        expect(elements_containing(:tr, 'Screening (Closed)',
-                                   "#{person4[:fname]} #{person4[:lname]}, " \
-                                   "#{person3[:fname]} #{person3[:lname]}",
-                                   'Worker: ' \
-                                   "#{scr5[:worker]}").count).to be >= 2
-        # check initial rendering of the HOI card and fill-in values
-        # within(table_rows[0]) do
-        #   # Need to check date once date picker is done.
-        #   expect(page).to have_content('Screening (Closed)')
-        #   # expect(page).to have_content(person3[:inc_cty])
-        #   expect(page).to have_content("#{person3[:fname]} " \
-        #                                "#{person3[:lname]}")
-        #   expect(page).to have_content('Worker: ' \
-        #                                "#{scr3[:worker]}")
-        # end
-        # within(table_rows[1]) do
-        #   # Need to check date once date picker is done.
-        #   expect(page).to have_content('Screening (Closed)')
-        #   # expect(page).to have_content(person3[:inc_cty])
-        #   expect(page).to have_content("#{person4[:fname]} " \
-        #                                "#{person4[:lname]}" \
-        #                                ', ' \
-        #                                "#{person3[:fname]} " \
-        #                                "#{person3[:lname]}")
-        #   expect(page).to have_content('Worker: ' \
-        #                                "#{scr5[:worker]}")
-        # end
+
+    let(:closed_case) { {dob: '1999-02-09', first_name: 'Bobby', legacy_id: 'ETSbL6a0Dv'} }
+
+    it 'displays a closed case correctly' do
+      screening_page.add_person_from_search(closed_case[:dob], closed_case[:first_name])
+
+      within '#history-of-involvement' do
+        case_rows = page.all('tr', text: 'Case')
+        expect(case_rows.count).to eq 1
+
+        within case_rows[0] do
+          expect(page).to have_content '01/25/2000 - 09/26/2002'
+          expect(page).to have_content 'Case (Closed - Family Maintenance)'
+          expect(page).to have_content 'Monterey'
+          expect(page).to have_content 'Focus Child: Bobby W.'
+          expect(page).to have_content 'Parent(s): Dolly W.'
+          expect(page).to have_content 'Worker: Mary J'
+        end
+      end
+    end
+
+    let(:referral_with_reporter) { {dob: '2000-03-25', first_name: 'Jimmy', legacy_id: '6444XNo00E'} }
+
+    it 'displays the reporter for referrals' do
+      screening_page.add_person_from_search(referral_with_reporter[:dob], referral_with_reporter[:first_name])
+
+      within '#history-of-involvement' do
+        referral_rows = page.all('tr', text: 'Referral')
+        expect(referral_rows.count).to eq 1
+
+        within referral_rows[0] do
+          expect(page).to have_content '03/25/2004'
+          expect(page).to have_content 'Referral (Open - 10 Day)'
+          expect(page).to have_content 'State of California'
+          expect(page).to have_content 'Victim Perpetrator Allegation(s) & Disposition'
+          expect(page).to have_content 'Jimmy M. Physical Abuse (Pending decision)'
+          expect(page).to have_content 'Reporter: Jimmm M.'
+          expect(page).to have_content 'Worker: L S'
+        end
       end
     end
   end
-  # within '#decision-card' do
-  #   fill_in('screening_decision', with: scr1[:decis])
-  #   click_button 'Save'
-  # end
 end
