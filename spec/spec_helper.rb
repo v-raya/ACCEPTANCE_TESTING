@@ -8,6 +8,7 @@ require 'shame_helpers'
 require 'pry'
 require 'react_select_helpers'
 require 'datetime_helpers'
+Dir[File.dirname(__FILE__) + '/support/**/*.rb'].each {|f| require f}
 
 module AcceptanceTesting
   def self.resolve_driver

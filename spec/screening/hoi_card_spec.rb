@@ -27,9 +27,9 @@ describe 'Test for History of Involvement', type: :feature do
       screening_page.visit_screening
     end
 
-    let(:shared_hoi_1) { {dob: '1997-11-22', first_name: 'Marty', legacy_id: 'M5Xs0Xb0Bv'} }
-    let(:shared_hoi_2) { {dob: '1979-07-24', first_name: 'Missy', legacy_id: 'N80EWpv0Bv'} }
-    let(:shared_hoi_3) { {dob: '1967-02-24', first_name: 'Ricky', legacy_id: 'JdLgp760Bv'} }
+    let(:shared_hoi_1) { {dob: '1997-11-22', name: 'Marty R.', legacy_id: 'M5Xs0Xb0Bv'} }
+    let(:shared_hoi_2) { {dob: '1979-07-24', name: 'Missy R.', legacy_id: 'N80EWpv0Bv'} }
+    let(:shared_hoi_3) { {dob: '1967-02-24', name: 'Ricky W.', legacy_id: 'JdLgp760Bv'} }
 
     it 'does not display duplicate referrals and cases for people who share history' do
       within '#history-card table' do
@@ -39,93 +39,122 @@ describe 'Test for History of Involvement', type: :feature do
         expect(page).to have_content 'People and Roles'
       end
 
-      screening_page.add_person_from_search(shared_hoi_1[:dob], shared_hoi_1[:first_name])
+      screening_page.add_person_from_search(shared_hoi_1[:dob], shared_hoi_1[:name])
 
-      within '#history-of-involvement' do
-        referral_rows = page.all('tr', text: 'Referral')
-        expect(referral_rows.count).to eq 2
+      within '.container' do
+        within '#history-of-involvement' do
+          referral_rows = page.all('tr', text: 'Referral')
+          expect(referral_rows.count).to eq 2
 
-        within referral_rows[0] do
-          expect(page).to have_content '02/24/1999 - 12/02/1999'
-          expect(page).to have_content 'Referral (Closed - Immediate)'
-          expect(page).to have_content 'Plumas'
-          expect(page).to have_content 'Victim Perpetrator Allegation(s) & Disposition'
-          expect(page).to have_content 'Marty R. Missy R. Physical Abuse (Substantiated)'
-          expect(page).to have_content 'Reporter: '
-          expect(page).to have_content 'Worker: Daisie K'
-        end
+          expect(page).to have_referral({
+            start_date: '02/24/1999',
+            end_date: '12/02/1999',
+            status: 'Closed',
+            county: 'Plumas',
+            response_time: 'Immediate',
+            worker: 'Daisie K',
+            allegations: [{
+              victim: 'Marty R.',
+              perpetrator: 'Missy R.',
+              type: 'Physical Abuse',
+              disposition: 'Substantiated'
+            }]
+          })
 
-        within referral_rows[1] do
-          expect(page).to have_content '02/28/1999 - 02/01/2000'
-          expect(page).to have_content 'Referral (Closed - Immediate)'
-          expect(page).to have_content 'Plumas'
-          expect(page).to have_content 'Victim Perpetrator Allegation(s) & Disposition'
-          expect(page).to have_content 'Sharon W. Ricky W. Sexual Abuse (Substantiated)'
-          expect(page).to have_content 'Sharon W. Roland W. Sexual Abuse (Substantiated)'
-          expect(page).to have_content 'Roland W. Sexual Abuse (Substantiated)'
-          expect(page).to have_content 'Marty R. Missy R. Sexual Abuse (Inconclusive)'
-          expect(page).to have_content 'Reporter: '
-          expect(page).to have_content 'Worker: Daisie K'
-        end
+          expect(page).to have_referral({
+            start_date: '02/28/1999',
+            end_date: '02/01/2000',
+            status: 'Closed',
+            county: 'Plumas',
+            response_time: 'Immediate',
+            worker: 'Daisie K',
+            allegations: [{
+              victim: 'Sharon W.',
+              perpetrator: 'Ricky W.',
+              type: 'Sexual Abuse',
+              disposition: 'Substantiated'
+            }, {
+              victim: 'Sharon W.',
+              perpetrator: 'Roland W.',
+              type: 'Sexual Abuse',
+              disposition: 'Substantiated'
+            }, {
+              victim: 'Roland W.',
+              type: 'Sexual Abuse',
+              disposition: 'Substantiated'
+            }, {
+              victim: 'Marty R.',
+              perpetrator: 'Missy R.',
+              type: 'Sexual Abuse',
+              disposition: 'Inconclusive'
+            }]
+          })
 
-        case_rows = page.all('tr', text: 'Case')
-        expect(case_rows.count).to eq 1
+          case_rows = page.all('tr', text: 'Case')
+          expect(case_rows.count).to eq 1
 
-        within case_rows[0] do
-          expect(page).to have_content '02/24/1999'
-          expect(page).to have_content 'Case (Open - Family Reunification)'
-          expect(page).to have_content 'Plumas'
-          expect(page).to have_content 'Focus Child: Marty R.'
-          expect(page).to have_content 'Parent(s): Ricky W., Missy R.'
-          expect(page).to have_content 'Worker: Daisie K'
-        end
-      end
-
-      screening_page.add_person_from_search(shared_hoi_2[:dob], shared_hoi_2[:first_name])
-
-      within '#history-of-involvement' do
-        referral_rows = page.all('tr', text: 'Referral')
-        expect(referral_rows.count).to eq 2
-
-        case_rows = page.all('tr', text: 'Case')
-        expect(case_rows.count).to eq 3
-
-        within case_rows[0] do
-          expect(page).to have_content '02/28/1999'
-          expect(page).to have_content 'Case (Open - Family Reunification)'
-          expect(page).to have_content 'Plumas'
-          expect(page).to have_content 'Focus Child: Roland W.'
-          expect(page).to have_content 'Parent(s): Ricky W., Missy R.'
-          expect(page).to have_content 'Worker: Daisie K'
-        end
-
-        within case_rows[1] do
-          expect(page).to have_content '02/24/1999'
-          expect(page).to have_content 'Case (Open - Family Reunification)'
-          expect(page).to have_content 'Plumas'
-          expect(page).to have_content 'Focus Child: Marty R.'
-          expect(page).to have_content 'Parent(s): Ricky W., Missy R.'
-          expect(page).to have_content 'Worker: Daisie K'
-        end
-
-        within case_rows[2] do
-          expect(page).to have_content '02/28/1999'
-          expect(page).to have_content 'Case (Open - Family Reunification)'
-          expect(page).to have_content 'Plumas'
-          expect(page).to have_content 'Focus Child: Sharon W.'
-          expect(page).to have_content 'Parent(s): Ricky W., Missy R.'
-          expect(page).to have_content 'Worker: Daisie K'
+          expect(page).to have_case({
+            start_date: '02/24/1999',
+            status: 'Open',
+            service_component: 'Family Reunification',
+            county: 'Plumas',
+            focus_child: 'Marty R.',
+            parents: ['Ricky W.', 'Missy R.'],
+            worker: 'Daisie K'
+          })
         end
       end
 
-      screening_page.add_person_from_search(shared_hoi_3[:dob], shared_hoi_3[:first_name])
+      screening_page.add_person_from_search(shared_hoi_2[:dob], shared_hoi_2[:name])
 
-      within '#history-of-involvement' do
-        referral_rows = page.all('tr', text: 'Referral')
-        expect(referral_rows.count).to eq 2
+      within '.container' do
+        within '#history-of-involvement' do
+          referral_rows = page.all('tr', text: 'Referral')
+          expect(referral_rows.count).to eq 2
 
-        case_rows = page.all('tr', text: 'Case')
-        expect(case_rows.count).to eq 3
+          case_rows = page.all('tr', text: 'Case')
+          expect(case_rows.count).to eq 3
+
+          expect(page).to have_case({
+            start_date: '02/28/1999',
+            status: 'Open',
+            service_component: 'Family Reunification',
+            focus_child: 'Roland W.',
+            parents: ['Ricky W.', 'Missy R.'],
+            worker: 'Daisie K'
+          })
+
+          expect(page).to have_case({
+            start_date: '02/24/1999',
+            status: 'Open',
+            service_component: 'Family Reunification',
+            focus_child: 'Marty R.',
+            parents: ['Ricky W.', 'Missy R.'],
+            worker: 'Daisie K'
+          })
+
+          expect(page).to have_case({
+            start_date: '02/28/1999',
+            status: 'Open',
+            service_component: 'Family Reunification',
+            focus_child: 'Sharon W.',
+            parents: ['Ricky W.', 'Missy R.'],
+            worker: 'Daisie K'
+          })
+        end
+      end
+
+      screening_page.add_person_from_search(shared_hoi_3[:dob], shared_hoi_3[:name])
+
+      within '.container' do
+        within '#history-of-involvement' do
+          sleep 1
+          referral_rows = page.all('tr', text: 'Referral')
+          expect(referral_rows.count).to eq 2
+
+          case_rows = page.all('tr', text: 'Case')
+          expect(case_rows.count).to eq 3
+        end
       end
     end
 
@@ -139,15 +168,29 @@ describe 'Test for History of Involvement', type: :feature do
         expect(referral_rows.count).to eq 1
 
         within referral_rows[0] do
-          expect(page).to have_content '05/08/1996'
-          expect(page).to have_content 'Referral (Open - Immediate)'
-          expect(page).to have_content 'Modoc'
-          expect(page).to have_content 'Victim Perpetrator Allegation(s) & Disposition'
-          expect(page).to have_content 'Alexandra Z. Alejandro Z. Emotional Abuse (Pending decision)'
-          expect(page).to have_content 'Alejandro Z. Alexandra Z. Severe Neglect (Pending decision)'
-          expect(page).to have_content 'Alejandro Z. Alejandro Z. Physical Abuse (Pending decision)'
-          expect(page).to have_content 'Reporter: '
-          expect(page).to have_content 'Worker: Tester W'
+          expect(page).to have_referral({
+            start_date: '05/08/1996',
+            status: 'Open',
+            county: 'Modoc',
+            response_time: 'Immediate',
+            worker: 'Tester W',
+            allegations: [{
+              victim: 'Alexandra Z.',
+              perpetrator: 'Alexandra Z.',
+              type: 'Emotional Abuse',
+              disposition: 'Pending decision'
+            }, {
+              victim: 'Alejandro Z.',
+              perpetrator: 'Alexandra Z.',
+              type: 'Severe Neglect',
+              disposition: 'Pending decision'
+            }, {
+              victim: 'Alejandro Z.',
+              perpetrator: 'Alejandro Z.',
+              type: 'Physical Abuse',
+              disposition: 'Pending decision'
+            }]
+          })
         end
       end
     end
@@ -162,12 +205,16 @@ describe 'Test for History of Involvement', type: :feature do
         expect(case_rows.count).to eq 1
 
         within case_rows[0] do
-          expect(page).to have_content '01/25/2000 - 09/26/2002'
-          expect(page).to have_content 'Case (Closed - Family Maintenance)'
-          expect(page).to have_content 'Monterey'
-          expect(page).to have_content 'Focus Child: Bobby W.'
-          expect(page).to have_content 'Parent(s): Dolly W.'
-          expect(page).to have_content 'Worker: Mary J'
+          expect(page).to have_case({
+            start_date: '01/25/2000',
+            end_date: '09/26/2002',
+            status: 'Closed',
+            county: 'Monterey',
+            service_component: 'Family Maintenance',
+            focus_child: 'Bobby W.',
+            parents: ['Dolly W.'],
+            worker: 'Mary J'
+          })
         end
       end
     end
@@ -182,13 +229,18 @@ describe 'Test for History of Involvement', type: :feature do
         expect(referral_rows.count).to eq 1
 
         within referral_rows[0] do
-          expect(page).to have_content '03/25/2004'
-          expect(page).to have_content 'Referral (Open - 10 Day)'
-          expect(page).to have_content 'State of California'
-          expect(page).to have_content 'Victim Perpetrator Allegation(s) & Disposition'
-          expect(page).to have_content 'Jimmy M. Physical Abuse (Pending decision)'
-          expect(page).to have_content 'Reporter: Jimmm M.'
-          expect(page).to have_content 'Worker: L S'
+          expect(page).to have_referral({
+            start_date: '03/25/2004',
+            status: 'Open',
+            county: 'State of California',
+            response_time: '10 Day',
+            worker: 'L S',
+            allegations: [{
+              victim: 'Jimmy M.',
+              type: 'Physical Abuse',
+              disposition: 'Pending decision'
+            }]
+          })
         end
       end
     end
