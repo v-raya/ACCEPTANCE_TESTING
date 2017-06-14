@@ -3,6 +3,8 @@ require 'autocompleter_helpers'
 require 'spec_helper'
 
 class ScreeningPage
+  include ReactSelectHelpers
+
   attr_reader :id
 
   def initalize(id: nil)
@@ -64,6 +66,10 @@ class ScreeningPage
   end
 
   def method_missing(method, *args, &block)
-    Capybara.send(method, *args, &block) if Capybara.respond_to?(method)
+    if Capybara.respond_to?(method)
+      Capybara.send(method, *args, &block)
+    else
+      super
+    end
   end
 end
