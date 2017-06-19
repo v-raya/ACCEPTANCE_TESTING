@@ -76,7 +76,9 @@ describe 'Screening QA Test', type: :feature do
       expect(page).to have_select('Communication Method',
                                   selected: screen_info_init[:comm])
       fill_in('Assigned Social Worker', with: screen_info_chng1[:worker])
-      fill_in_datepicker('Screening Start Date/Time', with: screen_info_chng1[:sdate])
+      start_date = Time.strptime(screen_info_chng1[:sdate], '%m/%d/%Y %l:%M %p')
+      mouse_select_datepicker('#started_at', start_date.day)
+      mouse_select_timepicker('#started_at', start_date.strftime('%l:%M %p'))
       select screen_info_chng1[:comm], from: 'Communication Method'
       click_button 'Save'
 
