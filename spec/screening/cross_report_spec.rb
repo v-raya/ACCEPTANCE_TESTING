@@ -76,8 +76,11 @@ describe 'Cross Report card', type: :feature do
         fill_in 'Law enforcement agency name', with: 'S@crament0 P%lice Dept'
         find('label', text: 'Licensing').click
         fill_in 'Licensing agency name', with: 'C0mmunity Care Licen$ing'
-        expect(page).to have_select('Communication Method', options: ['', 'Child Abuse Form', 'Electronic Report',
-                                                        'Suspected Child Abuse Report', 'Telephone Report'])
+        expect(page).to have_select('Communication Method', options: ['',
+                                                                      'Child Abuse Form',
+                                                                      'Electronic Report',
+                                                                      'Suspected Child Abuse Report',
+                                                                      'Telephone Report'])
         select 'Suspected Child Abuse Report', from: 'Communication Method'
 
         fill_in 'Cross Reported on Date', with: '08/23/1654'

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 def fill_in_datepicker(locator, with:)
   date_string = date_to_string(with)
   # change events for the datepicker are only firing correctly after the
@@ -19,4 +20,3 @@ def date_to_string(date_object)
     date_object
   end
 end
-
