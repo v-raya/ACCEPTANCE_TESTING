@@ -123,7 +123,7 @@ describe 'Validate Screening require field labels', type: :feature do
           within(table_rows[0]) do
             row0_id = find('input[id^="allegations_"]')[:id]
             find_field(row0_id).send_keys(:backspace)
-            fill_in_react_select(row0_id, with: (allegation).to_s)
+            fill_in_react_select(row0_id, with: allegation.to_s)
           end
         end
       end
@@ -146,7 +146,7 @@ describe 'Validate Screening require field labels', type: :feature do
           within(table_rows[0]) do
             row0_id = find('input[id^="allegations_"]')[:id]
             find_field(row0_id).send_keys(:backspace)
-            fill_in_react_select(row0_id, with: (allegation).to_s)
+            fill_in_react_select(row0_id, with: allegation.to_s)
           end
         end
       end
