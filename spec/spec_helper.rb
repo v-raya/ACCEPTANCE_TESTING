@@ -6,6 +6,7 @@ require 'headless'
 require 'helper_methods'
 require 'pry'
 require 'react_select_helpers'
+require 'datetime_helpers'
 
 module AcceptanceTesting
   def self.resolve_driver
