@@ -5,4 +5,5 @@ services:
     environment:
       APP_URL: "${APP_URL}"
       CAPYBARA_DRIVER: "${CAPYBARA_DRIVER}"
+      FEATURE_SET: "${FEATURE_SET}"
     command: rake
