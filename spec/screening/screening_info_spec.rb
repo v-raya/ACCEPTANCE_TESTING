@@ -12,19 +12,19 @@ describe 'Screening QA Test', type: :feature do
     title: 'Child @bandonment1',
     worker: 'Jane $ocialworker',
     comm: 'Mail',
-    sdate: '08/13/2016',
-    edate: '08/15/2016'
+    sdate: '08/13/2016 11:00 AM',
+    edate: '08/15/2016 7:00 PM'
   }
 
   screen_info_chng1 = {
     worker: 'John Socialworker',
     comm: 'Fax',
-    sdate: '08/12/2016'
+    sdate: '08/12/2016 1:00 PM'
   }
 
   screen_info_chng2 = {
     worker: 'Helen Socialworker',
-    sdate: '08/22/2016',
+    sdate: '08/22/2016 3:00 PM',
     comm: 'Online'
   }
 
@@ -54,8 +54,8 @@ describe 'Screening QA Test', type: :feature do
         expect(page).to have_button('Cancel')
         fill_in('Title/Name of Screening', with: screen_info_init[:title])
         fill_in('Assigned Social Worker', with: screen_info_init[:worker])
-        fill_in('Screening Start Date/Time', with: screen_info_init[:sdate])
-        fill_in('Screening End Date/Time', with: screen_info_init[:edate])
+        fill_in_datepicker('Screening Start Date/Time', with: screen_info_init[:sdate])
+        fill_in_datepicker('Screening End Date/Time', with: screen_info_init[:edate])
         select screen_info_init[:comm], from: 'Communication Method'
         click_button 'Save'
       end
@@ -76,7 +76,7 @@ describe 'Screening QA Test', type: :feature do
       expect(page).to have_select('Communication Method',
                                   selected: screen_info_init[:comm])
       fill_in('Assigned Social Worker', with: screen_info_chng1[:worker])
-      fill_in('Screening Start Date/Time', with: screen_info_chng1[:sdate])
+      fill_in_datepicker('Screening Start Date/Time', with: screen_info_chng1[:sdate])
       select screen_info_chng1[:comm], from: 'Communication Method'
       click_button 'Save'
 
@@ -98,7 +98,7 @@ describe 'Screening QA Test', type: :feature do
       expect(page).to have_select('Communication Method',
                                   selected: screen_info_chng1[:comm])
       fill_in('Assigned Social Worker', with: screen_info_chng2[:worker])
-      fill_in('Screening Start Date/Time', with: screen_info_chng2[:sdate])
+      fill_in_datepicker('Screening Start Date/Time', with: screen_info_chng2[:sdate])
       select screen_info_chng2[:comm], from: 'Communication Method'
     end
     click_button('Cancel', match: :first)
