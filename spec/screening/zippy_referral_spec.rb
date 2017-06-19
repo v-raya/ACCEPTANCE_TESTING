@@ -78,7 +78,7 @@ describe 'save a zippy referral', type: :feature do
       within '#screening-information-card' do
         fill_in('Title/Name of Screening', with: 'Test Screening')
         fill_in('Assigned Social Worker', with: 'Jim Bob')
-        fill_in('Screening Start Date/Time', with: '05/16/2017')
+        fill_in_datepicker('Screening Start Date/Time', with: '05/16/2017')
         select 'Fax', from: 'Communication Method'
         click_button 'Save'
       end
