@@ -4,7 +4,8 @@ node('Slave') {
     try {
         stage('Test') {
             withEnv(["TEST_TARGET_URL=${TEST_TARGET_URL}",
-                     "DOCKER_COMPOSE_FILE=${DOCKER_COMPOSE_FILE}"]) {
+                     "DOCKER_COMPOSE_FILE=${DOCKER_COMPOSE_FILE}"],
+                     "FEATURE_SET=${FEATURE_SET}") {
                 sh 'make test'
             }
         }
