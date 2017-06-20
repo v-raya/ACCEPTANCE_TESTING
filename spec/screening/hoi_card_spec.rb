@@ -255,6 +255,8 @@ describe 'Test for History of Involvement', type: :feature do
         screening_page.add_person_from_search(shared_hoi_1[:dob], shared_hoi_1[:name])
         expect(page).to have_content shared_hoi_1[:name]
 
+        expect('referral-KftDS4J0Bv').to be_after('referral-Tpe1rDI0Bv')
+
         within '#history-of-involvement' do
           within '#referral-KftDS4J0Bv' do
             expect(page).to have_referral({
@@ -328,6 +330,9 @@ describe 'Test for History of Involvement', type: :feature do
       within '.container' do
         screening_page.add_person_from_search(shared_hoi_2[:dob], shared_hoi_2[:name])
         expect(page).to have_content shared_hoi_2[:name]
+
+        expect('case-DQ0ObR60Bv').to be_before('case-Evic91H0Bv')
+        expect('case-LnC9V5Q0Bv').to be_before('case-Evic91H0Bv')
 
         within '#history-of-involvement' do
           within '#case-DQ0ObR60Bv' do
