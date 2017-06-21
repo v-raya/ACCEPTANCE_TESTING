@@ -245,6 +245,31 @@ describe 'Test for History of Involvement', type: :feature do
     let(:shared_hoi_2) { {dob: '1979-07-24', name: 'Missy R.', legacy_id: 'N80EWpv0Bv'} }
     let(:shared_hoi_3) { {dob: '1967-02-24', name: 'Ricky W.', legacy_id: 'JdLgp760Bv'} }
 
+    scenario 'copy button' do
+      #
+      # This test will need the History card to have contents.
+      #
+      # visit screening_path(id: existing_screening.id)
+      within '#history-card.card.show', text: 'History' do
+        click_button 'Copy'
+      end
+      #
+      # Capybara has no way of checking the clipboard contents, so we insert a textarea
+      # to this card to paste into and check the value.
+      #
+      js = [
+        'var spec_meta = document.createElement("textarea")',
+        'var label = document.createElement("label")',
+        'label.setAttribute("for", "spec_meta")',
+        'spec_meta.setAttribute("id", "spec_meta")',
+        'document.getElementById("history-card").appendChild(spec_meta)',
+        'document.getElementById("spec_meta").appendChild(label)'
+      ].join(';')
+      page.execute_script js
+      paste_into '#spec_meta'
+      expect(find('#spec_meta').value).to eq(first('#history-card table')[:innerText])
+    end
+
     it 'does not display duplicate referrals and cases for people who share history' do
       within '#history-card table' do
         expect(page).to have_content 'Date'

@@ -5,6 +5,11 @@ module KeyboardHelper
     current_input = page.driver.browser.switch_to.active_element
     current_input.send_key(key)
   end
+
+  def paste_into(selector)
+    super_key = (RUBY_PLATFORM.include? 'darwin') ? :command : :control
+    find('#spec_meta').native.send_keys [super_key, 'v']
+  end
 end
 
 RSpec.configure do |config|
