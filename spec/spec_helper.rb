@@ -33,7 +33,7 @@ module AcceptanceTesting
       config.app_host               = @app_url
       config.run_server             = false
       config.default_driver         = @active_driver
-      config.default_max_wait_time  = 5
+      config.default_max_wait_time  = 10
     end
 
     Capybara.register_driver :chrome do |app|
