@@ -1,4 +1,4 @@
-FROM ruby:2.3
+FROM ruby:2.4.0
 LABEL application=acceptance_black_box
 RUN \
   apt-get update -y && \

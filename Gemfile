@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 source 'http://rubygems.org'
 
+gem 'activesupport', '~> 5.1'
 gem 'capybara', '2.12.0'
 gem 'capybara-webkit', '1.12.0'
 gem 'headless', '2.3.1'
