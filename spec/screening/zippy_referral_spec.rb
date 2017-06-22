@@ -2,6 +2,7 @@
 require 'react_select_helpers'
 person1 = {
   fname: 'VictimOne',
+  mname: 'H',
   lname: 'victimLast',
   role: 'Victim',
   ssn: '111111111',
@@ -9,6 +10,7 @@ person1 = {
 }
 person2 = {
   fname: 'PerpOne',
+  mname: 'M',
   lname: 'PerpLast',
   role: 'Perpetrator',
   ssn: '222222222',
@@ -16,6 +18,7 @@ person2 = {
 }
 person3 = {
   fname: 'ReporterOne',
+  mname: 'Z',
   lname: 'ReportLast',
   role: 'Mandated Reporter',
   ssn: '333333333',
@@ -42,6 +45,7 @@ describe 'save a zippy referral', type: :feature do
         within "##{person_card_id}" do
           find('input#first_name').click
           fill_in('First Name', with: person[:fname])
+          fill_in('Middle Name', with: person[:mname])
           fill_in('Last Name', with: person[:lname])
           fill_in('Social security number', with: person[:ssn])
           fill_in_react_select 'Role', with: person[:role]
@@ -50,7 +54,8 @@ describe 'save a zippy referral', type: :feature do
             within '.card-body' do
               click_button 'Add new address'
               fill_in 'Address', with: person[:address][:street_address]
-              find_field('City').send_keys(' ', :backspace) # workaround to send City as blank string instead of nil
+              fill_in('City', with: 'San Jose')
+              # find_field('City').send_keys(' ', :backspace) # workaround to send City as blank string instead of nil
               fill_in 'Zip', with: person[:address][:zip]
             end
           end
@@ -63,18 +68,22 @@ describe 'save a zippy referral', type: :feature do
       within '#cross-report-card' do
         find('label', text: 'District attorney').click
         fill_in 'District_attorney-agency-name', with: 'Jan 1 $ully'
+        fill_in_datepicker 'Cross Reported on Date', with: '08/17/2016'
+        select 'Suspected Child Abuse Report', from: 'Communication Method'
         click_button 'Save'
       end
 
       within '#incident-information-card' do
         select 'Yolo', from: 'Incident County'
-        fill_in('Incident', with: '08/23/1996')
+        fill_in_datepicker 'Incident Date', with: '08/23/1996'
         fill_in('Address', with: '123 Davis Street')
-        find_field('City').send_keys(' ', :backspace) # workaround to send City as blank string instead of nil
+        fill_in('City', with: 'Sacramento')
+        # find_field('City').send_keys(' ', :backspace) # workaround to send City as blank string instead of nil
         select 'Child\'s Home', from: 'Location Type'
         fill_in('Zip', with: '95831')
         click_button 'Save'
       end
+
       within '#screening-information-card' do
         fill_in('Title/Name of Screening', with: 'Test Screening')
         fill_in('Assigned Social Worker', with: 'Jim Bob')
@@ -82,11 +91,13 @@ describe 'save a zippy referral', type: :feature do
         select 'Fax', from: 'Communication Method'
         click_button 'Save'
       end
+
       within '#decision-card' do
         select 'Differential response', from: 'Decision'
         fill_in('Service name', with: 'Family Strengthening')
         click_button 'Save'
       end
+
       within '#allegations-card' do
         within('tbody') do
           table_rows = page.all('tr')
@@ -98,11 +109,13 @@ describe 'save a zippy referral', type: :feature do
         end
         click_button 'Save'
       end
+
       within '#narrative-card' do
         fill_in 'Report Narrative',
                 with: 'Fr1ends, Rom@ns, countrymen, 1end me your ears;'
         click_button 'Save'
       end
+
       click_button 'Submit'
       sleep(2)
       alert = page.driver.browser.switch_to.alert
