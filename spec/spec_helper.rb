@@ -60,6 +60,7 @@ RSpec.configure do |config|
     AcceptanceTesting.setup
   end
   config.after do
+    page.driver.reset!
     Capybara.reset_sessions!
     Capybara.use_default_driver
   end
