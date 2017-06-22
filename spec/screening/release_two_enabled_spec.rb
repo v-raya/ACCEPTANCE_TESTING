@@ -36,6 +36,7 @@ feature 'Release Two Enabled' do
     expect(page).to_not have_css('.card', text: 'Worker Safety')
     expect(page).to_not have_css('.card', text: 'Cross Report')
     expect(page).to_not have_css('.card', text: 'Decision')
+    expect(page).not_to have_button('Submit')
   end
 end
 
