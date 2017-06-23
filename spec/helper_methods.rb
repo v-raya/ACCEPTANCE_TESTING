@@ -25,10 +25,8 @@ end
 
 def fill_login_form
   return unless ENV['USERNAME'] && ENV['PASSWORD']
-  username_input = page.find('input[name=username]')
-  username_input.send_keys ENV['USERNAME']
-  password_input = page.find('input[name=password]')
-  password_input.send_keys ENV['PASSWORD']
+  fill_in('username', with: ENV.fetch('USERNAME'))
+  fill_in('password', with: ENV.fetch('PASSWORD'))
   click_button('Sign In')
 end
 
