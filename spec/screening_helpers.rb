@@ -73,7 +73,7 @@ module Screening
   def self.cross_reports(value = nil)
     value || {
       agencies: cross_report_agencies,
-      date: generate_date(2016,2017),
+      date: generate_date(2016, 2017),
       communication_method: all_cross_report_communication_methods.sample
     }
   end
@@ -81,12 +81,12 @@ module Screening
   def self.cross_report_agencies(value = nil)
     return value if value
     agencies = Array.new(rand(0..4)) { all_cross_report_agencies.sample }.uniq
-    agencies.map { |agency| { type: agency, name: FFaker::Venue.name }}
+    agencies.map { |agency| { type: agency, name: FFaker::Venue.name } }
   end
 
   def self.decision(value = nil)
     value ||
-      {screening_decision: screening_decision, additional_information: additional_information}
+      { screening_decision: screening_decision, additional_information: additional_information }
   end
 
   def self.name(value = nil)
@@ -98,7 +98,7 @@ module Screening
   end
 
   def self.start_date(value = nil)
-    value || generate_date(2015,2016)
+    value || generate_date(2015, 2016)
   end
 
   def self.end_date(value = nil)
@@ -114,7 +114,7 @@ module Screening
   end
 
   def self.incident_date(value = nil)
-    value || generate_date(1970,2017)
+    value || generate_date(1970, 2017)
   end
 
   def self.incident_county(value = nil)
@@ -166,16 +166,16 @@ module Screening
 
   def self.referral(attrs = {})
     attrs[:participants] = [Participant.victim, Participant.perpetrator, Participant.reporter]
-    attrs[:allegations]= {
+    attrs[:allegations] = {
       field_label: "allegations #{Participant.full_name(attrs[:participants][0])} #{Participant.full_name(attrs[:participants][1])}",
       allegation_types: ['General neglect', 'Severe neglect']
     }
     attrs[:cross_reports] = {
       agencies: [
-        {type: 'District attorney', name: FFaker::Venue.name},
-        {type: 'Law enforcement', name: FFaker::Venue.name}
+        { type: 'District attorney', name: FFaker::Venue.name },
+        { type: 'Law enforcement', name: FFaker::Venue.name }
       ],
-      date: generate_date(2016,2017),
+      date: generate_date(2016, 2017),
       communication_method: all_cross_report_communication_methods.sample
     }
     attrs[:decision] = {

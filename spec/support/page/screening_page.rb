@@ -19,18 +19,18 @@ class ScreeningPage
     login_user
 
     id ? Capybara.visit("/screenings/#{id}/edit") : click_link('Start Screening')
-    return self
+    self
   end
 
   def populate(using:)
     set_screening_information_attributes(using)
-    using[:participants].each {|person| add_new_person(person)} if using[:participants]
+    using[:participants]&.each { |person| add_new_person(person) }
     set_narrative(using)
     set_incident_information_attributes(using)
     add_allegations(using[:allegations]) if using[:allegations]
     set_cross_report_attributes(using[:cross_reports]) if using[:cross_reports]
     set_decision_attributes(using[:decision]) if using[:decision]
-    return self
+    self
   end
   alias and_populate populate
 

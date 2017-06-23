@@ -50,7 +50,7 @@ describe 'Homepage Autocompleter', type: :feature do
   it 'Validating all records contain partial search criteria - Pt 2' do
     autocompleter_fill_in 'screening_participants', 'Pete'
     within '#search-card' do
-        expect(page).to have_content('Peter')
+      expect(page).to have_content('Peter')
     end
   end
 
@@ -59,7 +59,7 @@ describe 'Homepage Autocompleter', type: :feature do
     autocompleter_fill_in 'screening_participants', '123456789'
     page.all(:xpath, "//li[@class='react-autosuggest__suggestion' and
       not(position() = last())]").each do |element|
-        expect(element.text).to have_content('6789')
+      expect(element.text).to have_content('6789')
     end
   end
 
@@ -69,7 +69,7 @@ describe 'Homepage Autocompleter', type: :feature do
     autocompleter_fill_in 'screening_participants', '1999'
     page.all(:xpath, "//li[@class='react-autosuggest__suggestion' and
       not(position() = last())]").each do |element|
-        expect(element.text).to have_content('1999')
+      expect(element.text).to have_content('1999')
     end
   end
 
@@ -80,40 +80,40 @@ describe 'Homepage Autocompleter', type: :feature do
     autocompleter_fill_in 'screening_participants', '199'
     page.all(:xpath, "//li[@class='react-autosuggest__suggestion' and
       not(position() = last())]").each do |element|
-        expect(element.text).to have_content('199')
+      expect(element.text).to have_content('199')
     end
   end
 
   # validate every record on the suggestion list contains the partial search
   # criteria using no leading zeroes DOB'
   it 'Validating only DOB search data is returned - Pt 1' do
-    pending ('pending bug fix related to searching on birthday')
+    pending 'pending bug fix related to searching on birthday'
     autocompleter_fill_in 'screening_participants', '3/3/'
     page.all(:xpath, "//li[@class='react-autosuggest__suggestion' and
       not(position() = last())]").each do |element|
-        expect(element.text).to have_content('3/3/')
+      expect(element.text).to have_content('3/3/')
     end
   end
 
   # validate every record on the suggestion list contains the partial search
   # criteria using leading zeroes DOB'
   it 'Validating only DOB search data is returned - Pt 2' do
-    pending ('pending bug fix related to searching on birthday')
+    pending 'pending bug fix related to searching on birthday'
     autocompleter_fill_in 'screening_participants', '03/03/'
     page.all(:xpath, "//li[@class='react-autosuggest__suggestion' and
       not(position() = last())]").each do |element|
-        expect(element.text).to have_content('3/3/')
+      expect(element.text).to have_content('3/3/')
     end
   end
 
   # validate every record on the suggestion list contains the search criteria
   # using leading zeroes entire DOB'
   it 'Validating only DOB search data is returned - Pt 3' do
-    pending ('pending bug fix related to searching on birthday')
+    pending 'pending bug fix related to searching on birthday'
     autocompleter_fill_in 'screening_participants', '03/03/1990'
     page.all(:xpath, "//li[@class='react-autosuggest__suggestion' and
       not(position() = last())]").each do |element|
-        expect(element.text).to have_content('3/3/1990')
+      expect(element.text).to have_content('3/3/1990')
     end
   end
 end
