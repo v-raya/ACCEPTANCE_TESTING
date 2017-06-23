@@ -38,5 +38,24 @@ feature 'Release Two Enabled' do
     expect(page).to_not have_css('.card', text: 'Decision')
     expect(page).not_to have_button('Submit')
   end
+
+  scenario 'adding a screening person, adds them in show mode without edit links' do
+    visit '/'
+    login_user
+    click_link 'Start Screening'
+
+    within '#search-card', text: 'Search' do
+      autocompleter_fill_in 'Search for any person', 'Test'
+      within('ul.react-autosuggest__suggestions-list') do
+        first('li').click
+      end
+    end
+
+    within 'div[id^="participants-card-"].card.show' do
+      expect(page).to have_content 'Test'
+      expect(page).to_not have_link('Edit participant')
+      expect(page).to have_button('Delete participant')
+    end
+  end
 end
 
