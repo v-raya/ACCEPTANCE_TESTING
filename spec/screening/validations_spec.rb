@@ -3,7 +3,6 @@
 require 'active_support/core_ext/numeric/time'
 
 describe 'Screening Validation QA Test', type: :feature do
-  # Selecting Create Person on homepage
   before do
     visit '/'
     login_user
@@ -19,6 +18,7 @@ describe 'Screening Validation QA Test', type: :feature do
           'Communication Method' => 'Please select a communication method.'
         }
       end
+
       it 'validates required fields' do
         within '#screening-information-card' do
           required_field_error_messages.each do |label, expected_error_message|
@@ -33,6 +33,28 @@ describe 'Screening Validation QA Test', type: :feature do
 
           required_field_error_messages.each do |_label, expected_error_message|
             expect(page).to have_content(expected_error_message)
+          end
+        end
+      end
+
+
+      it 're-validates required fields' do
+        within '#screening-information-card' do
+          required_field_error_messages.each do |label, expected_error_message|
+            expect(page).to_not have_content(expected_error_message)
+            focus(label)
+            blur
+            expect(page).to have_content(expected_error_message)
+          end
+
+          fill_in('Assigned Social Worker', with: 'John Worker')
+          fill_in_datepicker('Screening Start Date/Time', with: 3.days.ago)
+          select('Mail', from: 'Communication Method')
+
+          click_button 'Save'
+
+          required_field_error_messages.each do |_label, expected_error_message|
+            expect(page).to_not have_content(expected_error_message)
           end
         end
       end
