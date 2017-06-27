@@ -39,6 +39,7 @@ module AcceptanceTesting
     Capybara.register_driver :chrome do |app|
       Capybara::Selenium::Driver.new(app, browser: :chrome)
     end
+    Capybara.enable_aria_label = true
 
     Capybara::Webkit.configure(&:allow_unknown_urls)
   end
