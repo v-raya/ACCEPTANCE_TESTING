@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'react_select_helpers'
 require 'autocompleter_helpers'
 require 'spec_helper'

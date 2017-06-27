@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'react_select_helpers'
 person1 = {
   fname: 'VictimOne',
