@@ -57,5 +57,32 @@ feature 'Release Two Enabled' do
       expect(page).to have_button('Delete participant')
     end
   end
+
+  context 'adding a person to a screening who has screening history' do
+    let(:person_name) { 'Kerrie' }
+    before do
+      visit '/'
+      login_user
+      click_link 'Start Screening'
+      autocompleter_fill_in 'Search for any person', person_name
+      within('ul.react-autosuggest__suggestions-list') do
+        first('li').click
+      end
+    end
+
+    scenario 'will not display screening histoy in HOI' do
+      visit '/'
+      click_link 'Start Screening'
+
+      autocompleter_fill_in 'Search for any person', person_name
+      within('ul.react-autosuggest__suggestions-list') do
+        first('li').click
+      end
+
+      within '.card', text: 'History' do
+        expect(page).to have_no_content 'Screening'
+      end
+    end
+  end
 end
 

@@ -3,9 +3,12 @@ r1:
 
 r2:
   - Release Two Enabled
+  - History Card with cases and referrals
 
 screening:
   - Allegations Card Tests
+  - History Card with screenings
+  - History Card with cases and referrals
   - Cross Report card
   - Decision card
   - Incident Information card
