@@ -6,6 +6,8 @@ r2:
 
 screening:
   - Allegations Card Tests
+  - History Card with screenings
+  - History Card with cases and referrals
   - Cross Report card
   - Decision card
   - Incident Information card
