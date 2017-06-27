@@ -41,16 +41,22 @@ describe 'History Card with cases and referrals', type: :feature do
   end
 
   it 'does not display duplicate referrals and cases for people who share history' do
-    within '#history-card table' do
-      expect(page).to have_content 'Date'
-      expect(page).to have_content 'Type/Status'
-      expect(page).to have_content 'County/Office'
-      expect(page).to have_content 'People and Roles'
-    end
-
     within '.container' do
+      within '#history-card' do
+        expect(page).to have_content 'Search for people and add them to see their child welfare history.'
+      end
+
       screening_page.add_person_from_search(shared_hoi_1[:dob], shared_hoi_1[:name])
       expect(page).to have_content shared_hoi_1[:name]
+
+      within '#history-card' do
+        first 'thead' do
+          expect(page).to have_content 'Date'
+          expect(page).to have_content 'Type/Status'
+          expect(page).to have_content 'County/Office'
+          expect(page).to have_content 'People and Roles'
+        end
+      end
 
       expect('referral-KftDS4J0Bv').to be_after('referral-Tpe1rDI0Bv')
 
