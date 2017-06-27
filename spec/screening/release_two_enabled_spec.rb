@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 feature 'Release Two Enabled' do
@@ -85,4 +87,3 @@ feature 'Release Two Enabled' do
     end
   end
 end
-

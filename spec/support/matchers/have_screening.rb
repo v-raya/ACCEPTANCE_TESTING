@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec::Matchers.define :have_screening do |expected|
   match do |actual|
     start_date = expected[:start_date]

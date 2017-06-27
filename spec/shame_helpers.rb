@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 DATE_FORMATS = {
   'Date' => '%m/%d/%Y',
   'Time' => '%m/%d/%y %l:%m %p',
@@ -30,7 +31,7 @@ end
 
 def focus(locator)
   element = page.find_field(locator)
-  if (element.tag_name == 'select')
+  if element.tag_name == 'select'
     execute_script("$('##{element['id']}').trigger('focus')")
   else
     element.click

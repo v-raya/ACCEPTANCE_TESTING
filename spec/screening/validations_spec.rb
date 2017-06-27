@@ -41,8 +41,18 @@ describe 'Screening Validation QA Test', type: :feature do
     context 'with future dates' do
       let(:future_dates_error_messages) do
         [
-          ['Screening Start Date/Time', 'The start date and time cannot be in the future.', 40.days.from_now, 2.days.ago ],
-          ['Screening End Date/Time', 'The end date and time cannot be in the future.', 42.days.from_now, Time.now ]
+          [
+            'Screening Start Date/Time',
+            'The start date and time cannot be in the future.',
+            40.days.from_now,
+            2.days.ago
+          ],
+          [
+            'Screening End Date/Time',
+            'The end date and time cannot be in the future.',
+            42.days.from_now,
+            Time.now
+          ]
         ]
       end
 

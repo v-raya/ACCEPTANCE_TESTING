@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'autocompleter_helpers'
 require 'capybara/rspec'
 require 'capybara/webkit'
@@ -8,7 +9,7 @@ require 'shame_helpers'
 require 'pry'
 require 'react_select_helpers'
 require 'datetime_helpers'
-Dir[File.dirname(__FILE__) + '/support/**/*.rb'].each {|f| require f}
+Dir[File.dirname(__FILE__) + '/support/**/*.rb'].each { |f| require f }
 
 module AcceptanceTesting
   def self.resolve_driver

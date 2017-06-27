@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'react_select_helpers'
 require 'autocompleter_helpers'
 require 'helper_methods'
@@ -88,22 +89,16 @@ describe 'History Card with screenings', type: :feature do
       screening_id = page.current_path.match(/\d+/)[0]
       screening[:id] = screening_id
 
-      screening_page.set_screening_information_attributes({
-        name: screening[:name],
-        social_worker: screening[:worker],
-        start_date: screening[:start_date],
-        end_date: screening[:end_date],
-      })
-      screening_page.set_incident_information_attributes({
-        incident_county: screening[:county]
-      })
+      screening_page.set_screening_information_attributes(name: screening[:name],
+                                                          social_worker: screening[:worker],
+                                                          start_date: screening[:start_date],
+                                                          end_date: screening[:end_date])
+      screening_page.set_incident_information_attributes(incident_county: screening[:county])
       screening[:people].each do |person|
         screening_page.add_person_from_search(person[:dob], person[:name])
         expect(page).to have_content person[:name]
         person_id = page.all('div[id^="participants-card-"]').first[:id].split('-').last
-        screening_page.set_participant_attributes(person_id, {
-          roles: person[:roles]
-        })
+        screening_page.set_participant_attributes(person_id, roles: person[:roles])
       end
     end
   end
