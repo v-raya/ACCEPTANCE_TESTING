@@ -79,7 +79,7 @@ feature 'Release Two Enabled' do
         first('li').click
       end
 
-      within '.card', text: 'History' do
+      within '#history-card' do
         expect(page).to have_no_content 'Screening'
       end
     end
