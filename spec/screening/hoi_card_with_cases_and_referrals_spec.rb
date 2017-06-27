@@ -19,10 +19,7 @@ describe 'History Card with cases and referrals', type: :feature do
   let(:shared_hoi_3) { { dob: '1967-02-24', name: 'Ricky W.', legacy_id: 'JdLgp760Bv' } }
 
   scenario 'copy button' do
-    #
-    # This test will need the History card to have contents.
-    #
-    # visit screening_path(id: existing_screening.id)
+    screening_page.add_person_from_search(shared_hoi_1[:dob], shared_hoi_1[:name])
     within '#history-card.card.show', text: 'History' do
       click_button 'Copy'
     end
