@@ -25,7 +25,7 @@ def clear_field(selector)
 end
 
 def fill_login_form
-  return unless ENV['USERNAME'] && ENV['PASSWORD']
+  return if ENV['USERNAME'].blank? || ENV['PASSWORD'].blank?
   fill_in('username', with: ENV.fetch('USERNAME'))
   fill_in('password', with: ENV.fetch('PASSWORD'))
   click_button('Sign In')
