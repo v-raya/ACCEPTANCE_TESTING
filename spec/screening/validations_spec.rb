@@ -37,7 +37,6 @@ describe 'Screening Validation QA Test', type: :feature do
         end
       end
 
-
       it 're-validates required fields' do
         within '#screening-information-card' do
           required_field_error_messages.each do |label, expected_error_message|
@@ -56,6 +55,39 @@ describe 'Screening Validation QA Test', type: :feature do
           required_field_error_messages.each do |_label, expected_error_message|
             expect(page).to_not have_content(expected_error_message)
           end
+        end
+      end
+
+      it 'clears errors on change' do
+        within '#screening-information-card' do
+          required_field_error_messages.each do |label, expected_error_message|
+            expect(page).to_not have_content(expected_error_message)
+            focus(label)
+            blur
+            expect(page).to have_content(expected_error_message)
+          end
+
+          fill_in('Assigned Social Worker', with: 'John Worker')
+          expect(page).to_not have_content('Please enter an assigned worker.')
+          select('Mail', from: 'Communication Method')
+          expect(page).to_not have_content('Please select a communication method.')
+        end
+      end
+
+      it 'clears errors on change for date picker' do
+        pending 'Known bug onChange does not work for date picker fields'
+
+        within '#screening-information-card' do
+          label = 'Screening Start Date/Time'
+          expected_error_message = 'Please enter a screening start date.'
+
+          expect(page).to_not have_content(expected_error_message)
+          focus(label)
+          blur
+          expect(page).to have_content(expected_error_message)
+
+          fill_in_datepicker('Screening Start Date/Time', with: 3.days.ago, blur: false)
+          expect(page).to_not have_content(expected_error_message)
         end
       end
     end
