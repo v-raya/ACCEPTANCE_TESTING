@@ -14,7 +14,6 @@ describe 'Screening Validation QA Test', type: :feature do
       let(:required_field_error_messages) do
         {
           'Assigned Social Worker' => 'Please enter an assigned worker.',
-          'Screening Start Date/Time' => 'Please enter a screening start date.',
           'Communication Method' => 'Please select a communication method.'
         }
       end
@@ -37,14 +36,31 @@ describe 'Screening Validation QA Test', type: :feature do
         end
       end
 
-      it 're-validates required fields' do
+      it 'validates start date required' do
+        label = 'Screening Start Date/Time'
+        expected_error_message = 'Please enter a screening start date.'
+
         within '#screening-information-card' do
+          fill_in_datepicker('Screening Start Date/Time', with: '', blur: false)
+          expect(page).to_not have_content(expected_error_message)
+          focus(label)
+          expect(page).to_not have_content(expected_error_message)
+          blur
+          expect(page).to have_content(expected_error_message)
+        end
+      end
+
+      it 're-validates required fields' do
+        started_error_message = 'Please enter a screening start date.'
+        within '#screening-information-card' do
+          fill_in_datepicker('Screening Start Date/Time', with: '', blur: true)
           required_field_error_messages.each do |label, expected_error_message|
             expect(page).to_not have_content(expected_error_message)
             focus(label)
             blur
             expect(page).to have_content(expected_error_message)
           end
+          expect(page).to have_content(started_error_message)
 
           fill_in('Assigned Social Worker', with: 'John Worker')
           fill_in_datepicker('Screening Start Date/Time', with: 3.days.ago)
