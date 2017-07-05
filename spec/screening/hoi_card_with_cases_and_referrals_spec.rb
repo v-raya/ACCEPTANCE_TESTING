@@ -19,7 +19,7 @@ describe 'History Card with cases and referrals', type: :feature do
   let(:shared_hoi_3) { { dob: '1967-02-24', name: 'Ricky W.', legacy_id: 'JdLgp760Bv' } }
 
   scenario 'copy button' do
-    screening_page.add_person_from_search(shared_hoi_1[:dob], shared_hoi_1[:name])
+    screening_page.add_person_from_search(additional_info: shared_hoi_1[:dob], name: shared_hoi_1[:name])
     within '#history-card' do
       click_button 'Copy'
     end
@@ -46,7 +46,7 @@ describe 'History Card with cases and referrals', type: :feature do
         expect(page).to have_content 'Search for people and add them to see their child welfare history.'
       end
 
-      screening_page.add_person_from_search(shared_hoi_1[:dob], shared_hoi_1[:name])
+      screening_page.add_person_from_search(additional_info: shared_hoi_1[:dob], name: shared_hoi_1[:name])
       expect(page).to have_content shared_hoi_1[:name]
 
       within '#history-card' do
@@ -133,7 +133,7 @@ describe 'History Card with cases and referrals', type: :feature do
     end
 
     within '.container' do
-      screening_page.add_person_from_search(shared_hoi_2[:dob], shared_hoi_2[:name])
+      screening_page.add_person_from_search(additional_info: shared_hoi_2[:dob], name: shared_hoi_2[:name])
       expect(page).to have_content shared_hoi_2[:name]
 
       within '#history-of-involvement' do
@@ -185,7 +185,7 @@ describe 'History Card with cases and referrals', type: :feature do
     end
 
     within '.container' do
-      screening_page.add_person_from_search(shared_hoi_3[:dob], shared_hoi_3[:name])
+      screening_page.add_person_from_search(additional_info: shared_hoi_3[:dob], name: shared_hoi_3[:name])
       expect(page).to have_content shared_hoi_3[:name]
 
       within '#history-of-involvement' do
@@ -210,7 +210,7 @@ describe 'History Card with cases and referrals', type: :feature do
 
   it 'displays an open referral correctly' do
     skip 'This test is intermittent'
-    screening_page.add_person_from_search(open_referral[:dob], open_referral[:first_name])
+    screening_page.add_person_from_search(additional_info: open_referral[:dob], name: open_referral[:first_name])
 
     within '#history-of-involvement' do
       referral_rows = page.all('tr', text: 'Referral')
@@ -246,7 +246,7 @@ describe 'History Card with cases and referrals', type: :feature do
   let(:closed_case) { { dob: '1999-02-09', first_name: 'Bobby', legacy_id: 'ETSbL6a0Dv' } }
 
   it 'displays a closed case correctly' do
-    screening_page.add_person_from_search(closed_case[:dob], closed_case[:first_name])
+    screening_page.add_person_from_search(additional_info: closed_case[:dob], name: closed_case[:first_name])
 
     within '#history-of-involvement' do
       case_rows = page.all('tr', text: 'Case')
@@ -266,10 +266,10 @@ describe 'History Card with cases and referrals', type: :feature do
     end
   end
 
-  let(:referral_with_reporter) { { dob: '2000-03-25', first_name: 'Jimmy', legacy_id: '6444XNo00E' } }
+  let(:referral_with_reporter) { { dob: '2000-03-25', name: 'Jimmy M.', legacy_id: '6444XNo00E' } }
 
   it 'displays the reporter for referrals' do
-    screening_page.add_person_from_search(referral_with_reporter[:dob], referral_with_reporter[:first_name])
+    screening_page.add_person_from_search(additional_info: referral_with_reporter[:dob], name: referral_with_reporter[:name])
 
     within '#history-of-involvement' do
       referral_rows = page.all('tr', text: 'Referral')
