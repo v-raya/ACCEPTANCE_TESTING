@@ -64,6 +64,7 @@ describe 'History Card with cases and referrals', type: :feature do
         within '#referral-KftDS4J0Bv' do
           expect(page).to have_referral(start_date: '02/24/1999',
                                         end_date: '12/02/1999',
+                                        referral_id: '1174-3820-6243-5000739',
                                         status: 'Closed',
                                         county: 'Plumas',
                                         response_time: 'Immediate',
@@ -80,6 +81,7 @@ describe 'History Card with cases and referrals', type: :feature do
           expect(page).to have_referral(
             start_date: '02/28/1999',
             end_date: '02/01/2000',
+            referral_id: '1694-5211-0269-2000739',
             status: 'Closed',
             county: 'Plumas',
             response_time: 'Immediate',
@@ -113,6 +115,7 @@ describe 'History Card with cases and referrals', type: :feature do
           expect(page).to have_case(
             start_date: '02/24/1999',
             status: 'Open',
+            case_id: '0848-0821-1952-3000739',
             service_component: 'Family Reunification',
             county: 'Plumas',
             focus_child: 'Marty R.',
@@ -137,6 +140,7 @@ describe 'History Card with cases and referrals', type: :feature do
         within '#case-DQ0ObR60Bv' do
           expect(page).to have_case(
             start_date: '02/28/1999',
+            case_id: '0762-2283-8000-4000739',
             status: 'Open',
             service_component: 'Family Reunification',
             focus_child: 'Roland W.',
@@ -148,6 +152,7 @@ describe 'History Card with cases and referrals', type: :feature do
         within '#case-Evic91H0Bv' do
           expect(page).to have_case(
             start_date: '02/24/1999',
+            case_id: '0848-0821-1952-3000739',
             status: 'Open',
             service_component: 'Family Reunification',
             focus_child: 'Marty R.',
@@ -159,6 +164,7 @@ describe 'History Card with cases and referrals', type: :feature do
         within '#case-LnC9V5Q0Bv' do
           expect(page).to have_case(
             start_date: '02/28/1999',
+            case_id: '1237-8750-3651-6000739',
             status: 'Open',
             service_component: 'Family Reunification',
             focus_child: 'Sharon W.',
@@ -213,6 +219,7 @@ describe 'History Card with cases and referrals', type: :feature do
       within referral_rows[0] do
         expect(page).to have_referral(start_date: '05/08/1996',
                                       status: 'Open',
+                                      referral_id: '0489-9008-5232-2000283',
                                       county: 'Modoc',
                                       response_time: 'Immediate',
                                       worker: 'Tester W',
@@ -248,6 +255,7 @@ describe 'History Card with cases and referrals', type: :feature do
       within case_rows[0] do
         expect(page).to have_case(start_date: '01/25/2000',
                                   end_date: '09/26/2002',
+                                  case_id: '0238-4474-6454-8000863',
                                   status: 'Closed',
                                   county: 'Monterey',
                                   service_component: 'Family Maintenance',
@@ -269,6 +277,7 @@ describe 'History Card with cases and referrals', type: :feature do
 
       within referral_rows[0] do
         expect(page).to have_referral(start_date: '03/25/2004',
+                                      referral_id: '0207-3472-2519-2000014',
                                       status: 'Open',
                                       county: 'State of California',
                                       response_time: '10 Day',
