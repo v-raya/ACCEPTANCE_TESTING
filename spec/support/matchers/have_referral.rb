@@ -4,6 +4,7 @@ RSpec::Matchers.define :have_referral do |expected|
   match do |actual|
     start_date = expected[:start_date]
     end_date = expected[:end_date]
+    referral_id = expected[:referral_id]
     status = expected[:status]
     response_time = expected[:response_time]
     county = expected[:county]
@@ -12,7 +13,7 @@ RSpec::Matchers.define :have_referral do |expected|
     allegations = expected[:allegations]
 
     expect(actual).to have_content [start_date, end_date].compact.join(' - ')
-    expect(actual).to have_content "Referral (#{[status, response_time].join(' - ')})"
+    expect(actual).to have_content "Referral #{referral_id} (#{[status, response_time].join(' - ')})"
     expect(actual).to have_content county if county
     expect(actual).to have_content "Reporter: #{reporter}"
     expect(actual).to have_content "Worker: #{worker}"

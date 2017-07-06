@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'active_support/core_ext/object/blank'
+
 def autocompleter_fill_in(label, string)
   input = Capybara.find(:fillable_field, label)
   string.split('').each do |char|

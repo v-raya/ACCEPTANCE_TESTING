@@ -8,9 +8,9 @@ module KeyboardHelper
     current_input.send_key(key)
   end
 
-  def paste_into(_selector)
+  def paste_into(selector)
     super_key = RUBY_PLATFORM.include?(MACOSX_PLATFORM_NAME) ? :command : :control
-    find('#spec_meta').native.send_keys [super_key, 'v']
+    find(selector).native.send_keys [super_key, 'v']
   end
 end
 

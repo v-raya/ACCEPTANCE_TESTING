@@ -19,7 +19,7 @@ describe 'History Card with cases and referrals', type: :feature do
   let(:shared_hoi_3) { { dob: '1967-02-24', name: 'Ricky W.', legacy_id: 'JdLgp760Bv' } }
 
   scenario 'copy button' do
-    screening_page.add_person_from_search(shared_hoi_1[:dob], shared_hoi_1[:name])
+    screening_page.add_person_from_search(additional_info: shared_hoi_1[:dob], name: shared_hoi_1[:name])
     within '#history-card' do
       click_button 'Copy'
     end
@@ -46,7 +46,7 @@ describe 'History Card with cases and referrals', type: :feature do
         expect(page).to have_content 'Search for people and add them to see their child welfare history.'
       end
 
-      screening_page.add_person_from_search(shared_hoi_1[:dob], shared_hoi_1[:name])
+      screening_page.add_person_from_search(additional_info: shared_hoi_1[:dob], name: shared_hoi_1[:name])
       expect(page).to have_content shared_hoi_1[:name]
 
       within '#history-card' do
@@ -64,6 +64,7 @@ describe 'History Card with cases and referrals', type: :feature do
         within '#referral-KftDS4J0Bv' do
           expect(page).to have_referral(start_date: '02/24/1999',
                                         end_date: '12/02/1999',
+                                        referral_id: '1174-3820-6243-5000739',
                                         status: 'Closed',
                                         county: 'Plumas',
                                         response_time: 'Immediate',
@@ -80,6 +81,7 @@ describe 'History Card with cases and referrals', type: :feature do
           expect(page).to have_referral(
             start_date: '02/28/1999',
             end_date: '02/01/2000',
+            referral_id: '1694-5211-0269-2000739',
             status: 'Closed',
             county: 'Plumas',
             response_time: 'Immediate',
@@ -113,6 +115,7 @@ describe 'History Card with cases and referrals', type: :feature do
           expect(page).to have_case(
             start_date: '02/24/1999',
             status: 'Open',
+            case_id: '0848-0821-1952-3000739',
             service_component: 'Family Reunification',
             county: 'Plumas',
             focus_child: 'Marty R.',
@@ -130,13 +133,14 @@ describe 'History Card with cases and referrals', type: :feature do
     end
 
     within '.container' do
-      screening_page.add_person_from_search(shared_hoi_2[:dob], shared_hoi_2[:name])
+      screening_page.add_person_from_search(additional_info: shared_hoi_2[:dob], name: shared_hoi_2[:name])
       expect(page).to have_content shared_hoi_2[:name]
 
       within '#history-of-involvement' do
         within '#case-DQ0ObR60Bv' do
           expect(page).to have_case(
             start_date: '02/28/1999',
+            case_id: '0762-2283-8000-4000739',
             status: 'Open',
             service_component: 'Family Reunification',
             focus_child: 'Roland W.',
@@ -148,6 +152,7 @@ describe 'History Card with cases and referrals', type: :feature do
         within '#case-Evic91H0Bv' do
           expect(page).to have_case(
             start_date: '02/24/1999',
+            case_id: '0848-0821-1952-3000739',
             status: 'Open',
             service_component: 'Family Reunification',
             focus_child: 'Marty R.',
@@ -159,6 +164,7 @@ describe 'History Card with cases and referrals', type: :feature do
         within '#case-LnC9V5Q0Bv' do
           expect(page).to have_case(
             start_date: '02/28/1999',
+            case_id: '1237-8750-3651-6000739',
             status: 'Open',
             service_component: 'Family Reunification',
             focus_child: 'Sharon W.',
@@ -179,7 +185,7 @@ describe 'History Card with cases and referrals', type: :feature do
     end
 
     within '.container' do
-      screening_page.add_person_from_search(shared_hoi_3[:dob], shared_hoi_3[:name])
+      screening_page.add_person_from_search(additional_info: shared_hoi_3[:dob], name: shared_hoi_3[:name])
       expect(page).to have_content shared_hoi_3[:name]
 
       within '#history-of-involvement' do
@@ -204,7 +210,7 @@ describe 'History Card with cases and referrals', type: :feature do
 
   it 'displays an open referral correctly' do
     skip 'This test is intermittent'
-    screening_page.add_person_from_search(open_referral[:dob], open_referral[:first_name])
+    screening_page.add_person_from_search(additional_info: open_referral[:dob], name: open_referral[:first_name])
 
     within '#history-of-involvement' do
       referral_rows = page.all('tr', text: 'Referral')
@@ -213,6 +219,7 @@ describe 'History Card with cases and referrals', type: :feature do
       within referral_rows[0] do
         expect(page).to have_referral(start_date: '05/08/1996',
                                       status: 'Open',
+                                      referral_id: '0489-9008-5232-2000283',
                                       county: 'Modoc',
                                       response_time: 'Immediate',
                                       worker: 'Tester W',
@@ -239,7 +246,7 @@ describe 'History Card with cases and referrals', type: :feature do
   let(:closed_case) { { dob: '1999-02-09', first_name: 'Bobby', legacy_id: 'ETSbL6a0Dv' } }
 
   it 'displays a closed case correctly' do
-    screening_page.add_person_from_search(closed_case[:dob], closed_case[:first_name])
+    screening_page.add_person_from_search(additional_info: closed_case[:dob], name: closed_case[:first_name])
 
     within '#history-of-involvement' do
       case_rows = page.all('tr', text: 'Case')
@@ -248,6 +255,7 @@ describe 'History Card with cases and referrals', type: :feature do
       within case_rows[0] do
         expect(page).to have_case(start_date: '01/25/2000',
                                   end_date: '09/26/2002',
+                                  case_id: '0238-4474-6454-8000863',
                                   status: 'Closed',
                                   county: 'Monterey',
                                   service_component: 'Family Maintenance',
@@ -258,10 +266,10 @@ describe 'History Card with cases and referrals', type: :feature do
     end
   end
 
-  let(:referral_with_reporter) { { dob: '2000-03-25', first_name: 'Jimmy', legacy_id: '6444XNo00E' } }
+  let(:referral_with_reporter) { { dob: '2000-03-25', name: 'Jimmy M.', legacy_id: '6444XNo00E' } }
 
   it 'displays the reporter for referrals' do
-    screening_page.add_person_from_search(referral_with_reporter[:dob], referral_with_reporter[:first_name])
+    screening_page.add_person_from_search(additional_info: referral_with_reporter[:dob], name: referral_with_reporter[:name])
 
     within '#history-of-involvement' do
       referral_rows = page.all('tr', text: 'Referral')
@@ -269,6 +277,7 @@ describe 'History Card with cases and referrals', type: :feature do
 
       within referral_rows[0] do
         expect(page).to have_referral(start_date: '03/25/2004',
+                                      referral_id: '0207-3472-2519-2000014',
                                       status: 'Open',
                                       county: 'State of California',
                                       response_time: '10 Day',

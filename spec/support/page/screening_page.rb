@@ -47,11 +47,11 @@ class ScreeningPage
     end
   end
 
-  def add_person_from_search(search_term, additional_text = nil)
+  def add_person_from_search(name:, additional_info: nil)
     within '#search-card' do
-      autocompleter_fill_in 'Search for any person', search_term
+      autocompleter_fill_in 'Search for any person', "#{name} #{additional_info}"
       within('ul.react-autosuggest__suggestions-list') do
-        page.find('li', text: additional_text).click
+        page.first('li', text: name).click
       end
     end
   end
