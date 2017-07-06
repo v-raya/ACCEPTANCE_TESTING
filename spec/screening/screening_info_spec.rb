@@ -46,7 +46,7 @@ describe 'Screening QA Test', type: :feature do
         expect(page).to have_field('Assigned Social Worker',
                                    with: '')
         expect(page).to have_field('Screening Start Date/Time',
-                                   with: '')
+                                   with: Time.now.strftime('%m/%d/%Y %-l:%M %p'))
         expect(page).to have_field('Screening End Date/Time',
                                    with: '')
         expect(page).to have_select('Communication Method', selected: '')
