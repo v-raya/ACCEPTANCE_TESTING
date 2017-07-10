@@ -11,11 +11,18 @@ describe 'Narrative card', type: :feature do
         within '.card-header' do
           expect(page).to have_content('Narrative')
         end
+        expect(page).not_to have_css('.input-error-message', text: 'Please enter a narrative')
+
         # Saving a blank card and validating
         click_button 'Save'
         within '.card-body' do
           expect(page).to have_content('Report Narrative')
         end
+
+        within '.input-error-message' do
+          expect(page).to have_content('Please enter a narrative')
+        end
+
         within '.card-header' do
           expect(page).to have_content('Narrative')
           click_link 'Edit'
@@ -28,9 +35,12 @@ describe 'Narrative card', type: :feature do
             'Fr1ends, Rom@ns, countrymen, 1end me your ears;'
           )
         end
+
+        expect(page).not_to have_css('.input-error-message', text: 'Please enter a narrative')
         within '.card-header' do
           click_link 'Edit'
         end
+
         within '.card-body' do
           expect(page).to have_field(
             'Report Narrative',
@@ -43,6 +53,7 @@ describe 'Narrative card', type: :feature do
             'Fr1ends, Rom@ns, countrymen, 1end me your ears;'
           )
         end
+        expect(page).not_to have_css('.input-error-message', text: 'Please enter a narrative')
       end
     end
   end
@@ -56,6 +67,8 @@ describe 'Narrative card', type: :feature do
 
     it 'notifies the user when they focus out' do
       within '#narrative-card.edit' do
+        expect(page).not_to have_css('.input-error-message', text: 'Please enter a narrative')
+
         focus 'Report Narrative'
         blur
 
