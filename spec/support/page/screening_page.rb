@@ -14,10 +14,12 @@ class ScreeningPage
   end
 
   def visit_screening
+    visit '/'
+    login_user
+
     if id
       visit "/screenings/#{id}/edit"
     else
-      visit '/'
       click_link 'Start Screening'
     end
   end
