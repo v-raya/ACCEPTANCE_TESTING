@@ -27,6 +27,17 @@ describe 'Narrative card', type: :feature do
           expect(page).to have_content('Narrative')
           click_link 'Edit'
         end
+
+        within '.card-body' do
+          fill_in 'Report Narrative', with: 'P'
+          click_button 'Save'
+          expect(page).to have_content('P')
+        end
+
+        within '.card-header' do
+          click_link 'Edit'
+        end
+
         within '.card-body' do
           fill_in 'Report Narrative',
             with: 'Fr1ends, Rom@ns, countrymen, 1end me your ears;'
