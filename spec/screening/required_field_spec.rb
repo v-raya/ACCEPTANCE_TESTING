@@ -107,6 +107,36 @@ describe 'Validate Screening require field labels', type: :feature do
       click_button 'Save'
     end
 
+    info_message = <<-MESSAGE
+      Any report that includes allegations (except General Neglect or Caretaker Absence)
+      must be cross-reported to law enforcement and the district attorney.
+    MESSAGE
+
+    [
+      'General neglect',
+      'Caretaker absent/incapacity'
+    ].each do |allegation|
+      within '#allegations-card' do
+        within('tbody') do
+          table_rows = page.all('tr')
+
+          # fill-in allegations card values
+          within(table_rows[0]) do
+            row0_id = find('input[id^="allegations_"]')[:id]
+            find_field(row0_id).send_keys(:backspace)
+            fill_in_react_select(row0_id, with: allegation)
+          end
+        end
+      end
+      within '#cross-report-card' do
+        # Verify cross reports required message does not display
+        expect(page).not_to have_content(info_message)
+        # Verify required field label are not present for appropriate checkboxes
+        expect(page.find('label', text: 'Law enforcement')[:class]).not_to include('required')
+        expect(page.find('label', text: 'District attorney')[:class]).not_to include('required')
+      end
+    end
+
     [
       'Severe neglect',
       'Exploitation',
@@ -128,33 +158,33 @@ describe 'Validate Screening require field labels', type: :feature do
         end
       end
       within '#cross-report-card' do
+        # Verify cross reports required message displays
+        expect(page).to have_content(info_message)
         # Verify required field label are present for appropriate checkboxes
         expect(page.find('label', text: 'Law enforcement')[:class]).to include('required')
         expect(page.find('label', text: 'District attorney')[:class]).to include('required')
       end
     end
 
-    [
-      'General neglect',
-      'Caretaker absent/incapacity'
-    ].each do |allegation|
-      within '#allegations-card' do
-        within('tbody') do
-          table_rows = page.all('tr')
+    within '#cross-report-card.edit' do
+      click_button 'Save'
+    end
 
-          # fill-in allegations card values
-          within(table_rows[0]) do
-            row0_id = find('input[id^="allegations_"]')[:id]
-            find_field(row0_id).send_keys(:backspace)
-            fill_in_react_select(row0_id, with: allegation)
-          end
-        end
-      end
-      within '#cross-report-card' do
-        # Verify required field label are present for appropriate checkboxes
-        expect(page.find('label', text: 'Law enforcement')[:class]).not_to include('required')
-        expect(page.find('label', text: 'District attorney')[:class]).not_to include('required')
-      end
+    within '#cross-report-card.show' do
+      expect(page).to have_content(info_message)
+      click_link 'Edit'
+    end
+
+    within '#cross-report-card' do
+      find('label', text: /\ADistrict attorney\z/).click
+      expect(page).to have_content(info_message)
+      find('label', text: /\ALaw enforcement\z/).click
+      expect(page).not_to have_content(info_message)
+      click_button 'Save'
+    end
+
+    within '#cross-report-card.show' do
+      expect(page).not_to have_content(info_message)
     end
   end
 
