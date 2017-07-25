@@ -47,14 +47,14 @@ feature 'Release Two Enabled' do
     click_link 'Start Screening'
 
     within '#search-card', text: 'Search' do
-      autocompleter_fill_in 'Search for any person', 'Test'
+      autocompleter_fill_in 'Search for any person', 'Tonkin'
       within('ul.react-autosuggest__suggestions-list') do
         first('li').click
       end
     end
 
     within 'div[id^="participants-card-"].card.show' do
-      expect(page).to have_content 'Test'
+      expect(page).to have_content 'Tonkin'
       expect(page).to_not have_link('Edit participant')
       expect(page).to have_button('Delete participant')
     end
@@ -72,7 +72,7 @@ feature 'Release Two Enabled' do
       end
     end
 
-    scenario 'will not display screening histoy in HOI' do
+    scenario 'will not display screening history in HOI' do
       visit '/'
       click_link 'Start Screening'
 
