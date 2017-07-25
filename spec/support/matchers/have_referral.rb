@@ -19,7 +19,9 @@ RSpec::Matchers.define :have_referral do |expected|
     expect(actual).to have_content "Worker: #{worker}"
     expect(actual).to have_content 'Victim Perpetrator Allegation(s) & Disposition'
     allegations.each do |allegation|
-      expect(actual).to have_content "#{allegation[:victim]} #{allegation[:perpetrator]} #{allegation[:type]} (#{allegation[:disposition]})".squeeze(' ')
+      expect(actual).to have_content allegation[:victim]
+      expect(actual).to have_content allegation[:perpetrator]
+      expect(actual).to have_content "#{allegation[:type]} (#{allegation[:disposition]})".squeeze(' ')
     end
   end
 
