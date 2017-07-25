@@ -9,14 +9,14 @@ describe 'History Card with cases and referrals', type: :feature do
   let(:screening_page) { ScreeningPage.new }
 
   before do
-    visit '/'
-    login_user
+    # visit '/'
+    # login_user
     screening_page.visit_screening
   end
 
-  let(:shared_hoi_1) { { dob: '1997-11-22', name: 'Marty R.', legacy_id: 'M5Xs0Xb0Bv' } }
-  let(:shared_hoi_2) { { dob: '1979-07-24', name: 'Missy R.', legacy_id: 'N80EWpv0Bv' } }
-  let(:shared_hoi_3) { { dob: '1967-02-24', name: 'Ricky W.', legacy_id: 'JdLgp760Bv' } }
+  let(:shared_hoi_1) { { dob: '1997-11-22', name: 'Marty R', legacy_id: 'M5Xs0Xb0Bv' } }
+  let(:shared_hoi_2) { { dob: '1979-07-24', name: 'Missy R', legacy_id: 'N80EWpv0Bv' } }
+  let(:shared_hoi_3) { { dob: '1967-02-24', name: 'Ricky W', legacy_id: 'JdLgp760Bv' } }
 
   scenario 'copy button' do
     screening_page.add_person_from_search(additional_info: shared_hoi_1[:dob], name: shared_hoi_1[:name])
@@ -70,8 +70,8 @@ describe 'History Card with cases and referrals', type: :feature do
                                         response_time: 'Immediate',
                                         worker: 'Daisie K',
                                         allegations: [{
-                                          victim: 'Marty R.',
-                                          perpetrator: 'Missy R.',
+                                          victim: 'Marty R',
+                                          perpetrator: 'Missy R',
                                           type: 'Physical Abuse',
                                           disposition: 'Substantiated'
                                         }])
@@ -88,22 +88,22 @@ describe 'History Card with cases and referrals', type: :feature do
             worker: 'Daisie K',
             allegations: [
               {
-                victim: 'Sharon W.',
-                perpetrator: 'Ricky W.',
+                victim: 'Sharon W',
+                perpetrator: 'Ricky W',
                 type: 'Sexual Abuse',
                 disposition: 'Substantiated'
               }, {
-                victim: 'Sharon W.',
-                perpetrator: 'Roland W.',
+                victim: 'Sharon W',
+                perpetrator: 'Roland W',
                 type: 'Sexual Abuse',
                 disposition: 'Substantiated'
               }, {
-                victim: 'Roland W.',
+                victim: 'Roland W',
                 type: 'Sexual Abuse',
                 disposition: 'Substantiated'
               }, {
-                victim: 'Marty R.',
-                perpetrator: 'Missy R.',
+                victim: 'Marty R',
+                perpetrator: 'Missy R',
                 type: 'Sexual Abuse',
                 disposition: 'Inconclusive'
               }
@@ -118,8 +118,8 @@ describe 'History Card with cases and referrals', type: :feature do
             case_id: '0848-0821-1952-3000739',
             service_component: 'Family Reunification',
             county: 'Plumas',
-            focus_child: 'Marty R.',
-            parents: ['Ricky W.', 'Missy R.'],
+            focus_child: 'Marty R',
+            parents: ['Ricky W', 'Missy R'],
             worker: 'Daisie K'
           )
         end
@@ -143,8 +143,8 @@ describe 'History Card with cases and referrals', type: :feature do
             case_id: '0762-2283-8000-4000739',
             status: 'Open',
             service_component: 'Family Reunification',
-            focus_child: 'Roland W.',
-            parents: ['Ricky W.', 'Missy R.'],
+            focus_child: 'Roland W',
+            parents: ['Ricky W', 'Missy R'],
             worker: 'Daisie K'
           )
         end
@@ -155,8 +155,8 @@ describe 'History Card with cases and referrals', type: :feature do
             case_id: '0848-0821-1952-3000739',
             status: 'Open',
             service_component: 'Family Reunification',
-            focus_child: 'Marty R.',
-            parents: ['Ricky W.', 'Missy R.'],
+            focus_child: 'Marty R',
+            parents: ['Ricky W', 'Missy R'],
             worker: 'Daisie K'
           )
         end
@@ -167,8 +167,8 @@ describe 'History Card with cases and referrals', type: :feature do
             case_id: '1237-8750-3651-6000739',
             status: 'Open',
             service_component: 'Family Reunification',
-            focus_child: 'Sharon W.',
-            parents: ['Ricky W.', 'Missy R.'],
+            focus_child: 'Sharon W',
+            parents: ['Ricky W', 'Missy R'],
             worker: 'Daisie K'
           )
         end
@@ -224,18 +224,18 @@ describe 'History Card with cases and referrals', type: :feature do
                                       response_time: 'Immediate',
                                       worker: 'Tester W',
                                       allegations: [{
-                                        victim: 'Alexandra Z.',
-                                        perpetrator: 'Alexandra Z.',
+                                        victim: 'Alexandra Z',
+                                        perpetrator: 'Alexandra Z',
                                         type: 'Emotional Abuse',
                                         disposition: 'Pending decision'
                                       }, {
-                                        victim: 'Alejandro Z.',
-                                        perpetrator: 'Alexandra Z.',
+                                        victim: 'Alejandro Z',
+                                        perpetrator: 'Alexandra Z',
                                         type: 'Severe Neglect',
                                         disposition: 'Pending decision'
                                       }, {
-                                        victim: 'Alejandro Z.',
-                                        perpetrator: 'Alejandro Z.',
+                                        victim: 'Alejandro Z',
+                                        perpetrator: 'Alejandro Z',
                                         type: 'Physical Abuse',
                                         disposition: 'Pending decision'
                                       }])
@@ -243,10 +243,11 @@ describe 'History Card with cases and referrals', type: :feature do
     end
   end
 
-  let(:closed_case) { { dob: '1999-02-09', first_name: 'Bobby', legacy_id: 'ETSbL6a0Dv' } }
+  let(:closed_case) { { first_name: 'Bobby', last_name: 'W', legacy_id: 'ETSbL6a0Dv' } }
 
   it 'displays a closed case correctly' do
-    screening_page.add_person_from_search(additional_info: closed_case[:dob], name: closed_case[:first_name])
+    full_name = "#{closed_case[:first_name]} #{closed_case[:last_name]}"
+    screening_page.add_person_from_search(name: full_name)
 
     within '#history-of-involvement' do
       case_rows = page.all('tr', text: 'Case')
@@ -259,34 +260,52 @@ describe 'History Card with cases and referrals', type: :feature do
                                   status: 'Closed',
                                   county: 'Monterey',
                                   service_component: 'Family Maintenance',
-                                  focus_child: 'Bobby W.',
-                                  parents: ['Dolly W.'],
+                                  focus_child: full_name,
+                                  parents: ['Dolly W'],
                                   worker: 'Mary J')
       end
     end
   end
 
-  let(:referral_with_reporter) { { dob: '2000-03-25', name: 'Jimmy M.', legacy_id: '6444XNo00E' } }
+  let(:referral_with_reporter) { { name: 'Jimmy L', legacy_id: 'M0Vajck0NC' } }
 
   it 'displays the reporter for referrals' do
-    screening_page.add_person_from_search(additional_info: referral_with_reporter[:dob], name: referral_with_reporter[:name])
+    screening_page.add_person_from_search(name: referral_with_reporter[:name])
 
     within '#history-of-involvement' do
       referral_rows = page.all('tr', text: 'Referral')
       expect(referral_rows.count).to eq 1
 
       within referral_rows[0] do
-        expect(page).to have_referral(start_date: '03/25/2004',
-                                      referral_id: '0207-3472-2519-2000014',
-                                      status: 'Open',
-                                      county: 'State of California',
-                                      response_time: '10 Day',
-                                      worker: 'L S',
-                                      allegations: [{
-                                        victim: 'Jimmy M.',
-                                        type: 'Physical Abuse',
-                                        disposition: 'Pending decision'
-                                      }])
+        expect(page).to have_referral(
+          start_date: '08/16/2002',
+          referral_id: '0832-3822-4061-4001438',
+          status: 'Open',
+          county: 'San Diego',
+          response_time: '10 Day',
+          worker: 'Alphanette D',
+          reporter: 'Mary L',
+          allegations: [{
+          victim: 'Motry B',
+          type: 'Caretaker Absence/Incapacity ',
+          disposition: 'Pending decision'
+        }, {
+          victim: 'Tommy M',
+          perpetrator: 'Motry B',
+          type: 'Sexual Abuse',
+          disposition: 'Substantiated'
+        }, {
+          victim: 'Jimmy L',
+          perpetrator: 'Tommy M',
+          type: 'Sexual Abuse',
+          disposition: 'Substantiated'
+        }, {
+          victim: 'Jimmy L',
+          perpetrator: 'Motry B',
+          type: 'Sexual Abuse',
+          disposition: 'Substantiated'
+        }]
+        )
       end
     end
   end
