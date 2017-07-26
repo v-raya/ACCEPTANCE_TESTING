@@ -4,38 +4,38 @@ require 'react_select_helpers'
 require 'spec_helper'
 require 'capybara'
 
-person1 = {
-  first_name: 'VictimOne',
-  middle_name: 'H',
-  last_name: 'victimLast',
+victim = {
+  first_name: FFaker::Name.first_name,
+  middle_name: FFaker::Product.letters(1),
+  last_name: FFaker::Name.last_name,
   roles: 'Victim',
-  ssn: '111111111',
-  dob: '01/01/1990',
-  gender: 'Male'
+  ssn: FFaker::Identification.ssn,
+  dob: FFaker::Time.between(Time.new(2000), Time.new(2017)).strftime('%m/%d/%Y'),
+  gender: FFaker::Identification.gender
 }
-person2 = {
-  first_name: 'PerpOne',
-  middle_name: 'M',
-  last_name: 'PerpLast',
+perpetrator = {
+  first_name: FFaker::Name.first_name,
+  middle_name: FFaker::Product.letters(1),
+  last_name: FFaker::Name.last_name,
   roles: 'Perpetrator',
-  ssn: '222222222',
-  sob: '02/01/1991',
-  gender: 'Female'
+  ssn: FFaker::Identification.ssn,
+  dob: FFaker::Time.between(Time.new(1990), Time.new(1999)).strftime('%m/%d/%Y'),
+  gender: FFaker::Identification.gender
 }
-person3 = {
-  first_name: 'ReporterOne',
-  middle_name: 'Z',
-  last_name: 'ReportLast',
+reporter = {
+  first_name: FFaker::Name.first_name,
+  middle_name: FFaker::Product.letters(1),
+  last_name: FFaker::Name.last_name,
   roles: 'Mandated Reporter',
-  ssn: '333333333',
-  dob: '03/01/1992',
-  gender: 'Male',
+  ssn: FFaker::Identification.ssn,
+  dob: FFaker::Time.between(Time.new(1980), Time.new(1989)).strftime('%m/%d/%Y'),
+  gender: FFaker::Identification.gender,
   addresses: [
     {
-      street_address: '333 Some Road',
-      city: 'San Jose',
-      state: 'California',
-      zip: '95618'
+      street_address: FFaker::AddressUS.street_address,
+      city: FFaker::AddressUS.city,
+      state: FFaker::AddressUS.state,
+      zip: FFaker::AddressUS.zip_code
     }
   ]
 }
@@ -45,7 +45,7 @@ describe 'Scripts' do
     screening_page = ScreeningPage.new
     screening_page.visit_screening
 
-    [person1, person2, person3].each do |person|
+    [victim, perpetrator, reporter].each do |person|
       screening_page.add_new_person
       person_card_id = find('div[id^="participants-card-"]', text: 'Unknown Person')[:id]
       person_id = person_card_id.match(/\d+/)[0]
@@ -53,7 +53,7 @@ describe 'Scripts' do
     end
 
     screening_page.set_screening_information_attributes(
-      name: 'Test Screening',
+      name: FFaker::Movie.title,
       social_worker: 'Jim Bob',
       start_date: '05/16/2017',
       communication_method: 'Fax'
@@ -62,15 +62,15 @@ describe 'Scripts' do
     screening_page.set_incident_information_attributes(
       incident_county: 'Yolo',
       incident_date: '08/23/1996',
-      address: '123 Davis Street',
-      city: 'Sacramento',
-      state: 'California',
-      zip: '95831',
+      address: FFaker::AddressUS.street_address,
+      city: FFaker::AddressUS.city,
+      state: FFaker::AddressUS.state,
+      zip: FFaker::AddressUS.zip_code,
       location_type: "Child's Home"
     )
 
     screening_page.set_narrative(
-      narrative: 'Fr1ends, Rom@ns, countrymen, 1end me your ears;'
+      narrative: FFaker::HipsterIpsum.paragraph(8)
     )
 
     screening_page.set_allegations_attributes(
