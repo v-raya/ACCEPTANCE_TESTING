@@ -119,8 +119,8 @@ class ScreeningPage
       attrs[:addresses] && attrs[:addresses].each do |address|
         within '.card-body' do
           click_button 'Add new address'
-          address = all('#address-undefined').last
-          within address do
+          address_div = all('#address-undefined').last
+          within address_div do
             fill_in('Address', with: address[:street_address]) if address[:street_address]
             fill_in('City', with: address[:city]) if address[:city]
             select(address[:state], from: 'State') if address[:state]
