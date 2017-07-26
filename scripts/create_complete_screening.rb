@@ -52,8 +52,9 @@ describe 'Scripts' do
       screening_page.set_participant_attributes(person_id, person)
     end
 
+    screening_title = FFaker::Movie.title
     screening_page.set_screening_information_attributes(
-      name: FFaker::Movie.title,
+      name: screening_title,
       social_worker: 'Jim Bob',
       start_date: '05/16/2017',
       communication_method: 'Fax'
@@ -70,7 +71,7 @@ describe 'Scripts' do
     )
 
     screening_page.set_narrative(
-      narrative: FFaker::HipsterIpsum.paragraph(8)
+      narrative: FFaker::Lorem.paragraph(8)
     )
 
     screening_page.set_allegations_attributes(
@@ -93,7 +94,7 @@ describe 'Scripts' do
       response_time: '3 days'
     )
 
-    puts "Go find your screening at #{page.current_url}"
+    puts "Go find your screening, named #{screening_title}, at #{page.current_url}"
   end
 end
 
