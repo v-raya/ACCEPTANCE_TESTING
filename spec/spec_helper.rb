@@ -3,6 +3,7 @@
 require 'autocompleter_helpers'
 require 'capybara/rspec'
 require 'capybara/webkit'
+require 'ffaker'
 require 'headless'
 require 'helper_methods'
 require 'shame_helpers'
