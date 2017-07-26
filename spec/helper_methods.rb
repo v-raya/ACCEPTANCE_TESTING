@@ -28,9 +28,9 @@ end
 
 def fill_login_form
   return if ENV['USERNAME'].blank? || ENV['PASSWORD'].blank?
-  fill_in('username', with: ENV.fetch('USERNAME'))
-  fill_in('password', with: ENV.fetch('PASSWORD'))
-  click_button('Sign In')
+  Capybara.fill_in('username', with: ENV.fetch('USERNAME'))
+  Capybara.fill_in('password', with: ENV.fetch('PASSWORD'))
+  Capybara.click_button('Sign In')
 end
 
 def login_user
