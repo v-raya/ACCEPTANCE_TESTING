@@ -25,7 +25,7 @@ describe 'Screening QA Test', type: :feature do
   screen_info_chng2 = {
     worker: 'Helen Socialworker',
     sdate: '08/22/2016 3:00 PM',
-    comm: 'Online'
+    comm: 'In Person'
   }
 
   # Fill in data in the Input fields
