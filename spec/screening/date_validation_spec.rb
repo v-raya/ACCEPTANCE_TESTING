@@ -28,6 +28,7 @@ describe 'Validate date (date picker) on screening cards', type: :feature do
         e_display: '01/02/2011 11:03 AM' },
       { sdate_time: '13/21/2011 13:23 PM', s_display: '', edate_time: '13/22/2011 13:23 PM', e_display: '' },
       { sdate_time: '01/32/2011 11:23 AM', s_display: '', edate_time: '01/33/2011 11:23 AM', e_display: '' },
+      { sdate_time: 'TE$T', s_display: '', edate_time: 'TE$T', e_display: '' },
       { sdate_time: '', s_display: '', edate_time: '', e_display: '' }
     ].each do |screening_dates|
       # check date on screening card
@@ -105,6 +106,7 @@ describe 'Validate date (date picker) on screening cards', type: :feature do
       { date: '01/01/20112', display: '01/01/2011' },
       { date: '13/21/2011', display: '' },
       { date: '01/32/2011', display: '' },
+      { date: 'Te$t', display: '' },
       { date: '', display: '' }
     ].each do |date_test|
       within person1_card do
