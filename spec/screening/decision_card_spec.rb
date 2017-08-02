@@ -20,6 +20,17 @@ describe 'Decision card', type: :feature do
       within '.card-body' do
         expect(page).to have_content 'Decision'
         expect(page).to have_content 'Additional information'
+        expect(page).to have_content 'SDM Hotline Tool'
+        expect(page).to have_content 'Determine Decision and Response Time by using Structured Decision Making.'
+        expect(page).to have_link 'Complete SDM'
+        link_from_show = find_link('Complete SDM')
+        expect(link_from_show[:href]).to eq 'https://ca.sdmdata.org/'
+        expect(link_from_show[:target]).to eq '_blank'
+        sdm_window = window_opened_by { click_link 'Complete SDM' }
+        # We can't switch_to_window to check current URL from within a 'within' block
+        # Capybara API limitation
+        expect(sdm_window.exists?).to be_truthy
+        sdm_window.close
         expect(page).to have_button 'Cancel'
         expect(page).to have_button 'Save'
         expect(page).not_to have_content('Service name')
@@ -36,6 +47,17 @@ describe 'Decision card', type: :feature do
         expect(page).to have_content 'Differential response'
         expect(page).to have_content 'Additional information'
         expect(page).to have_content 'This is a test for $peci@! char & num8er5'
+        expect(page).to have_content 'SDM Hotline Tool'
+        expect(page).to have_content 'Determine Decision and Response Time by using Structured Decision Making.'
+        expect(page).to have_link 'Complete SDM'
+        link_from_show = find_link('Complete SDM')
+        expect(link_from_show[:href]).to eq 'https://ca.sdmdata.org/'
+        expect(link_from_show[:target]).to eq '_blank'
+        sdm_window = window_opened_by { click_link 'Complete SDM' }
+        # We can't switch_to_window to check current URL from within a 'within' block
+        # Capybara API limitation
+        expect(sdm_window.exists?).to be_truthy
+        sdm_window.close
       end
       within '.card-header' do
         click_link 'Edit'

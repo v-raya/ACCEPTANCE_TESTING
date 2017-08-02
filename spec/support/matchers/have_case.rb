@@ -16,7 +16,7 @@ RSpec::Matchers.define :have_case do |expected|
     expect(actual).to have_content "Case #{case_id} (#{[status, service_component].join(' - ')})"
     expect(actual).to have_content county if county
     expect(actual).to have_content "Focus Child: #{focus_child}"
-    expect(actual).to have_content "Parent(s):"
+    expect(actual).to have_content 'Parent(s):'
     parents.each do |parent|
       expect(actual).to have_content parent
     end

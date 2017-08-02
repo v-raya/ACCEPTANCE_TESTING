@@ -286,25 +286,25 @@ describe 'History Card with cases and referrals', type: :feature do
           worker: 'Alphanette D',
           reporter: 'Mary L',
           allegations: [{
-          victim: 'Motry B',
-          type: 'Caretaker Absence/Incapacity ',
-          disposition: 'Pending decision'
-        }, {
-          victim: 'Tommy M',
-          perpetrator: 'Motry B',
-          type: 'Sexual Abuse',
-          disposition: 'Substantiated'
-        }, {
-          victim: 'Jimmy L',
-          perpetrator: 'Tommy M',
-          type: 'Sexual Abuse',
-          disposition: 'Substantiated'
-        }, {
-          victim: 'Jimmy L',
-          perpetrator: 'Motry B',
-          type: 'Sexual Abuse',
-          disposition: 'Substantiated'
-        }]
+            victim: 'Motry B',
+            type: 'Caretaker Absence/Incapacity ',
+            disposition: 'Pending decision'
+          }, {
+            victim: 'Tommy M',
+            perpetrator: 'Motry B',
+            type: 'Sexual Abuse',
+            disposition: 'Substantiated'
+          }, {
+            victim: 'Jimmy L',
+            perpetrator: 'Tommy M',
+            type: 'Sexual Abuse',
+            disposition: 'Substantiated'
+          }, {
+            victim: 'Jimmy L',
+            perpetrator: 'Motry B',
+            type: 'Sexual Abuse',
+            disposition: 'Substantiated'
+          }]
         )
       end
     end

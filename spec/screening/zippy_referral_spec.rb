@@ -157,7 +157,7 @@ describe 'save a zippy referral', type: :feature do
 
     within '#narrative-card' do
       fill_in 'Report Narrative',
-        with: 'Fr1ends, Rom@ns, countrymen, 1end me your ears;'
+              with: 'Fr1ends, Rom@ns, countrymen, 1end me your ears;'
       click_button 'Save'
     end
 
