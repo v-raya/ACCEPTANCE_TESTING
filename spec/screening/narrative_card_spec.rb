@@ -40,7 +40,7 @@ describe 'Narrative card', type: :feature do
 
         within '.card-body' do
           fill_in 'Report Narrative',
-            with: 'Fr1ends, Rom@ns, countrymen, 1end me your ears;'
+                  with: 'Fr1ends, Rom@ns, countrymen, 1end me your ears;'
           click_button 'Save'
           expect(page).to have_content(
             'Fr1ends, Rom@ns, countrymen, 1end me your ears;'
