@@ -144,4 +144,64 @@ describe 'Decision card', type: :feature do
       end
     end
   end
+
+  it 'displays an error message if screening decision is blank' do
+    message = 'Please enter a decision'
+
+    visit '/'
+    login_user
+    click_link 'Start Screening'
+
+    within '#decision-card.edit' do
+      expect(page).not_to have_content(message)
+      click_button 'Save'
+    end
+
+    within '#decision-card.show' do
+      expect(page).to have_content(message)
+      click_link 'Edit'
+    end
+
+    within '#decision-card.edit' do
+      expect(page).to have_content(message)
+      select 'Differential response', from: 'Screening Decision'
+      expect(page).not_to have_content(message)
+      click_button 'Save'
+    end
+
+    within '#decision-card.show' do
+      expect(page).not_to have_content(message)
+    end
+  end
+
+  it 'when decision is promote to referral, displays an error message if response time is blank' do
+    message = 'Please enter a response time'
+
+    visit '/'
+    login_user
+    click_link 'Start Screening'
+
+    within '#decision-card.edit' do
+      select 'Promote to referral', from: 'Screening Decision'
+      blur
+      expect(page).not_to have_content(message)
+      click_button 'Save'
+    end
+
+    within '#decision-card.show' do
+      expect(page).to have_content(message)
+      click_link 'Edit'
+    end
+
+    within '#decision-card.edit' do
+      expect(page).to have_content(message)
+      select 'Immediate', from: 'Response time'
+      expect(page).not_to have_content(message)
+      click_button 'Save'
+    end
+
+    within '#decision-card.show' do
+      expect(page).not_to have_content(message)
+    end
+  end
 end

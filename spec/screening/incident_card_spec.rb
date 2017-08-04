@@ -1,4 +1,6 @@
 # frozen_string_literal: true
+require 'active_support'
+require 'active_support/core_ext'
 
 describe 'Incident Information card', type: :feature do
   # Selecting Start Screening on homepage
@@ -120,6 +122,37 @@ describe 'Incident Information card', type: :feature do
         expect(page).to have_content 'Location Type'
         expect(page).to have_content tst_loc2
       end
+    end
+  end
+
+  it 'does not allow incident date to be in the future' do
+    message = 'The incident date and time cannot be in the future.'
+
+    visit '/'
+    login_user
+    click_link 'Start Screening'
+
+    within '#incident-information-card.edit' do
+      expect(page).not_to have_content(message)
+      fill_in_datepicker 'Incident Date', with: 10.years.from_now
+      expect(page).to have_content(message)
+      click_button 'Save'
+    end
+
+    within '#incident-information-card.show' do
+      expect(page).to have_content(message)
+      click_link 'Edit'
+    end
+
+    within '#incident-information-card.edit' do
+      expect(page).to have_content(message)
+      fill_in_datepicker 'Incident Date', with: 1.month.ago
+      expect(page).not_to have_content(message)
+      click_button 'Save'
+    end
+
+    within '#incident-information-card.show' do
+      expect(page).not_to have_content(message)
     end
   end
 end
