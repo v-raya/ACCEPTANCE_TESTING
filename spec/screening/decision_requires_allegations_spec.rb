@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe 'Selecting promote to referral requires allegations', type: :feature do
   let(:screening_page) { ScreeningPage.new }
   let(:decision_error_message) { 'Please enter at least one allegation to promote to referral.' }
@@ -29,8 +31,12 @@ describe 'Selecting promote to referral requires allegations', type: :feature do
     end
 
     screening_page.set_allegations_attributes(allegations: [
-      {victim_id: victim[:id], perpetrator_id: perpetrator[:id], allegation_types: ['Exploitation']}
-    ])
+                                                {
+                                                  victim_id: victim[:id],
+                                                  perpetrator_id: perpetrator[:id],
+                                                  allegation_types: ['Exploitation']
+                                                }
+                                              ])
 
     within '#decision-card' do
       expect(page).not_to have_content decision_error_message

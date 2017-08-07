@@ -74,8 +74,12 @@ describe 'Scripts' do
     )
 
     screening_page.set_allegations_attributes(allegations: [
-      {victim_id: victim[:id], perpetrator_id: perpetrator[:id], allegation_types: ['General neglect']},
-    ])
+                                                {
+                                                  victim_id: victim[:id],
+                                                  perpetrator_id: perpetrator[:id],
+                                                  allegation_types: ['General neglect']
+                                                }
+                                              ])
 
     screening_page.set_cross_report_attributes(
       agencies: [{

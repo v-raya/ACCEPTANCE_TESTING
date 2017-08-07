@@ -24,7 +24,7 @@ describe 'Sibling At Risk Validation Tests', type: :feature do
 
   let(:screening_page) { ScreeningPage.new }
   let(:error_message) do
-    "Any allegations of Sibling at Risk must be accompanied by another allegation."
+    'Any allegations of Sibling at Risk must be accompanied by another allegation.'
   end
 
   before do
@@ -47,8 +47,12 @@ describe 'Sibling At Risk Validation Tests', type: :feature do
       context 'has not added any complementary allegation to a different allegation' do
         it 'displays an error message' do
           screening_page.set_allegations_attributes(allegations: [
-            {victim_id: victim1[:id], perpetrator_id: perpetrator1[:id], allegation_types: ['At risk, sibling abused']}
-          ])
+                                                      {
+                                                        victim_id: victim1[:id],
+                                                        perpetrator_id: perpetrator1[:id],
+                                                        allegation_types: ['At risk, sibling abused']
+                                                      }
+                                                    ])
 
           within '#allegations-card' do
             expect(page).to have_content(error_message)
@@ -61,9 +65,17 @@ describe 'Sibling At Risk Validation Tests', type: :feature do
       context 'has added other allegations to a different perpetrator' do
         it 'displays an error message' do
           screening_page.set_allegations_attributes(allegations: [
-            {victim_id: victim1[:id], perpetrator_id: perpetrator1[:id], allegation_types: ['At risk, sibling abused']},
-            {victim_id: victim2[:id], perpetrator_id: perpetrator2[:id], allegation_types: ['Physical abuse']}
-          ])
+                                                      {
+                                                        victim_id: victim1[:id],
+                                                        perpetrator_id: perpetrator1[:id],
+                                                        allegation_types: ['At risk, sibling abused']
+                                                      },
+                                                      {
+                                                        victim_id: victim2[:id],
+                                                        perpetrator_id: perpetrator2[:id],
+                                                        allegation_types: ['Physical abuse']
+                                                      }
+                                                    ])
 
           within '#allegations-card' do
             expect(page).to have_content(error_message)
@@ -80,8 +92,12 @@ describe 'Sibling At Risk Validation Tests', type: :feature do
       context 'has not added any complementary allegation to a different allegation' do
         it 'displays an error message' do
           screening_page.set_allegations_attributes(allegations: [
-            {victim_id: victim1[:id], perpetrator_id: perpetrator1[:id], allegation_types: ['At risk, sibling abused']}
-          ])
+                                                      {
+                                                        victim_id: victim1[:id],
+                                                        perpetrator_id: perpetrator1[:id],
+                                                        allegation_types: ['At risk, sibling abused']
+                                                      }
+                                                    ])
 
           within '#allegations-card' do
             expect(page).to have_content(error_message)
@@ -90,9 +106,17 @@ describe 'Sibling At Risk Validation Tests', type: :feature do
           end
 
           screening_page.set_allegations_attributes(allegations: [
-            {victim_id: victim1[:id], perpetrator_id: perpetrator1[:id], allegation_types: ['At risk, sibling abused']},
-            {victim_id: victim2[:id], perpetrator_id: perpetrator1[:id], allegation_types: ['Physical abuse']}
-          ])
+                                                      {
+                                                        victim_id: victim1[:id],
+                                                        perpetrator_id: perpetrator1[:id],
+                                                        allegation_types: ['At risk, sibling abused']
+                                                      },
+                                                      {
+                                                        victim_id: victim2[:id],
+                                                        perpetrator_id: perpetrator1[:id],
+                                                        allegation_types: ['Physical abuse']
+                                                      }
+                                                    ])
 
           within '#allegations-card' do
             expect(page).not_to have_content(error_message)
@@ -105,9 +129,17 @@ describe 'Sibling At Risk Validation Tests', type: :feature do
       context 'has added other allegations to a different perpetrator' do
         it 'displays an error message' do
           screening_page.set_allegations_attributes(allegations: [
-            {victim_id: victim1[:id], perpetrator_id: perpetrator1[:id], allegation_types: ['At risk, sibling abused']},
-            {victim_id: victim2[:id], perpetrator_id: perpetrator2[:id], allegation_types: ['Physical abuse']}
-          ])
+                                                      {
+                                                        victim_id: victim1[:id],
+                                                        perpetrator_id: perpetrator1[:id],
+                                                        allegation_types: ['At risk, sibling abused']
+                                                      },
+                                                      {
+                                                        victim_id: victim2[:id],
+                                                        perpetrator_id: perpetrator2[:id],
+                                                        allegation_types: ['Physical abuse']
+                                                      }
+                                                    ])
 
           within '#allegations-card' do
             expect(page).to have_content(error_message)
@@ -116,9 +148,17 @@ describe 'Sibling At Risk Validation Tests', type: :feature do
           end
 
           screening_page.set_allegations_attributes(allegations: [
-            {victim_id: victim1[:id], perpetrator_id: perpetrator1[:id], allegation_types: ['At risk, sibling abused']},
-            {victim_id: victim2[:id], perpetrator_id: perpetrator1[:id], allegation_types: ['General neglect']}
-          ])
+                                                      {
+                                                        victim_id: victim1[:id],
+                                                        perpetrator_id: perpetrator1[:id],
+                                                        allegation_types: ['At risk, sibling abused']
+                                                      },
+                                                      {
+                                                        victim_id: victim2[:id],
+                                                        perpetrator_id: perpetrator1[:id],
+                                                        allegation_types: ['General neglect']
+                                                      }
+                                                    ])
 
           within '#allegations-card' do
             expect(page).not_to have_content(error_message)
@@ -135,8 +175,12 @@ describe 'Sibling At Risk Validation Tests', type: :feature do
       context 'has not added any complementary allegation to a different allegation' do
         it 'displays an error message' do
           screening_page.set_allegations_attributes(allegations: [
-            {victim_id: victim1[:id], perpetrator_id: perpetrator1[:id], allegation_types: ['At risk, sibling abused']}
-          ])
+                                                      {
+                                                        victim_id: victim1[:id],
+                                                        perpetrator_id: perpetrator1[:id],
+                                                        allegation_types: ['At risk, sibling abused']
+                                                      }
+                                                    ])
 
           within '#allegations-card' do
             expect(page).to have_content(error_message)
@@ -145,8 +189,12 @@ describe 'Sibling At Risk Validation Tests', type: :feature do
           end
 
           screening_page.set_allegations_attributes(allegations: [
-            {victim_id: victim1[:id], perpetrator_id: perpetrator1[:id], allegation_types: ['Physical abuse']}
-          ])
+                                                      {
+                                                        victim_id: victim1[:id],
+                                                        perpetrator_id: perpetrator1[:id],
+                                                        allegation_types: ['Physical abuse']
+                                                      }
+                                                    ])
 
           within '#allegations-card' do
             expect(page).not_to have_content(error_message)
@@ -159,9 +207,17 @@ describe 'Sibling At Risk Validation Tests', type: :feature do
       context 'has added other allegations to a different perpetrator' do
         it 'displays an error message' do
           screening_page.set_allegations_attributes(allegations: [
-            {victim_id: victim1[:id], perpetrator_id: perpetrator1[:id], allegation_types: ['At risk, sibling abused']},
-            {victim_id: victim2[:id], perpetrator_id: perpetrator2[:id], allegation_types: ['Physical abuse']}
-          ])
+                                                      {
+                                                        victim_id: victim1[:id],
+                                                        perpetrator_id: perpetrator1[:id],
+                                                        allegation_types: ['At risk, sibling abused']
+                                                      },
+                                                      {
+                                                        victim_id: victim2[:id],
+                                                        perpetrator_id: perpetrator2[:id],
+                                                        allegation_types: ['Physical abuse']
+                                                      }
+                                                    ])
 
           within '#allegations-card' do
             expect(page).to have_content(error_message)
@@ -170,9 +226,17 @@ describe 'Sibling At Risk Validation Tests', type: :feature do
           end
 
           screening_page.set_allegations_attributes(allegations: [
-            {victim_id: victim1[:id], perpetrator_id: perpetrator1[:id], allegation_types: ['General neglect']},
-            {victim_id: victim2[:id], perpetrator_id: perpetrator2[:id], allegation_types: ['Physical abuse']}
-          ])
+                                                      {
+                                                        victim_id: victim1[:id],
+                                                        perpetrator_id: perpetrator1[:id],
+                                                        allegation_types: ['General neglect']
+                                                      },
+                                                      {
+                                                        victim_id: victim2[:id],
+                                                        perpetrator_id: perpetrator2[:id],
+                                                        allegation_types: ['Physical abuse']
+                                                      }
+                                                    ])
 
           within '#allegations-card' do
             expect(page).not_to have_content(error_message)

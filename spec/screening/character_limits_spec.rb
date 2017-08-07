@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe 'Field limits', type: :feature do
   # Selecting Create Person on homepage
   before do

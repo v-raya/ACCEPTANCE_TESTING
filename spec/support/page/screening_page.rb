@@ -66,13 +66,13 @@ class ScreeningPage
         allegations_to_remove.each do |type|
           remove_react_select_option(allegations_field_id, type)
         end
-        blur #allegations_field_id
+        blur # allegations_field_id
 
         allegation[:allegation_types].each do |type|
           fill_in_react_select(allegations_field_id, with: type)
         end
 
-        blur #allegations_field_id
+        blur # allegations_field_id
       end
       click_button 'Save'
     end
@@ -154,6 +154,7 @@ class ScreeningPage
   end
 
   private
+
   def parse_person_id
     page.all('div[id^="participants-card-"]').first[:id].split('-').last
   end
