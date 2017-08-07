@@ -46,10 +46,9 @@ describe 'Scripts' do
     screening_page.visit_screening
 
     [victim, perpetrator, reporter].each do |person|
-      screening_page.add_new_person
-      person_card_id = find('div[id^="participants-card-"]', text: 'Unknown Person')[:id]
-      person_id = person_card_id.match(/\d+/)[0]
+      person_id = screening_page.add_new_person
       screening_page.set_participant_attributes(person_id, person)
+      person[:id] = person_id
     end
 
     screening_title = FFaker::Movie.title
@@ -74,11 +73,9 @@ describe 'Scripts' do
       narrative: FFaker::Lorem.paragraph(8)
     )
 
-    screening_page.set_allegations_attributes(
-      allegations: [
-        ['Exploitation', 'General neglect']
-      ]
-    )
+    screening_page.set_allegations_attributes(allegations: [
+      {victim_id: victim[:id], perpetrator_id: perpetrator[:id], allegation_types: ['General neglect']},
+    ])
 
     screening_page.set_cross_report_attributes(
       agencies: [{

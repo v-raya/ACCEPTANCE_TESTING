@@ -11,8 +11,7 @@ describe 'Selecting promote to referral requires allegations', type: :feature do
     expect(page).to have_content 'Screening #'
 
     [victim, perpetrator].each do |person|
-      screening_page.add_new_person
-      person_id = page.all('div[id^="participants-card-"]').first[:id].split('-').last
+      person_id = screening_page.add_new_person
       screening_page.set_participant_attributes(person_id, roles: person[:roles])
       person[:id] = person_id
     end
@@ -29,7 +28,9 @@ describe 'Selecting promote to referral requires allegations', type: :feature do
       expect(page).to have_content allegation_error_message
     end
 
-    screening_page.set_allegations_attributes(allegations: [['Exploitation']])
+    screening_page.set_allegations_attributes(allegations: [
+      {victim_id: victim[:id], perpetrator_id: perpetrator[:id], allegation_types: ['Exploitation']}
+    ])
 
     within '#decision-card' do
       expect(page).not_to have_content decision_error_message
