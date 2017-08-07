@@ -57,14 +57,22 @@ class ScreeningPage
 
   def set_allegations_attributes(attrs)
     within '#allegations-card' do
-      within('tbody') do
-        table_rows = page.all('tr')
-        table_rows.each_with_index do |_row, index|
-          allegations_field_id = find('input[id^="allegations_"]')[:id]
-          attrs[:allegations][index] && attrs[:allegations][index].each do |allegation|
-            fill_in_react_select(allegations_field_id, with: allegation)
-          end
+      attrs[:allegations].each do |allegation|
+        allegations_field_id = "allegations_#{allegation[:victim_id]}_#{allegation[:perpetrator_id]}"
+
+        allegations_to_remove = selected_options(allegations_field_id).reject do |type|
+          allegation[:allegation_types].include?(type)
         end
+        allegations_to_remove.each do |type|
+          remove_react_select_option(allegations_field_id, type)
+        end
+        blur #allegations_field_id
+
+        allegation[:allegation_types].each do |type|
+          fill_in_react_select(allegations_field_id, with: type)
+        end
+
+        blur #allegations_field_id
       end
       click_button 'Save'
     end
@@ -105,6 +113,7 @@ class ScreeningPage
       click_button 'Create a new person'
       sleep 0.5
     end
+    parse_person_id
   end
 
   def set_participant_attributes(id, attrs)
@@ -142,5 +151,10 @@ class ScreeningPage
     else
       super
     end
+  end
+
+  private
+  def parse_person_id
+    page.all('div[id^="participants-card-"]').first[:id].split('-').last
   end
 end
