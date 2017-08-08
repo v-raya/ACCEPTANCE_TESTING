@@ -125,6 +125,9 @@ class ScreeningPage
       fill_in('Date of birth', with: attrs[:dob]) if attrs[:dob]
       fill_in_react_select('Role', with: attrs[:roles]) if attrs[:roles]
       select(attrs[:gender], from: 'Gender') if attrs[:gender]
+      attrs[:languages] && attrs[:languages].each do |language|
+        fill_in_react_select('Language(s)', with: language)
+      end
       attrs[:addresses] && attrs[:addresses].each do |address|
         within '.card-body' do
           click_button 'Add new address'
@@ -134,6 +137,7 @@ class ScreeningPage
             fill_in('City', with: address[:city]) if address[:city]
             select(address[:state], from: 'State') if address[:state]
             fill_in('Zip', with: address[:zip]) if address[:zip]
+            select(address[:type], from: 'Address Type') if address[:type]
           end
         end
       end

@@ -4,6 +4,67 @@ require 'react_select_helpers'
 require 'spec_helper'
 require 'capybara'
 
+def language_sample
+  srand
+  [
+    'American Sign Language',
+    'Arabic',
+    'Armenian',
+    'Cambodian',
+    'Cantonese',
+    'English',
+    'Farsi',
+    'French',
+    'German',
+    'Hawaiian',
+    'Hebrew',
+    'Hmong',
+    'Ilocano',
+    'Indochinese',
+    'Italian',
+    'Japanese',
+    'Korean',
+    'Lao',
+    'Mandarin',
+    'Mien',
+    'Other Chinese',
+    'Other Non-English',
+    'Polish',
+    'Portuguese',
+    'Romanian',
+    'Russian',
+    'Samoan',
+    'Sign Language (Not ASL)',
+    'Spanish',
+    'Tagalog',
+    'Thai',
+    'Turkish',
+    'Vietnamese'
+  ].sample rand(3)
+end
+
+def gender_sample
+  ['Male', 'Female', 'Unknown'].sample
+end
+
+def zip_sample
+  FFaker::AddressUS.zip_code[0..4]
+end
+
+def address_type_sample
+  [
+    'Common',
+    'Day Care',
+    'Home',
+    'Homeless',
+    'Other',
+    'Penal Institution',
+    'Permanent Mailing Address',
+    'Residence 2',
+    'Work'
+  ].sample
+end
+
 victim = {
   first_name: FFaker::Name.first_name,
   middle_name: FFaker::Product.letters(1),
@@ -11,7 +72,8 @@ victim = {
   roles: 'Victim',
   ssn: FFaker::Identification.ssn,
   dob: FFaker::Time.between(Time.new(2000), Time.new(2017)).strftime('%m/%d/%Y'),
-  gender: FFaker::Identification.gender
+  languages: language_sample,
+  gender: gender_sample
 }
 perpetrator = {
   first_name: FFaker::Name.first_name,
@@ -20,7 +82,8 @@ perpetrator = {
   roles: 'Perpetrator',
   ssn: FFaker::Identification.ssn,
   dob: FFaker::Time.between(Time.new(1990), Time.new(1999)).strftime('%m/%d/%Y'),
-  gender: FFaker::Identification.gender
+  languages: language_sample,
+  gender: gender_sample
 }
 reporter = {
   first_name: FFaker::Name.first_name,
@@ -29,13 +92,15 @@ reporter = {
   roles: 'Mandated Reporter',
   ssn: FFaker::Identification.ssn,
   dob: FFaker::Time.between(Time.new(1980), Time.new(1989)).strftime('%m/%d/%Y'),
-  gender: FFaker::Identification.gender,
+  languages: language_sample,
+  gender: gender_sample,
   addresses: [
     {
       street_address: FFaker::AddressUS.street_address,
       city: FFaker::AddressUS.city,
       state: FFaker::AddressUS.state,
-      zip: FFaker::AddressUS.zip_code
+      zip: zip_sample,
+      type: address_type_sample
     }
   ]
 }
@@ -65,12 +130,12 @@ describe 'Scripts' do
       address: FFaker::AddressUS.street_address,
       city: FFaker::AddressUS.city,
       state: FFaker::AddressUS.state,
-      zip: FFaker::AddressUS.zip_code,
+      zip: zip_sample,
       location_type: "Child's Home"
     )
 
     screening_page.set_narrative(
-      narrative: FFaker::Lorem.paragraph(8)
+      narrative: FFaker::Lorem.paragraph(2)
     )
 
     screening_page.set_allegations_attributes(allegations: [
@@ -85,6 +150,9 @@ describe 'Scripts' do
       agencies: [{
         type: 'District attorney',
         name: 'Jan 1 $ully'
+      },{
+        type: 'Law enforcement',
+        name: 'La La PD'
       }],
       date: '08/17/2016',
       communication_method: 'Suspected Child Abuse Report'
