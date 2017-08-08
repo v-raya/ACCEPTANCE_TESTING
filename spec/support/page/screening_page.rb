@@ -137,6 +137,7 @@ class ScreeningPage
             fill_in('City', with: address[:city]) if address[:city]
             select(address[:state], from: 'State') if address[:state]
             fill_in('Zip', with: address[:zip]) if address[:zip]
+            select(address[:type], from: 'Address Type') if address[:type]
           end
         end
       end

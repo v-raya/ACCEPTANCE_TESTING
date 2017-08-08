@@ -81,7 +81,9 @@ reporter = {
       street_address: FFaker::AddressUS.street_address,
       city: FFaker::AddressUS.city,
       state: FFaker::AddressUS.state,
-      zip: FFaker::AddressUS.zip_code
+      zip: FFaker::AddressUS.zip_code.sub(/-\d{4}/,''),
+      type: ['Common', 'Day Care', 'Home', 'Homeless', 'Other', 'Penal Institution',
+                     'Permanent Mailing Address', 'Residence 2', 'Work'].sample
     }
   ]
 }
@@ -111,12 +113,12 @@ describe 'Scripts' do
       address: FFaker::AddressUS.street_address,
       city: FFaker::AddressUS.city,
       state: FFaker::AddressUS.state,
-      zip: FFaker::AddressUS.zip_code,
+      zip: FFaker::AddressUS.zip_code.sub(/-\d{4}/,''),
       location_type: "Child's Home"
     )
 
     screening_page.set_narrative(
-      narrative: FFaker::Lorem.paragraph(8)
+      narrative: FFaker::Lorem.paragraph(2)
     )
 
     screening_page.set_allegations_attributes(allegations: [
@@ -131,6 +133,9 @@ describe 'Scripts' do
       agencies: [{
         type: 'District attorney',
         name: 'Jan 1 $ully'
+      },{
+        type: 'Law enforcement',
+        name: 'La La PD'
       }],
       date: '08/17/2016',
       communication_method: 'Suspected Child Abuse Report'
