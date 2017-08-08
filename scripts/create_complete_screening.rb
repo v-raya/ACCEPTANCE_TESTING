@@ -4,6 +4,10 @@ require 'react_select_helpers'
 require 'spec_helper'
 require 'capybara'
 
+def gender_sample
+  ['Male', 'Female', 'Unknown'].sample
+end
+
 victim = {
   first_name: FFaker::Name.first_name,
   middle_name: FFaker::Product.letters(1),
@@ -11,7 +15,7 @@ victim = {
   roles: 'Victim',
   ssn: FFaker::Identification.ssn,
   dob: FFaker::Time.between(Time.new(2000), Time.new(2017)).strftime('%m/%d/%Y'),
-  gender: FFaker::Identification.gender
+  gender: gender_sample
 }
 perpetrator = {
   first_name: FFaker::Name.first_name,
@@ -20,7 +24,7 @@ perpetrator = {
   roles: 'Perpetrator',
   ssn: FFaker::Identification.ssn,
   dob: FFaker::Time.between(Time.new(1990), Time.new(1999)).strftime('%m/%d/%Y'),
-  gender: FFaker::Identification.gender
+  gender: gender_sample
 }
 reporter = {
   first_name: FFaker::Name.first_name,
@@ -29,7 +33,7 @@ reporter = {
   roles: 'Mandated Reporter',
   ssn: FFaker::Identification.ssn,
   dob: FFaker::Time.between(Time.new(1980), Time.new(1989)).strftime('%m/%d/%Y'),
-  gender: FFaker::Identification.gender,
+  gender: gender_sample,
   addresses: [
     {
       street_address: FFaker::AddressUS.street_address,
