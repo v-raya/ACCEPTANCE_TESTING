@@ -47,6 +47,24 @@ def gender_sample
   ['Male', 'Female', 'Unknown'].sample
 end
 
+def zip_sample
+  FFaker::AddressUS.zip_code[0..4]
+end
+
+def address_type_sample
+  [
+    'Common',
+    'Day Care',
+    'Home',
+    'Homeless',
+    'Other',
+    'Penal Institution',
+    'Permanent Mailing Address',
+    'Residence 2',
+    'Work'
+  ].sample
+end
+
 victim = {
   first_name: FFaker::Name.first_name,
   middle_name: FFaker::Product.letters(1),
@@ -81,9 +99,8 @@ reporter = {
       street_address: FFaker::AddressUS.street_address,
       city: FFaker::AddressUS.city,
       state: FFaker::AddressUS.state,
-      zip: FFaker::AddressUS.zip_code.sub(/-\d{4}/,''),
-      type: ['Common', 'Day Care', 'Home', 'Homeless', 'Other', 'Penal Institution',
-                     'Permanent Mailing Address', 'Residence 2', 'Work'].sample
+      zip: zip_sample,
+      type: address_type_sample
     }
   ]
 }
@@ -113,7 +130,7 @@ describe 'Scripts' do
       address: FFaker::AddressUS.street_address,
       city: FFaker::AddressUS.city,
       state: FFaker::AddressUS.state,
-      zip: FFaker::AddressUS.zip_code.sub(/-\d{4}/,''),
+      zip: zip_sample,
       location_type: "Child's Home"
     )
 
