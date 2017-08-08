@@ -31,9 +31,7 @@ person4 = {
 describe 'Allegations Card Tests', type: :feature do
   # Selecting Start Screening on homepage
   before do
-    visit '/'
-    login_user
-    click_link 'Start Screening'
+    ScreeningPage.new.visit_screening
   end
 
   it 'Test Allegation card' do

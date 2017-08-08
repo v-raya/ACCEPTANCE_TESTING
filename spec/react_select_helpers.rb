@@ -23,6 +23,11 @@ module ReactSelectHelpers
     close_icon.click
   end
 
+  def selected_options(selector)
+    select_container = find(:xpath, "//*[@id='#{selector}']/ancestor::div[contains(@class, 'Select ')]")
+    select_container.all('.Select-value-label').map(&:text)
+  end
+
   def check_selected_options(select_container, with)
     selected_values = select_container.all('.Select-value-label').map(&:text)
     expect(selected_values).to eq(with)
