@@ -44,7 +44,7 @@ describe 'Sibling At Risk Validation Tests', type: :feature do
 
   context 'Notifying the user when conditions require an allegation' do
     context 'when adding one or more allegations of "At risk, sibling abused"' do
-      context 'has not added any complementary allegation to a different allegation' do
+      context 'has not added any complementary allegation to a different victim\'s maltreatment' do
         it 'displays an error message' do
           screening_page.set_allegations_attributes(allegations: [
                                                       {
@@ -62,7 +62,7 @@ describe 'Sibling At Risk Validation Tests', type: :feature do
         end
       end
 
-      context 'has added other allegations to a different perpetrator' do
+      context 'has only added other allegations to a different perpetrator\'s maltreatment of a victim' do
         it 'displays an error message' do
           screening_page.set_allegations_attributes(allegations: [
                                                       {
@@ -89,8 +89,8 @@ describe 'Sibling At Risk Validation Tests', type: :feature do
 
   context 'Fixing missing fields' do
     context 'when adding one or more allegations of "At risk, sibling abused"' do
-      context 'has not added any complementary allegation to a different allegation' do
-        it 'displays an error message' do
+      context 'has not added any complementary allegation to a different victim\'s maltreatment' do
+        it 'to satisfy the error when complementary allegation is added' do
           screening_page.set_allegations_attributes(allegations: [
                                                       {
                                                         victim_id: victim1[:id],
@@ -126,8 +126,8 @@ describe 'Sibling At Risk Validation Tests', type: :feature do
         end
       end
 
-      context 'has added other allegations to a different perpetrator' do
-        it 'displays an error message' do
+      context 'has only added other allegations to a different perpetrator\s maltreatment of a victim' do
+        it 'to satisfy the error when complementary allegation is added' do
           screening_page.set_allegations_attributes(allegations: [
                                                       {
                                                         victim_id: victim1[:id],
@@ -148,11 +148,6 @@ describe 'Sibling At Risk Validation Tests', type: :feature do
           end
 
           screening_page.set_allegations_attributes(allegations: [
-                                                      {
-                                                        victim_id: victim1[:id],
-                                                        perpetrator_id: perpetrator1[:id],
-                                                        allegation_types: ['At risk, sibling abused']
-                                                      },
                                                       {
                                                         victim_id: victim2[:id],
                                                         perpetrator_id: perpetrator1[:id],
@@ -170,10 +165,10 @@ describe 'Sibling At Risk Validation Tests', type: :feature do
     end
   end
 
-  context 'Removing the conditionaal business rule' do
+  context 'Removing the conditional business rule' do
     context 'when adding one or more allegations of "At risk, sibling abused"' do
-      context 'has not added any complementary allegation to a different allegation' do
-        it 'displays an error message' do
+      context 'has not added any complementary allegation to a different victim\'s maltreatment' do
+        it 'satisfies the error when "At risk, sibling abused" is removed' do
           screening_page.set_allegations_attributes(allegations: [
                                                       {
                                                         victim_id: victim1[:id],
@@ -204,8 +199,8 @@ describe 'Sibling At Risk Validation Tests', type: :feature do
         end
       end
 
-      context 'has added other allegations to a different perpetrator' do
-        it 'displays an error message' do
+      context 'has only added other allegations to a different perpetrator\'s maltreatment of a victim' do
+        it 'satisfies the error when "At risk, sibling abused" is removed' do
           screening_page.set_allegations_attributes(allegations: [
                                                       {
                                                         victim_id: victim1[:id],
@@ -230,11 +225,6 @@ describe 'Sibling At Risk Validation Tests', type: :feature do
                                                         victim_id: victim1[:id],
                                                         perpetrator_id: perpetrator1[:id],
                                                         allegation_types: ['General neglect']
-                                                      },
-                                                      {
-                                                        victim_id: victim2[:id],
-                                                        perpetrator_id: perpetrator2[:id],
-                                                        allegation_types: ['Physical abuse']
                                                       }
                                                     ])
 
