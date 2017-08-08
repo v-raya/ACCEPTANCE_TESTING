@@ -4,6 +4,45 @@ require 'react_select_helpers'
 require 'spec_helper'
 require 'capybara'
 
+def language_sample
+  srand
+  [
+    'American Sign Language',
+    'Arabic',
+    'Armenian',
+    'Cambodian',
+    'Cantonese',
+    'English',
+    'Farsi',
+    'French',
+    'German',
+    'Hawaiian',
+    'Hebrew',
+    'Hmong',
+    'Ilocano',
+    'Indochinese',
+    'Italian',
+    'Japanese',
+    'Korean',
+    'Lao',
+    'Mandarin',
+    'Mien',
+    'Other Chinese',
+    'Other Non-English',
+    'Polish',
+    'Portuguese',
+    'Romanian',
+    'Russian',
+    'Samoan',
+    'Sign Language (Not ASL)',
+    'Spanish',
+    'Tagalog',
+    'Thai',
+    'Turkish',
+    'Vietnamese'
+  ].sample rand(3)
+end
+
 def gender_sample
   ['Male', 'Female', 'Unknown'].sample
 end
@@ -15,6 +54,7 @@ victim = {
   roles: 'Victim',
   ssn: FFaker::Identification.ssn,
   dob: FFaker::Time.between(Time.new(2000), Time.new(2017)).strftime('%m/%d/%Y'),
+  languages: language_sample,
   gender: gender_sample
 }
 perpetrator = {
@@ -24,6 +64,7 @@ perpetrator = {
   roles: 'Perpetrator',
   ssn: FFaker::Identification.ssn,
   dob: FFaker::Time.between(Time.new(1990), Time.new(1999)).strftime('%m/%d/%Y'),
+  languages: language_sample,
   gender: gender_sample
 }
 reporter = {
@@ -33,6 +74,7 @@ reporter = {
   roles: 'Mandated Reporter',
   ssn: FFaker::Identification.ssn,
   dob: FFaker::Time.between(Time.new(1980), Time.new(1989)).strftime('%m/%d/%Y'),
+  languages: language_sample,
   gender: gender_sample,
   addresses: [
     {
