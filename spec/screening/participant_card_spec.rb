@@ -241,6 +241,7 @@ describe 'Partcipant Card tests', type: :feature do
         expect(page).to have_content(person1[:gender])
         expect(page).to have_content(person1[:Language])
         expect(page).to have_content(person1[:Language2])
+        expect(page).to have_content(person1[:role2])
         expect(page).to have_content(person1[:ssn])
         expect(page).to have_content(person1[:city])
       end
@@ -322,6 +323,8 @@ describe 'Partcipant Card tests', type: :feature do
       has_react_select_field('Role', with: [person1[:role1], person1[:role2]])
       click_button 'Save'
       expect(page).to have_content("#{person1[:fname]} #{person1[:lname]}")
+      expect(page).to have_content(person1[:role1])
+      expect(page).to have_content(person1[:role2])
     end
     within '#search-card', text: 'Search' do
       autocompleter_fill_in 'Search for any person', 'zz'
@@ -348,6 +351,7 @@ describe 'Partcipant Card tests', type: :feature do
       click_button 'Save'
       expect(page).to have_content("#{person2[:fname]} #{person2[:mname]} " \
                                    "#{person2[:lname]}, #{person2[:suffix]}")
+      expect(page).to have_content(person2[:role1])
       within '.card-header' do
         click_link 'Edit'
       end
