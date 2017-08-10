@@ -172,6 +172,7 @@ describe 'Cross Report card', type: :feature do
         first('label', text: 'Licensing').click
         first('label', text: 'Department of justice').click
         first('label', text: 'Law enforcement').click
+        fill_in 'District attorney agency name', with: ''
         fill_in 'District attorney agency name', with: char132str
         expect(page).to have_field('District attorney agency name',
                                    with: char128str)
