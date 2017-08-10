@@ -4,9 +4,8 @@ require 'react_select_helpers'
 require 'spec_helper'
 require 'capybara'
 
-
-describe 'Scripts' do
-  scenario 'Create a stubbed zippy referral for manual testing' do
+describe 'Submitting a referral when screening is valid', type: :feature do
+  it 'enables the submit button' do
     screening_page = ScreeningPage.new
     screening_page.visit_screening
     victim_id = screening_page.add_new_person Participant.victim
@@ -47,7 +46,7 @@ describe 'Scripts' do
       agencies: [{
         type: 'District attorney',
         name: 'Jan 1 $ully'
-      },{
+      }, {
         type: 'Law enforcement',
         name: 'La La PD'
       }],
@@ -61,13 +60,7 @@ describe 'Scripts' do
     )
 
     puts "Go find your screening, named #{screening_title}, at #{page.current_url}"
-  end
-end
 
-def method_missing(method, *args, &block)
-  if Capybara.respond_to?(method)
-    Capybara.send(method, *args, &block)
-  else
-    super
+    expect(find_button('Submit').disabled?).to be(false)
   end
 end
