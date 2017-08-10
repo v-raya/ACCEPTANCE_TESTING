@@ -107,13 +107,15 @@ class ScreeningPage
     end
   end
 
-  def add_new_person
+  def add_new_person(person = nil)
     within '#search-card' do
       autocompleter_fill_in 'Search for any person', 'abcdef'
       click_button 'Create a new person'
       sleep 0.5
     end
-    parse_person_id
+    person_id = parse_person_id
+    set_participant_attributes(person_id, person) if person
+    person_id
   end
 
   def set_participant_attributes(id, attrs)
@@ -122,7 +124,7 @@ class ScreeningPage
       fill_in('Middle Name', with: attrs[:middle_name]) if attrs[:middle_name]
       fill_in('Last Name', with: attrs[:last_name]) if attrs[:last_name]
       fill_in('Social security number', with: attrs[:ssn]) if attrs[:ssn]
-      fill_in('Date of birth', with: attrs[:dob]) if attrs[:dob]
+      fill_in('Date of birth', with: attrs[:date_of_birth]) if attrs[:date_of_birth]
       fill_in_react_select('Role', with: attrs[:roles]) if attrs[:roles]
       select(attrs[:gender], from: 'Gender') if attrs[:gender]
       attrs[:languages] && attrs[:languages].each do |language|
