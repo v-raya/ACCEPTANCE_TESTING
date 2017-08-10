@@ -51,36 +51,36 @@ describe 'Validate date (date picker) on screening cards', type: :feature do
     # test for clicking on the calendar and time picker
     within '#screening-information-card' do
       fill_in_datepicker 'Screening Start Date/Time', with: '08/17/2016 3:00 AM'
-      mouse_select_datepicker('#started_at', 23)
+      select_today_from_calendar('#started_at')
       mouse_select_timepicker('#started_at', '1:00 AM')
       find_field('Title/Name of Screening').click
-      expect(page).to have_field('Screening Start Date/Time', with: '08/23/2016 1:00 AM')
+      expect(page).to have_field('Screening Start Date/Time', with: Time.now.strftime('%m/%d/%Y 1:00 AM'))
       fill_in_datepicker 'Screening End Date/Time', with: '08/17/2016 4:00 AM'
-      mouse_select_datepicker('#ended_at', 23)
+      select_today_from_calendar('#ended_at')
       mouse_select_timepicker('#ended_at', '2:00 AM')
       find_field('Title/Name of Screening').click
-      expect(page).to have_field('Screening End Date/Time', with: '08/23/2016 2:00 AM')
+      expect(page).to have_field('Screening End Date/Time', with: Time.now.strftime('%m/%d/%Y 2:00 AM'))
     end
     within '#incident-information-card.edit' do
       fill_in_datepicker 'Incident Date', with: '08/17/2015'
-      mouse_select_datepicker('#incident_date', 23)
+      select_today_from_calendar('#incident_date')
       find_field('City').click
-      expect(page).to have_field('Incident Date', with: '08/23/2015')
+      expect(page).to have_field('Incident Date', with: Time.now.strftime('%m/%d/%Y'))
       click_button 'Save'
     end
     within '#incident-information-card.show' do
-      expect(page).to have_content('08/23/2015')
+      expect(page).to have_content(Time.now.strftime('%m/%d/%Y'))
     end
     within '#cross-report-card.edit' do
       find('label', text: 'District attorney').click
       fill_in_datepicker 'Cross Reported on Date', with: '08/17/2016'
-      mouse_select_datepicker('#cross_report_reported_on', 23)
-      find_field('District attorney agency name').click
-      expect(page).to have_field('Cross Reported on Date', with: '08/23/2016')
+      select_today_from_calendar('#cross_report_reported_on')
+      find('.card-body').click
+      expect(page).to have_field('Cross Reported on Date', with: Time.now.strftime('%m/%d/%Y'))
       click_button 'Save'
     end
     within '#cross-report-card.show' do
-      expect(page).to have_content('08/23/2016')
+      expect(page).to have_content(Time.now.strftime('%m/%d/%Y'))
     end
   end
 
