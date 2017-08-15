@@ -128,9 +128,9 @@ describe 'Partcipant Card tests', type: :feature do
         expect(page).to have_content("#{person1[:fname]} " \
                                      '(Unknown last name)')
       end
-      fname_input = find_field('First Name')
+      first_name_input = find_field('First Name')
       5.times do
-        fname_input.send_keys(:backspace)
+        first_name_input.send_keys(:backspace)
       end
       fill_in('Last Name', with: person1[:lname])
       expect(page).to have_content('(Unknown first name) ' \

@@ -37,7 +37,7 @@ module Participant
   end
 
   def self.roles(value = nil)
-    value || all_roles.sample(2)
+    value || all_roles.sample(rand(1..2))
   end
 
   def self.first_name(value = nil)
