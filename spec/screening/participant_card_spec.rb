@@ -1,58 +1,5 @@
 # frozen_string_literal: true
 
-def check_role_options
-  options = [
-    'Victim',
-    'Perpetrator',
-    'Mandated Reporter',
-    'Non-mandated Reporter',
-    'Anonymous Reporter'
-  ]
-  has_react_select_field('Role', options: options)
-end
-
-# rubocop:disable Metrics/MethodLength
-def check_language_options
-  language_options = [
-    'American Sign Language',
-    'Arabic',
-    'Armenian',
-    'Cambodian',
-    'Cantonese',
-    'English',
-    'Farsi',
-    'Filipino',
-    'French',
-    'German',
-    'Hawaiian',
-    'Hebrew',
-    'Hmong',
-    'Ilocano',
-    'Indochinese',
-    'Italian',
-    'Japanese',
-    'Korean',
-    'Lao',
-    'Mandarin',
-    'Mien',
-    'Other Chinese',
-    'Other Non-English',
-    'Polish',
-    'Portuguese',
-    'Romanian',
-    'Russian',
-    'Samoan',
-    'Sign Language (Not ASL)',
-    'Spanish',
-    'Tagalog',
-    'Thai',
-    'Turkish',
-    'Vietnamese'
-  ]
-  has_react_select_field('Language', options: language_options)
-end
-# rubocop:enable Metrics/MethodLength
-
 person1 = {
   fname: 'JOHN',
   mname: 'JACOB',
@@ -115,10 +62,10 @@ describe 'Partcipant Card tests', type: :feature do
                                                       'IV', 'Jr', 'Sr', 'MD',
                                                       'PhD', 'JD'])
       expect(page).to have_content('Language(s)')
-      check_language_options
+      has_react_select_field('Language', options: Participant.all_languages)
       has_react_select_field('languages', with: [])
       expect(page).to have_content('Role')
-      check_role_options
+      has_react_select_field('Role', options: Participant.all_roles)
       has_react_select_field('Role', with: [])
       click_button 'Add new phone number'
       expect(page).to have_content('Phone Number')
@@ -132,8 +79,7 @@ describe 'Partcipant Card tests', type: :feature do
       expect(page).to have_field('Date of birth', with: '')
       expect(page).to have_content('Gender')
       expect(page).to have_select('Gender', selected: '')
-      expect(page).to have_select('Gender', options: ['', 'Male', 'Female',
-                                                      'Other'])
+      expect(page).to have_select('Gender', options: Participant.all_genders.push(''))
       expect(page).to have_content('Social security number')
       expect(page).to have_field('Social security number', with: '')
       click_button 'Add new address'
@@ -147,11 +93,7 @@ describe 'Partcipant Card tests', type: :feature do
       expect(page).to have_field('Zip', with: '')
       expect(page).to have_content('Address Type')
       expect(page).to have_select('Address Type', selected: '')
-      expect(page).to have_select('Address Type', options: ['', 'Home',
-                                                            'School', 'Work',
-                                                            'Placement',
-                                                            'Homeless',
-                                                            'Other'])
+      expect(page).to have_select('Address Type', options: Address.all_types.push(''))
       expect(page).to have_button 'Save'
       expect(page).to have_button 'Cancel'
       click_button 'Save'
@@ -186,9 +128,9 @@ describe 'Partcipant Card tests', type: :feature do
         expect(page).to have_content("#{person1[:fname]} " \
                                      '(Unknown last name)')
       end
-      role_input = find_field('First Name')
+      first_name_input = find_field('First Name')
       5.times do
-        role_input.send_keys(:backspace)
+        first_name_input.send_keys(:backspace)
       end
       fill_in('Last Name', with: person1[:lname])
       expect(page).to have_content('(Unknown first name) ' \
@@ -241,6 +183,7 @@ describe 'Partcipant Card tests', type: :feature do
         expect(page).to have_content(person1[:gender])
         expect(page).to have_content(person1[:Language])
         expect(page).to have_content(person1[:Language2])
+        expect(page).to have_content(person1[:role2])
         expect(page).to have_content(person1[:ssn])
         expect(page).to have_content(person1[:city])
       end
@@ -322,6 +265,8 @@ describe 'Partcipant Card tests', type: :feature do
       has_react_select_field('Role', with: [person1[:role1], person1[:role2]])
       click_button 'Save'
       expect(page).to have_content("#{person1[:fname]} #{person1[:lname]}")
+      expect(page).to have_content(person1[:role1])
+      expect(page).to have_content(person1[:role2])
     end
     within '#search-card', text: 'Search' do
       autocompleter_fill_in 'Search for any person', 'zz'
@@ -348,6 +293,7 @@ describe 'Partcipant Card tests', type: :feature do
       click_button 'Save'
       expect(page).to have_content("#{person2[:fname]} #{person2[:mname]} " \
                                    "#{person2[:lname]}, #{person2[:suffix]}")
+      expect(page).to have_content(person2[:role1])
       within '.card-header' do
         click_link 'Edit'
       end

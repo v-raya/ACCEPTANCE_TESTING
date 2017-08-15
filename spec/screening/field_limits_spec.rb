@@ -15,17 +15,19 @@ describe 'Field limits', type: :feature do
     one_hundred_and_twenty_nine_chars = (0..128).map { 'A' }.join('')
     eleven_digits = (0..10).map { '1' }.join('')
 
-    fill_in 'Title/Name of Screening', with: sixty_five_characters
-    expect(find_field('Title/Name of Screening').value.length).to eq(64)
+    within '#screening-information-card.edit' do
+      fill_in 'Title/Name of Screening', with: sixty_five_characters
+      expect(find_field('Title/Name of Screening').value.length).to eq(64)
 
-    fill_in 'Assigned Social Worker', with: sixty_five_characters
-    expect(find_field('Assigned Social Worker').value.length).to eq(64)
+      fill_in 'Assigned Social Worker', with: sixty_five_characters
+      expect(find_field('Assigned Social Worker').value.length).to eq(64)
 
-    fill_in_datepicker 'Screening Start Date/Time', with: twenty_digits
-    expect(find_field('Screening Start Date/Time').value.length).to eq(19)
+      fill_in_datepicker 'Screening Start Date/Time', with: twenty_digits
+      expect(find_field('Screening Start Date/Time').value.length).to eq(19)
 
-    fill_in_datepicker 'Screening End Date/Time', with: twenty_digits
-    expect(find_field('Screening End Date/Time').value.length).to eq(19)
+      fill_in_datepicker 'Screening End Date/Time', with: twenty_digits
+      expect(find_field('Screening End Date/Time').value.length).to eq(19)
+    end
 
     within '#search-card', text: 'Search' do
       autocompleter_fill_in 'Search for any person', twenty_digits

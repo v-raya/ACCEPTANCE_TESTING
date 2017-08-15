@@ -5,18 +5,15 @@ describe 'Selecting promote to referral requires allegations', type: :feature do
   let(:decision_error_message) { 'Please enter at least one allegation to promote to referral.' }
   let(:allegation_error_message) { 'Any report that is promoted for referral must include at least one allegation.' }
 
-  victim = { roles: ['Victim'] }
-  perpetrator = { roles: ['Perpetrator'] }
+  victim = Participant.victim
+  perpetrator = Participant.perpetrator
 
   before do
     screening_page.visit_screening
     expect(page).to have_content 'Screening #'
 
-    [victim, perpetrator].each do |person|
-      person_id = screening_page.add_new_person
-      screening_page.set_participant_attributes(person_id, roles: person[:roles])
-      person[:id] = person_id
-    end
+    victim[:id] = screening_page.add_new_person victim
+    perpetrator[:id] = screening_page.add_new_person perpetrator
   end
 
   it 'displays an error message below the decision select box until a user adds an allegation type' do

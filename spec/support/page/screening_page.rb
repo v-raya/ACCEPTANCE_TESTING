@@ -6,6 +6,7 @@ require 'spec_helper'
 
 class ScreeningPage
   include ReactSelectHelpers
+  include Capybara::DSL
 
   attr_reader :id
 
@@ -17,11 +18,7 @@ class ScreeningPage
     visit '/'
     login_user
 
-    if id
-      visit "/screenings/#{id}/edit"
-    else
-      click_link 'Start Screening'
-    end
+    id ? visit("/screenings/#{id}/edit") : click_link('Start Screening')
   end
 
   def set_screening_information_attributes(attrs)
@@ -107,13 +104,15 @@ class ScreeningPage
     end
   end
 
-  def add_new_person
+  def add_new_person(person = nil)
     within '#search-card' do
       autocompleter_fill_in 'Search for any person', 'abcdef'
       click_button 'Create a new person'
       sleep 0.5
     end
-    parse_person_id
+    person_id = page.all('div[id^="participants-card-"]').first[:id].split('-').last
+    set_participant_attributes(person_id, person) if person
+    person_id
   end
 
   def set_participant_attributes(id, attrs)
@@ -122,7 +121,7 @@ class ScreeningPage
       fill_in('Middle Name', with: attrs[:middle_name]) if attrs[:middle_name]
       fill_in('Last Name', with: attrs[:last_name]) if attrs[:last_name]
       fill_in('Social security number', with: attrs[:ssn]) if attrs[:ssn]
-      fill_in('Date of birth', with: attrs[:dob]) if attrs[:dob]
+      fill_in('Date of birth', with: attrs[:date_of_birth]) if attrs[:date_of_birth]
       fill_in_react_select('Role', with: attrs[:roles]) if attrs[:roles]
       select(attrs[:gender], from: 'Gender') if attrs[:gender]
       attrs[:languages] && attrs[:languages].each do |language|
@@ -143,23 +142,5 @@ class ScreeningPage
       end
       click_button 'Save'
     end
-  end
-
-  def select(*args)
-    Capybara.select(*args)
-  end
-
-  def method_missing(method, *args, &block)
-    if Capybara.respond_to?(method)
-      Capybara.send(method, *args, &block)
-    else
-      super
-    end
-  end
-
-  private
-
-  def parse_person_id
-    page.all('div[id^="participants-card-"]').first[:id].split('-').last
   end
 end
