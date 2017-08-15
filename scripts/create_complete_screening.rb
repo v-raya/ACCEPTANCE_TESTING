@@ -21,7 +21,7 @@ describe 'Submitting a referral when screening is valid', type: :feature do
     )
 
     screening_page.set_incident_information_attributes(
-      incident_county: 'Yolo',
+      incident_county: 'Madera',
       incident_date: '08/23/1996',
       address: FFaker::AddressUS.street_address,
       city: FFaker::AddressUS.city,
