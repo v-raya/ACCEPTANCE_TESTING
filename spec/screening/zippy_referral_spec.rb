@@ -23,10 +23,12 @@ person3 = {
   lname: 'ReportLast',
   role: 'Mandated Reporter',
   ssn: '333333333',
-  gender: 'Other',
+  gender: 'Unknown',
   address: {
     street_address: '333 Some Road',
-    zip: '95618'
+    state: 'California',
+    zip: '95618',
+    type: 'Home'
   }
 }
 
@@ -50,13 +52,14 @@ describe 'save a zippy referral', type: :feature do
         fill_in('Social security number', with: person[:ssn])
         fill_in_react_select 'Role', with: person[:role]
         fill_in_react_select 'Gender', with: person[:gender]
-        if person[:role] == 'Mandated Reporter'
+        if person[:address]
           within '.card-body' do
             click_button 'Add new address'
             fill_in 'Address', with: person[:address][:street_address]
-            fill_in('City', with: 'San Jose')
-            # find_field('City').send_keys(' ', :backspace) # workaround to send City as blank string instead of nil
+            fill_in 'City', with: 'San Jose'
+            select person[:address][:state], from: 'State'
             fill_in 'Zip', with: person[:address][:zip]
+            select person[:address][:type], from: 'Address Type'
           end
         end
         click_button 'Save'
@@ -67,19 +70,25 @@ describe 'save a zippy referral', type: :feature do
   describe 'when decision is promote to referral' do
     it 'validates the bare minimum fields' do
       fill_in_bare_minimum
+      referral_id = nil
 
       submit_and_verify_alert do |alert|
         expect(alert.text).to include('Successfully created referral')
-        returned_id = alert.text.split(' ').last
-        expect(returned_id).to match(/[a-zA-Z0-9]{10}/)
-        expect(returned_id.length).to equal(10)
+        referral_id = alert.text.split(' ').last
+        expect(referral_id).to match(/[a-zA-Z0-9]{10}/)
+        expect(referral_id.length).to equal(10)
+        alert.accept
       end
+
+      expect(page).not_to have_content 'Submit'
+      expect(page).to have_content " - Referral ##{referral_id}"
     end
   end
 
   describe 'when decision is screen out with category evaluate out' do
     it 'validates the bare minimum fields' do
       fill_in_bare_minimum
+      referral_id = nil
 
       within '#decision-card' do
         click_link 'Edit'
@@ -90,10 +99,14 @@ describe 'save a zippy referral', type: :feature do
 
       submit_and_verify_alert do |alert|
         expect(alert.text).to include('Successfully created referral')
-        returned_id = alert.text.split(' ').last
-        expect(returned_id).to match(/[a-zA-Z0-9]{10}/)
-        expect(returned_id.length).to equal(10)
+        referral_id = alert.text.split(' ').last
+        expect(referral_id).to match(/[a-zA-Z0-9]{10}/)
+        expect(referral_id.length).to equal(10)
+        alert.accept
       end
+
+      expect(page).not_to have_content 'Submit'
+      expect(page).to have_content " - Referral ##{referral_id}"
     end
   end
 
@@ -111,7 +124,11 @@ describe 'save a zippy referral', type: :feature do
       submit_and_verify_alert do |alert|
         expect(alert.text).to include('"status":422')
         expect(alert.text).to include('\\"message\\":\\"Unable to validate ScreeningToReferral\\"')
+        alert.accept
       end
+
+      expect(page).to have_content 'Submit'
+      expect(page).not_to have_content ' - Referral #'
     end
   end
 
@@ -129,6 +146,7 @@ describe 'save a zippy referral', type: :feature do
       fill_in_datepicker 'Incident Date', with: '08/23/1996'
       fill_in('Address', with: '123 Davis Street')
       fill_in('City', with: 'Sacramento')
+      select 'California', from: 'State'
       # find_field('City').send_keys(' ', :backspace) # workaround to send City as blank string instead of nil
       select 'Child\'s Home', from: 'Location Type'
       fill_in('Zip', with: '95831')

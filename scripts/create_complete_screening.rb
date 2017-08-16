@@ -60,7 +60,5 @@ describe 'Submitting a referral when screening is valid', type: :feature do
     )
 
     puts "Go find your screening, named #{screening_title}, at #{page.current_url}"
-
-    expect(find_button('Submit').disabled?).to be(false)
   end
 end
