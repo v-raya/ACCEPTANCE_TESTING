@@ -28,6 +28,16 @@ describe 'Screening QA Test', type: :feature do
     comm: 'In Person'
   }
 
+  it 'restricts allowed characters in title and assigned worker fields' do
+    character_buffet = 'C am-ron1234567890!@#$%^&*(),./;"[]'
+    within '#screening-information-card.edit' do
+      fill_in 'Title/Name of Screening', with: character_buffet
+      fill_in 'Assigned Social Worker', with: character_buffet
+      expect(page).to have_field('Title/Name of Screening', with: 'C am-ron')
+      expect(page).to have_field('Assigned Social Worker', with: 'C amron')
+    end
+  end
+
   # Fill in data in the Input fields
   it 'Test Screening card' do
     within '#screening-information-card' do

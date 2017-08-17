@@ -39,6 +39,23 @@ describe 'Partcipant Card tests', type: :feature do
     click_link 'Start Screening'
   end
 
+  it 'limits characters in the participant address zip field' do
+    within '#search-card', text: 'Search' do
+      autocompleter_fill_in 'Search for any person', 'zz'
+      click_button 'Create a new person'
+      sleep 0.3
+    end
+    person_id = find('div[id^="participants-card-"]', text: 'Unknown')[:id]
+    person_card = find('#' + person_id)
+    within person_card do
+      click_button 'Add new address'
+      fill_in 'Zip', with: '9i5%6Y1 8-_3.6+9*7='
+      expect(page).to have_field('Zip', with: '95618-3697')
+      fill_in 'Zip', with: '9i5%6Y1 8'
+      expect(page).to have_field('Zip', with: '95618')
+    end
+  end
+
   it 'Test initial rendering of card' do
     within '#search-card', text: 'Search' do
       autocompleter_fill_in 'Search for any person', 'zz'
