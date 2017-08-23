@@ -12,6 +12,7 @@ require 'react_select_helpers'
 require 'datetime_helpers'
 require 'participant_helpers'
 require 'address_helpers'
+require 'screening_helpers'
 
 Dir[File.dirname(__FILE__) + '/support/**/*.rb'].each { |f| require f }
 
