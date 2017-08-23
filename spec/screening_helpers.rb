@@ -28,7 +28,7 @@ module Screening
        merced modoc mono monterey napa nevada orange placer plumas riverside sacramento san_benito
        san_bernardino san_diego san_francisco san_joaquin san_luis_Obispo san_mateo santa_barbara
        santa_clara santa_cruz shasta sierra siskiyou solano sonoma stanislaus sutter tehama trinity
-       tulare tuolumne ventura yolo yuba]
+       tulare tuolumne ventura yolo yuba state_of_california]
   end
 
   def self.all_allegation_types
