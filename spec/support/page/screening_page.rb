@@ -22,6 +22,28 @@ class ScreeningPage
     return self
   end
 
+  def populate(using:)
+    set_screening_information_attributes(using)
+    using[:participants].each {|person| add_new_person(person)} if using[:participants]
+    set_narrative(using)
+    set_incident_information_attributes(using)
+    add_allegations(using[:allegations]) if using[:allegations]
+    set_cross_report_attributes(using[:cross_reports]) if using[:cross_reports]
+    set_decision_attributes(using[:decision]) if using[:decision]
+    return self
+  end
+  alias and_populate populate
+
+  def add_allegations(attrs)
+    within '#allegations-card' do
+      attrs[:allegation_types].each do |type|
+        fill_in_react_select(attrs[:field_label], with: type)
+      end
+      blur
+      click_button 'Save'
+    end
+  end
+
   def set_screening_information_attributes(attrs)
     within '#screening-information-card' do
       fill_in('Title/Name of Screening', with: attrs[:name]) if attrs[:name]
