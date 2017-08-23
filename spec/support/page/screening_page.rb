@@ -14,11 +14,12 @@ class ScreeningPage
     @id = id
   end
 
-  def visit_screening
-    visit '/'
+  def visit
+    Capybara.visit '/'
     login_user
 
-    id ? visit("/screenings/#{id}/edit") : click_link('Start Screening')
+    id ? Capybara.visit("/screenings/#{id}/edit") : click_link('Start Screening')
+    return self
   end
 
   def set_screening_information_attributes(attrs)

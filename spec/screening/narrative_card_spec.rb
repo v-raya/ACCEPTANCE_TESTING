@@ -5,7 +5,7 @@ describe 'Narrative card', type: :feature do
     let(:screening_page) { ScreeningPage.new }
 
     it 'Testing narrative card' do
-      screening_page.visit_screening
+      screening_page.visit
 
       within '#narrative-card' do
         within '.card-header' do
@@ -73,7 +73,7 @@ describe 'Narrative card', type: :feature do
     let(:screening_page) { ScreeningPage.new }
 
     before do
-      screening_page.visit_screening
+      screening_page.visit
     end
 
     it 'notifies the user when they focus out' do

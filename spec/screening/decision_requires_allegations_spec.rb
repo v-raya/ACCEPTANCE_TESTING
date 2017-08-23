@@ -9,7 +9,7 @@ describe 'Selecting promote to referral requires allegations', type: :feature do
   perpetrator = Participant.perpetrator
 
   before do
-    screening_page.visit_screening
+    screening_page.visit
     expect(page).to have_content 'Screening #'
 
     victim[:id] = screening_page.add_new_person victim
