@@ -113,19 +113,14 @@ describe 'Narrative card', type: :feature do
         end
 
         fill_in 'Report Narrative', with: "Valid data #{timestamp}"
-
-        within '.input-error-message' do
-          expect(page).not_to have_content('Please enter a narrative')
-        end
+        expect(page).not_to have_content('Please enter a narrative')
 
         click_button 'Save'
       end
 
       within '#narrative-card' do
         expect(page).to have_content("Valid data #{timestamp}")
-        within '.input-error-message' do
-          expect(page).not_to have_content('Please enter a narrative')
-        end
+        expect(page).not_to have_content('Please enter a narrative')
       end
     end
   end

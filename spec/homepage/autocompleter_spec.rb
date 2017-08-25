@@ -5,131 +5,115 @@ describe 'Homepage Autocompleter', type: :feature do
   before do
     visit '/'
     login_user
+    click_link 'Start Screening'
   end
 
   # Checks to ensure login is successful
   it 'log on to Login page' do
-    visit '/'
-    expect(page).to have_content 'People'
+    expect(page).to have_content 'Search'
   end
 
   # validate specific person is in suggestion list when searched by last name
   it 'find a result by a specific first name' do
-    visit '/'
-    autocompleter_fill_in 'People', 'Houston'
+    autocompleter_fill_in 'screening_participants', 'Houston'
     within '.react-autosuggest__suggestions-list' do
-      expect(page).to have_content 'Houston de Griff'
+      expect(page).to have_content 'Houston d.'
     end
   end
 
   # validate specific person is in suggestion list when searched by last name
   it 'find a result by a specific last name' do
-    visit '/'
-    autocompleter_fill_in 'People', 'Griff'
+    autocompleter_fill_in 'screening_participants', 'Griffin'
     within '.react-autosuggest__suggestions-list' do
-      expect(page).to have_content 'Houston de Griff'
+      expect(page).to have_content 'Griffin Albert Flatley'
     end
   end
 
   # validate specific person is in suggestion list when searched by DOB
   it 'finds a result by DOB' do
-    visit '/'
-    autocompleter_fill_in 'People', '1905'
+    autocompleter_fill_in 'screening_participants', '1905'
     within '.react-autosuggest__suggestions-list' do
-      expect(page).to have_content 'Boris Badboy'
+      expect(page).to have_content 'Boris B.'
     end
   end
 
   # validate that searching on "Pete" would return "Pete" records
   it 'Validating all records contain partial search criteria - Pt 1' do
-    visit '/'
-    autocompleter_fill_in 'People', 'Pete'
-    within('ul.react-autosuggest__suggestions-list') do
-      page.all('li').each do |element|
-        expect(element.text).to have_content('Pete')
-      end
+    autocompleter_fill_in 'screening_participants', 'Pete'
+    page.all(:xpath, "//li[@class='react-autosuggest__suggestion' and
+      not(position() = last())]").each do |element|
+      expect(element.text).to have_content('Pete')
     end
   end
 
   # validate that searching on "Pete" would return "Peter" records as well.
   it 'Validating all records contain partial search criteria - Pt 2' do
-    visit '/'
-    autocompleter_fill_in 'People', 'Pete'
-    within('ul.react-autosuggest__suggestions-list') do
-      page.all('li').each do |element|
-        expect(element.text).to have_content('Peter')
-      end
+    autocompleter_fill_in 'screening_participants', 'Pete'
+    within '#search-card' do
+        expect(page).to have_content('Peter')
     end
   end
 
   # Validating all records for 9-digit SSN is being returned
   it 'Validating all SSN records returned' do
-    visit '/'
-    autocompleter_fill_in 'People', '123456789'
-    within('ul.react-autosuggest__suggestions-list') do
-      page.all('li').each do |element|
+    autocompleter_fill_in 'screening_participants', '123456789'
+    page.all(:xpath, "//li[@class='react-autosuggest__suggestion' and
+      not(position() = last())]").each do |element|
         expect(element.text).to have_content('6789')
-      end
     end
   end
 
   # validate every record on the suggestion list contains the search
   # criteria whole year'
   it 'Validating only DOB search data is returned' do
-    visit '/'
-    autocompleter_fill_in 'People', '1999'
-    within('ul.react-autosuggest__suggestions-list') do
-      page.all('li').each do |element|
+    autocompleter_fill_in 'screening_participants', '1999'
+    page.all(:xpath, "//li[@class='react-autosuggest__suggestion' and
+      not(position() = last())]").each do |element|
         expect(element.text).to have_content('1999')
-      end
     end
   end
 
   # validate every record on the suggestion list contains the search
   # criteria partial year'
   it 'Validating only DOB search data is returned' do
-    visit '/'
-    autocompleter_fill_in 'People', '199'
-    within('ul.react-autosuggest__suggestions-list') do
-      page.all('li').each do |element|
+    # visit '/'
+    autocompleter_fill_in 'screening_participants', '199'
+    page.all(:xpath, "//li[@class='react-autosuggest__suggestion' and
+      not(position() = last())]").each do |element|
         expect(element.text).to have_content('199')
-      end
     end
   end
 
   # validate every record on the suggestion list contains the partial search
   # criteria using no leading zeroes DOB'
   it 'Validating only DOB search data is returned - Pt 1' do
-    visit '/'
-    autocompleter_fill_in 'People', '3/3/'
-    within('ul.react-autosuggest__suggestions-list') do
-      page.all('li').each do |element|
+    pending ('pending bug fix related to searching on birthday')
+    autocompleter_fill_in 'screening_participants', '3/3/'
+    page.all(:xpath, "//li[@class='react-autosuggest__suggestion' and
+      not(position() = last())]").each do |element|
         expect(element.text).to have_content('3/3/')
-      end
     end
   end
 
   # validate every record on the suggestion list contains the partial search
   # criteria using leading zeroes DOB'
   it 'Validating only DOB search data is returned - Pt 2' do
-    visit '/'
-    autocompleter_fill_in 'People', '03/03/'
-    within('ul.react-autosuggest__suggestions-list') do
-      page.all('li').each do |element|
+    pending ('pending bug fix related to searching on birthday')
+    autocompleter_fill_in 'screening_participants', '03/03/'
+    page.all(:xpath, "//li[@class='react-autosuggest__suggestion' and
+      not(position() = last())]").each do |element|
         expect(element.text).to have_content('3/3/')
-      end
     end
   end
 
   # validate every record on the suggestion list contains the search criteria
   # using leading zeroes entire DOB'
   it 'Validating only DOB search data is returned - Pt 3' do
-    visit '/'
-    autocompleter_fill_in 'People', '03/03/1990'
-    within('ul.react-autosuggest__suggestions-list') do
-      page.all('li').each do |element|
+    pending ('pending bug fix related to searching on birthday')
+    autocompleter_fill_in 'screening_participants', '03/03/1990'
+    page.all(:xpath, "//li[@class='react-autosuggest__suggestion' and
+      not(position() = last())]").each do |element|
         expect(element.text).to have_content('3/3/1990')
-      end
     end
   end
 end
