@@ -1,8 +1,13 @@
 # frozen_string_literal: true
 
-require 'address_helpers'
-
 module Participant
+  def self.full_name participant
+    name  = "#{participant[:first_name]||'(Unknown first name)'} "
+    name += "#{participant[:middle_name]} " if participant[:middle_name]
+    name += participant[:last_name]||'(Unknown last name)'
+    name
+  end
+
   def self.keys
     %i[roles first_name middle_name last_name name_suffix gender ssn date_of_birth
        races ethnicity languages addresses]
@@ -65,7 +70,7 @@ module Participant
   end
 
   def self.date_of_birth(value = nil)
-    value || FFaker::Time.between(Time.new(2000), Time.new(2017)).strftime('%m/%d/%Y')
+    value || generate_date(1970,2017)
   end
 
   def self.race(value = nil)

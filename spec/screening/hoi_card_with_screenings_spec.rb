@@ -82,8 +82,7 @@ describe 'History Card with screenings', type: :feature do
 
     screenings = [scr1, scr2, scr3, scr4, scr5, scr6]
     screenings.each do |screening|
-      screening_page = ScreeningPage.new
-      screening_page.visit_screening
+      screening_page = ScreeningPage.new.visit
 
       expect(page).to have_content 'Screening #'
       screening_id = page.current_path.match(/\d+/)[0]
@@ -105,8 +104,7 @@ describe 'History Card with screenings', type: :feature do
 
   it 'Displays screenings on the history card' do
     skip 'This test is intermittent'
-    screening_page = ScreeningPage.new
-    screening_page.visit_screening
+    screening_page = ScreeningPage.new.visit
     sleep 60
 
     screening_page.add_person_from_search(person1[:dob], person1[:name])

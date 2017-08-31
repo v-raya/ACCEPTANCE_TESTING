@@ -28,7 +28,7 @@ describe 'Sibling At Risk Validation Tests', type: :feature do
   end
 
   before do
-    screening_page.visit_screening
+    screening_page.visit
     [victim1, perpetrator1, victim2, perpetrator2].each do |person|
       person_id = screening_page.add_new_person
       screening_page.set_participant_attributes(
