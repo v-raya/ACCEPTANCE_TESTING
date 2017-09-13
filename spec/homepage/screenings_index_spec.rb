@@ -36,11 +36,11 @@ describe 'Screening Index', type: :feature do
 
     ScreeningPage.new.visit.and_populate using:
       Screening.random(name: 'Illuminati', social_worker: 'prefer not to answer',
-                       start_date: '09/21/2016', decision: {screening_decision: nil})
+                       start_date: '09/21/2016', decision: { screening_decision: nil })
 
     ScreeningPage.new.visit.and_populate using:
       Screening.random(name: 'Sunglasses', social_worker: 'John G', start_date: '',
-                       decision: {screening_decision: 'Screen out'})
+                       decision: { screening_decision: 'Screen out' })
 
     visit '/'
     expect(page).to have_css('tr', text: 'Eclipse Promote to referral Dracula 08/21/2017')

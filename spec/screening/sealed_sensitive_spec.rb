@@ -12,7 +12,7 @@ describe 'Marking screening as Sealed', type: :feature do
       {
         'user': 'user',
         'staffId': '0X5',
-        'privileges': ['Sensitive Persons','Sealed'],
+        'privileges': ['Sensitive Persons', 'Sealed'],
         'county_code': '01'
       }.to_json,
       'guest'
@@ -20,15 +20,15 @@ describe 'Marking screening as Sealed', type: :feature do
   end
 
   it 'renders the access restrictions field' do
-    expect(page).to have_select('Access Restrictions', options:[
-      'Do not restrict access',
-      'Mark as Sensitive',
-      'Mark as Sealed'
-    ])
+    expect(page).to have_select('Access Restrictions', options: [
+                                  'Do not restrict access',
+                                  'Mark as Sensitive',
+                                  'Mark as Sealed'
+                                ])
   end
 
   it 'defaults access restrictions with no restrictions' do
-    expect(page).to have_select('Access Restrictions', selected: 'Do not restrict access' )
+    expect(page).to have_select('Access Restrictions', selected: 'Do not restrict access')
   end
 
   it 'does not render restrictions rationale field by default' do
