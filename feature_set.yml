@@ -1,5 +1,6 @@
 r1:
   - Homepage Autocompleter
+  - Dashboard is displayed
 
 r2:
   - Release Two Enabled
@@ -23,3 +24,6 @@ screening:
 
 save_referral:
   - save a zippy referral
+
+smoke:
+  - Dashboard Ready
