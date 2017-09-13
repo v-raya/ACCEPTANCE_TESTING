@@ -26,15 +26,17 @@ def clear_field(selector)
   fill_in(selector, with: ' ').send_keys(:backspace)
 end
 
-def fill_login_form
-  return if ENV['USERNAME'].blank? || ENV['PASSWORD'].blank?
-  Capybara.fill_in('username', with: ENV.fetch('USERNAME'))
-  Capybara.fill_in('password', with: ENV.fetch('PASSWORD'))
+def fill_login_form(username = nil, password = nil)
+  username ||= ENV['USERNAME']
+  password ||= ENV['PASSWORD']
+  return if username.blank? || password.blank?
+  Capybara.fill_in('username', with: username)
+  Capybara.fill_in('password', with: password)
   Capybara.click_button('Sign In')
 end
 
-def login_user
-  fill_login_form
+def login_user(*args)
+  fill_login_form(*args)
   begin
     click_link 'Intake'
   rescue

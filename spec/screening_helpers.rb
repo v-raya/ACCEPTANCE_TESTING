@@ -86,7 +86,8 @@ module Screening
 
   def self.decision(value = nil)
     value ||
-      {screening_decision: screening_decision, additional_information: additional_information}
+      {screening_decision: screening_decision, additional_information: additional_information,
+       access_restrictions: access_restrictions, restrictions_rationale: restrictions_rationale}
   end
 
   def self.name(value = nil)
@@ -110,7 +111,7 @@ module Screening
   end
 
   def self.narrative(value = nil)
-    value || FFaker::HipsterIpsum.paragraph
+    value || FFaker::HipsterIpsum.sentence
   end
 
   def self.incident_date(value = nil)
@@ -157,6 +158,14 @@ module Screening
     value || FFaker::DizzleIpsum.paragraph
   end
 
+  def self.access_restrictions(value = nil)
+    value || 'Do not restrict access'
+  end
+
+  def self.restrictions_rationale(value = nil)
+    value || FFaker::Lorem.paragraph
+  end
+
   def self.random(attrs = {})
     Screening.keys.each do |key|
       attrs[key] = Screening.send(key, attrs[key])
@@ -180,7 +189,9 @@ module Screening
     }
     attrs[:decision] = {
       screening_decision: 'Promote to referral',
-      response_time: '3 days'
+      response_time: '3 days',
+      access_restrictions: attrs[:access_restrictions],
+      restrictions_rationale: attrs[:restrictions_rationale]
     }
     random(attrs)
   end

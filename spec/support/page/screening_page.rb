@@ -14,9 +14,9 @@ class ScreeningPage
     @id = id
   end
 
-  def visit
+  def visit(*args)
     Capybara.visit '/'
-    login_user
+    login_user(*args)
 
     id ? Capybara.visit("/screenings/#{id}/edit") : click_link('Start Screening')
     return self
@@ -47,7 +47,9 @@ class ScreeningPage
   def set_screening_information_attributes(attrs)
     within '#screening-information-card' do
       fill_in('Title/Name of Screening', with: attrs[:name]) if attrs[:name]
-      fill_in('Assigned Social Worker', with: attrs[:social_worker]) if attrs[:social_worker]
+      if attrs[:social_worker] && page.has_field?('Assigned Social Worker')
+        fill_in('Assigned Social Worker', with: attrs[:social_worker])
+      end
       fill_in('Screening Start Date/Time', with: attrs[:start_date]) if attrs[:start_date]
       fill_in('Screening End Date/Time', with: attrs[:end_date]) if attrs[:end_date]
       select(attrs[:communication_method], from: 'Communication Method') if attrs[:communication_method]
@@ -114,6 +116,8 @@ class ScreeningPage
     within '#decision-card' do
       select(attrs[:screening_decision], from: 'Screening Decision') if attrs[:screening_decision]
       select(attrs[:response_time], from: 'Response time') if attrs[:response_time]
+      select(attrs[:access_restrictions], from: 'Access Restrictions') if attrs[:access_restrictions]
+      fill_in('Restrictions Rationale', with: attrs[:restrictions_rationale]) if attrs[:restrictions_rationale]
       click_button 'Save'
     end
   end
