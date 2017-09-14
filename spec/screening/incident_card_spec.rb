@@ -4,12 +4,13 @@ require 'active_support'
 require 'active_support/core_ext'
 
 describe 'Incident Information card', type: :feature do
-  # Selecting Start Screening on homepage
-  it 'Test Incident Info card' do
+  before do
     visit '/'
     login_user
     click_link 'Start Screening'
-
+  end
+  # Selecting Start Screening on homepage
+  it 'Test Incident Info card' do
     # Set variable to test 64 char limit and fields to accept any char
     tst_cty = 'Del Norte'
     tst_addr = '2870 Gateway Elm Way'
@@ -126,13 +127,17 @@ describe 'Incident Information card', type: :feature do
     end
   end
 
+  it 'limits characters in the incident address zip field' do
+    within '#incident-information-card.edit' do
+      fill_in 'Zip', with: '9i5%6Y1 8-_3.6+9*7='
+      expect(page).to have_field('Zip', with: '95618-3697')
+      fill_in 'Zip', with: '9i5%6Y1 8'
+      expect(page).to have_field('Zip', with: '95618')
+    end
+  end
+
   it 'does not allow incident date to be in the future' do
     message = 'The incident date and time cannot be in the future.'
-
-    visit '/'
-    login_user
-    click_link 'Start Screening'
-
     within '#incident-information-card.edit' do
       expect(page).not_to have_content(message)
       fill_in_datepicker 'Incident Date', with: 10.years.from_now
