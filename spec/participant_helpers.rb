@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 module Participant
-  def self.full_name participant
-    name  = "#{participant[:first_name]||'(Unknown first name)'} "
+  def self.full_name(participant)
+    name  = "#{participant[:first_name] || '(Unknown first name)'} "
     name += "#{participant[:middle_name]} " if participant[:middle_name]
-    name += participant[:last_name]||'(Unknown last name)'
+    name += participant[:last_name] || '(Unknown last name)'
     name
   end
 
@@ -70,7 +70,7 @@ module Participant
   end
 
   def self.date_of_birth(value = nil)
-    value || generate_date(1970,2017)
+    value || generate_date(1970, 2017)
   end
 
   def self.race(value = nil)

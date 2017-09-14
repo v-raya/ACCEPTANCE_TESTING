@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'helper_methods'
 
 describe 'Dashboard Ready', type: :feature do

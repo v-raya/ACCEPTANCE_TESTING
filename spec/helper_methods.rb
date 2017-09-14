@@ -46,7 +46,7 @@ def generate_date(start_year = 2000, end_year = 2017)
   FFaker::Time.between(Time.new(start_year), Time.new(end_year)).strftime('%m/%d/%Y')
 end
 
-def humanize string, capitalize_all:false
+def humanize(string, capitalize_all: false)
   capitalize_all ?
     string.split('_').map(&:capitalize).join(' ') :
     string.split('_').join(' ').capitalize

@@ -39,6 +39,13 @@ feature 'Release Two Enabled' do
     expect(page).to_not have_css('.card', text: 'Cross Report')
     expect(page).to_not have_css('.card', text: 'Decision')
     expect(page).not_to have_button('Submit')
+
+    # story #146835849
+    within '#search-card', text: 'Search' do
+      autocompleter_fill_in 'Search for any person', 'zz'
+      sleep 0.3
+      expect(page).not_to have_button('Create a new person')
+    end
   end
 
   scenario 'adding a screening person, adds them in show mode without edit links' do
