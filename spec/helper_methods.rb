@@ -46,6 +46,21 @@ def generate_date(start_year = 2000, end_year = 2017)
   FFaker::Time.between(Time.new(start_year), Time.new(end_year)).strftime('%m/%d/%Y')
 end
 
+def clear_user_login
+  browser = Capybara.current_session.driver.browser
+  visit '/perry'
+
+  if browser.respond_to?(:clear_cookies)
+    # Rack::MockSession
+    browser.clear_cookies
+  elsif browser.respond_to?(:manage) and browser.manage.respond_to?(:delete_all_cookies)
+    # Selenium::WebDriver
+    browser.manage.delete_all_cookies
+  else
+    raise "Don't know how to clear cookies. Weird driver?"
+  end
+end
+
 def humanize(string, capitalize_all: false)
   capitalize_all ?
     string.split('_').map(&:capitalize).join(' ') :

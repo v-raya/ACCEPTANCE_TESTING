@@ -8,6 +8,10 @@ describe 'Dashboard Ready', type: :feature do
     login_user
   end
 
+  after do
+    clear_user_login
+  end
+
   it 'has a Start Screening link' do
     expect(page).to have_link('Start Screening')
   end

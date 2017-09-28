@@ -1,6 +1,8 @@
 version: '2.1'
 services:
   acceptance_test:
+    stdin_open: true
+    tty: true
     extends:
       file: docker-compose.ci.yml
       service: acceptance_test
