@@ -11,6 +11,7 @@ person1 = {
   language: 'English',
   language2: 'Cantonese',
   phonenum: '213-432-4400',
+  formatted_phonenum: '(213)432-4400',
   phonetype: 'Cell',
   dob: '08/22/1966',
   gender: 'Female',
@@ -39,6 +40,37 @@ describe 'Partcipant Card tests', type: :feature do
     click_link 'Start Screening'
   end
 
+  it 'disables and resets approximate age fields when there is a date of birth' do
+    within '#search-card', text: 'Search' do
+      autocompleter_fill_in 'Search for any person', 'zz'
+      click_button 'Create a new person'
+      sleep 0.3
+    end
+    person_id = find('div[id^="participants-card-"]', text: 'Unknown')[:id]
+    person_card = find('#' + person_id)
+    within person_card do
+      expect(page).to have_field('Approximate Age', disabled: false, with: '')
+      expect(page).to have_select('approximate_age_units', disabled: false, selected: 'Years')
+      fill_in 'Approximate Age', with: '2'
+      select 'Days', from: 'approximate_age_units'
+      fill_in_datepicker 'Date of birth', with: person1[:dob]
+      expect(page).to have_field('Approximate Age', disabled: true, with: '')
+      expect(page).to have_select('approximate_age_units', disabled: true, selected: 'Years')
+    end
+  end
+  it 'limits entry into approximate age to three numeric characters' do
+    within '#search-card', text: 'Search' do
+      autocompleter_fill_in 'Search for any person', 'zz'
+      click_button 'Create a new person'
+      sleep 0.3
+    end
+    person_id = find('div[id^="participants-card-"]', text: 'Unknown')[:id]
+    person_card = find('#' + person_id)
+    within person_card do
+      fill_in 'Approximate Age', with: 'abc1d2lksd345'
+      expect(page).to have_field('Approximate Age', with: '123')
+    end
+  end
   it 'limits characters in the participant address zip field' do
     within '#search-card', text: 'Search' do
       autocompleter_fill_in 'Search for any person', 'zz'
@@ -94,6 +126,9 @@ describe 'Partcipant Card tests', type: :feature do
                                                                  'Other'])
       expect(page).to have_content('Date of birth')
       expect(page).to have_field('Date of birth', with: '')
+      expect(page).to have_content('Approximate Age')
+      expect(page).to have_field('Approximate Age', with: '')
+      expect(page).to have_select('approximate_age_units', selected: 'Years')
       expect(page).to have_content('Gender')
       expect(page).to have_select('Gender', selected: '')
       expect(page).to have_select('Gender', options: Participant.all_genders.push(''))
@@ -195,7 +230,7 @@ describe 'Partcipant Card tests', type: :feature do
         expect(page).to have_content(person1[:zip])
         expect(page).to have_content(person1[:addrtype])
         expect(page).to have_content(person1[:addr])
-        expect(page).to have_content(person1[:phonenum])
+        expect(page).to have_content(person1[:formatted_phonenum])
         expect(page).to have_content(person1[:phonetype])
         expect(page).to have_content(person1[:gender])
         expect(page).to have_content(person1[:Language])
