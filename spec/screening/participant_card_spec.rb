@@ -11,6 +11,7 @@ person1 = {
   language: 'English',
   language2: 'Cantonese',
   phonenum: '213-432-4400',
+  formatted_phonenum: '(213)432-4400',
   phonetype: 'Cell',
   dob: '08/22/1966',
   gender: 'Female',
@@ -229,7 +230,7 @@ describe 'Partcipant Card tests', type: :feature do
         expect(page).to have_content(person1[:zip])
         expect(page).to have_content(person1[:addrtype])
         expect(page).to have_content(person1[:addr])
-        expect(page).to have_content(person1[:phonenum])
+        expect(page).to have_content(person1[:formatted_phonenum])
         expect(page).to have_content(person1[:phonetype])
         expect(page).to have_content(person1[:gender])
         expect(page).to have_content(person1[:Language])
