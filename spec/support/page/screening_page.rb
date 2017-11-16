@@ -100,9 +100,10 @@ class ScreeningPage
 
   def set_cross_report_attributes(attrs)
     within '#cross-report-card' do
+      select 'Fresno', from: 'County'
       attrs[:agencies] && attrs[:agencies].each do |agency|
         find('label', text: agency[:type]).click if agency[:type]
-        fill_in("#{agency[:type].tr(' ', '_')}-agency-name", with: agency[:name]) if agency[:name]
+        select agency[:name], from: "#{agency[:type].tr(' ', '_').upcase}-agency-code" if agency[:name]
       end
       fill_in_datepicker('Cross Reported on Date', with: attrs[:date]) if attrs[:date]
       select(attrs[:communication_method], from: 'Communication Method') if attrs[:communication_method]

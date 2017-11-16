@@ -25,5 +25,5 @@ end
 
 def example_options
   feature_set = YAML.load_file('feature_set.yml')
-  feature_set[ENV.fetch('FEATURE_SET')]
+  feature_set[ENV.fetch('FEATURE_SET', '')] || []
 end

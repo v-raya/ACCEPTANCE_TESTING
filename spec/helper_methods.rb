@@ -35,11 +35,9 @@ end
 
 def login_user
   fill_login_form
-  begin
-    click_link 'Intake'
-  rescue
-    false
-  end
+  click_link 'Intake'
+rescue
+  false
 end
 
 def generate_date(start_year = 2000, end_year = 2017)
