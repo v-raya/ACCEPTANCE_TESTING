@@ -172,8 +172,8 @@ module Screening
     }
     attrs[:cross_reports] = {
       agencies: [
-        { type: 'District attorney', name: FFaker::Venue.name },
-        { type: 'Law enforcement', name: FFaker::Venue.name }
+        { type: 'District attorney', name: 'Fresno County District Attorney' },
+        { type: 'Law enforcement', name: 'Fresno Polcie Department' }
       ],
       date: generate_date(2016, 2017),
       communication_method: all_cross_report_communication_methods.sample
