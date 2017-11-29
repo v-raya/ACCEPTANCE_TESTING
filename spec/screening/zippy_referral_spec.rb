@@ -30,7 +30,8 @@ person3 = {
   }
 }
 
-describe 'save a zippy referral', type: :feature do
+describe 'save a zippy referral', type: :feature,
+                                  pending: 'Needs to be support removal of alert on successful submit' do
   before do
     visit '/'
     login_user
@@ -117,8 +118,12 @@ describe 'save a zippy referral', type: :feature do
 
   def fill_in_bare_minimum
     within '#cross-report-card' do
+      select 'Fresno', from: 'County'
+      find_field('District attorney', disabled: false) # wait for District attorney to be enabled
       find('label', text: 'District attorney').click
-      fill_in 'District_attorney-agency-name', with: 'Jan 1 $ully'
+      select 'Fresno County DA', from: 'District attorney agency name'
+      find('label', text: 'Law enforcement').click
+      select 'Fresno Polcie Department', from: 'Law enforcement agency name'
       fill_in_datepicker 'Cross Reported on Date', with: '08/17/2016'
       select 'Suspected Child Abuse Report', from: 'Communication Method'
       click_button 'Save'
@@ -129,7 +134,6 @@ describe 'save a zippy referral', type: :feature do
       fill_in_datepicker 'Incident Date', with: '08/23/1996'
       fill_in('Address', with: '123 Davis Street')
       fill_in('City', with: 'Sacramento')
-      # find_field('City').send_keys(' ', :backspace) # workaround to send City as blank string instead of nil
       select 'Child\'s Home', from: 'Location Type'
       fill_in('Zip', with: '95831')
       click_button 'Save'
@@ -137,13 +141,12 @@ describe 'save a zippy referral', type: :feature do
 
     within '#screening-information-card' do
       fill_in('Title/Name of Screening', with: 'Test Screening')
-      fill_in('Assigned Social Worker', with: 'Jim Bob')
       fill_in_datepicker('Screening Start Date/Time', with: '05/16/2017')
       select 'Fax', from: 'Communication Method'
       click_button 'Save'
     end
 
-    within '#allegations-card' do
+    within '.card', text: 'Allegations' do
       within('tbody') do
         table_rows = page.all('tr')
         expect(table_rows.count).to eq(1)
@@ -162,7 +165,7 @@ describe 'save a zippy referral', type: :feature do
     end
 
     within '#decision-card' do
-      select 'Promote to referral', from: 'Decision'
+      select 'Promote to referral', from: 'Screening decision'
       select '3 days', from: 'Response time'
       click_button 'Save'
     end

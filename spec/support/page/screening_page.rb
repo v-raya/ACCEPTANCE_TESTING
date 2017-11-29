@@ -113,7 +113,7 @@ class ScreeningPage
 
   def set_decision_attributes(attrs)
     within '#decision-card' do
-      select(attrs[:screening_decision], from: 'Screening Decision') if attrs[:screening_decision]
+      select(attrs[:screening_decision], from: 'Screening decision') if attrs[:screening_decision]
       select(attrs[:response_time], from: 'Response time') if attrs[:response_time]
       click_button 'Save'
     end
