@@ -115,7 +115,7 @@ describe 'History Card with cases and referrals', type: :feature do
     skip 'This test is intermittent'
     screening_page.add_person_from_search(additional_info: open_referral[:dob], name: open_referral[:first_name])
 
-    within '#history-of-involvement' do
+    within '#history-card' do
       referral_rows = page.all('tr', text: 'Referral')
       expect(referral_rows.count).to eq 1
 
@@ -152,7 +152,7 @@ describe 'History Card with cases and referrals', type: :feature do
     full_name = "#{closed_case[:first_name]} #{closed_case[:last_name]}"
     screening_page.add_person_from_search(name: full_name)
 
-    within '#history-of-involvement' do
+    within '#history-card' do
       case_rows = page.all('tr', text: 'Case')
       expect(case_rows.count).to eq 1
 
@@ -175,7 +175,7 @@ describe 'History Card with cases and referrals', type: :feature do
   it 'displays the reporter for referrals' do
     screening_page.add_person_from_search(name: referral_with_reporter[:name])
 
-    within '#history-of-involvement' do
+    within '#history-card' do
       referral_rows = page.all('tr', text: 'Referral')
       expect(referral_rows.count).to eq 1
 
