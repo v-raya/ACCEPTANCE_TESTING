@@ -14,9 +14,9 @@ describe 'History Card with cases and referrals', type: :feature do
     screening_page.visit
   end
 
-  let(:shared_hoi_1) { { dob: '1997-11-22', name: 'Marty R', legacy_id: 'M5Xs0Xb0Bv' } }
-  let(:shared_hoi_2) { { dob: '1979-07-24', name: 'Missy R', legacy_id: 'N80EWpv0Bv' } }
-  let(:shared_hoi_3) { { dob: '1967-02-24', name: 'Ricky W', legacy_id: 'JdLgp760Bv' } }
+  let(:shared_hoi_1) { { dob: '', name: 'Nina Tunkin', legacy_id: '1657-4651-9945-8000814' } }
+  let(:shared_hoi_2) { { dob: '12/29/1995', name: 'Lawrence Bloschke', legacy_id: '0212-4560-3721-8000794' } }
+  let(:shared_hoi_3) { { dob: '12/29/1973', name: 'Patricia Bigglestone', legacy_id: '0684-6298-1001-8000794' } }
 
   scenario 'copy button' do
     pending 'implemented but fails because work-around no longer works'
@@ -51,85 +51,34 @@ describe 'History Card with cases and referrals', type: :feature do
       expect(page).to have_content shared_hoi_1[:name]
 
       within '#history-card' do
+        expect(page).to have_no_content 'Search for people and add them to see their child welfare history.'
         first 'thead' do
           expect(page).to have_content 'Date'
           expect(page).to have_content 'Type/Status'
           expect(page).to have_content 'County/Office'
           expect(page).to have_content 'People and Roles'
         end
-      end
 
-      within '#history-of-involvement' do
-        expect('referral-KftDS4J0Bv').to be_after('referral-Tpe1rDI0Bv')
+        tr = page.find(:xpath, ".//tr[./td[contains(., '0767-8360-2365-0000808')]]")
 
-        within '#referral-KftDS4J0Bv' do
-          expect(page).to have_referral(start_date: '02/24/1999',
-                                        end_date: '12/02/1999',
-                                        referral_id: '1174-3820-6243-5000739',
-                                        status: 'Closed',
-                                        county: 'Plumas',
-                                        response_time: 'Immediate',
-                                        worker: 'Daisie K',
-                                        allegations: [{
-                                          victim: 'Marty R',
-                                          perpetrator: 'Missy R',
-                                          type: 'Physical Abuse',
-                                          disposition: 'Substantiated'
-                                        }])
-        end
-
-        within '#referral-Tpe1rDI0Bv' do
-          expect(page).to have_referral(
-            start_date: '02/28/1999',
-            end_date: '02/01/2000',
-            referral_id: '1694-5211-0269-2000739',
-            status: 'Closed',
-            county: 'Plumas',
-            response_time: 'Immediate',
-            worker: 'Daisie K',
-            allegations: [
-              {
-                victim: 'Sharon W',
-                perpetrator: 'Ricky W',
-                type: 'Sexual Abuse',
-                disposition: 'Substantiated'
-              }, {
-                victim: 'Sharon W',
-                perpetrator: 'Roland W',
-                type: 'Sexual Abuse',
-                disposition: 'Substantiated'
-              }, {
-                victim: 'Roland W',
-                type: 'Sexual Abuse',
-                disposition: 'Substantiated'
-              }, {
-                victim: 'Marty R',
-                perpetrator: 'Missy R',
-                type: 'Sexual Abuse',
-                disposition: 'Inconclusive'
-              }
-            ]
-          )
-        end
-
-        within '#case-Evic91H0Bv' do
-          expect(page).to have_case(
-            start_date: '02/24/1999',
-            status: 'Open',
-            case_id: '0848-0821-1952-3000739',
-            service_component: 'Family Reunification',
-            county: 'Plumas',
-            focus_child: 'Marty R',
-            parents: ['Ricky W', 'Missy R'],
-            worker: 'Daisie K'
-          )
-        end
+        expect(tr).to have_referral(
+          start_date: '12/23/1998',
+          referral_id: '0767-8360-2365-0000808',
+          status: 'Open',
+          county: 'Imperial',
+          worker: 'South ER Supervisor ERSUP',
+          allegations: [{
+            victim: 'Lawrence Bloschke',
+            perpetrator: 'Patricia Bigglestone',
+            type: 'Caretaker Absence/Incapacity'
+          }]
+        )
 
         referral_rows = page.all('tr', text: 'Referral')
-        expect(referral_rows.count).to eq 2
+        expect(referral_rows.count).to eq 1
 
         case_rows = page.all('tr', text: 'Case')
-        expect(case_rows.count).to eq 1
+        expect(case_rows.count).to eq 0
       end
     end
 
@@ -137,51 +86,12 @@ describe 'History Card with cases and referrals', type: :feature do
       screening_page.add_person_from_search(additional_info: shared_hoi_2[:dob], name: shared_hoi_2[:name])
       expect(page).to have_content shared_hoi_2[:name]
 
-      within '#history-of-involvement' do
-        within '#case-DQ0ObR60Bv' do
-          expect(page).to have_case(
-            start_date: '02/28/1999',
-            case_id: '0762-2283-8000-4000739',
-            status: 'Open',
-            service_component: 'Family Reunification',
-            focus_child: 'Roland W',
-            parents: ['Ricky W', 'Missy R'],
-            worker: 'Daisie K'
-          )
-        end
-
-        within '#case-Evic91H0Bv' do
-          expect(page).to have_case(
-            start_date: '02/24/1999',
-            case_id: '0848-0821-1952-3000739',
-            status: 'Open',
-            service_component: 'Family Reunification',
-            focus_child: 'Marty R',
-            parents: ['Ricky W', 'Missy R'],
-            worker: 'Daisie K'
-          )
-        end
-
-        within '#case-LnC9V5Q0Bv' do
-          expect(page).to have_case(
-            start_date: '02/28/1999',
-            case_id: '1237-8750-3651-6000739',
-            status: 'Open',
-            service_component: 'Family Reunification',
-            focus_child: 'Sharon W',
-            parents: ['Ricky W', 'Missy R'],
-            worker: 'Daisie K'
-          )
-        end
-
-        expect('case-DQ0ObR60Bv').to be_before('case-Evic91H0Bv')
-        expect('case-LnC9V5Q0Bv').to be_before('case-Evic91H0Bv')
-
+      within '#history-card' do
         referral_rows = page.all('tr', text: 'Referral')
-        expect(referral_rows.count).to eq 2
+        expect(referral_rows.count).to eq 1
 
         case_rows = page.all('tr', text: 'Case')
-        expect(case_rows.count).to eq 3
+        expect(case_rows.count).to eq 0
       end
     end
 
@@ -189,20 +99,12 @@ describe 'History Card with cases and referrals', type: :feature do
       screening_page.add_person_from_search(additional_info: shared_hoi_3[:dob], name: shared_hoi_3[:name])
       expect(page).to have_content shared_hoi_3[:name]
 
-      within '#history-of-involvement' do
-        ['#case-DQ0ObR60Bv', '#case-Evic91H0Bv', '#case-LnC9V5Q0Bv'].each do |case_id|
-          expect(page).to have_css case_id
-        end
-
-        ['#referral-Tpe1rDI0Bv', '#referral-KftDS4J0Bv'].each do |referral_id|
-          expect(page).to have_css referral_id
-        end
-
+      within '#history-card' do
         referral_rows = page.all('tr', text: 'Referral')
-        expect(referral_rows.count).to eq 2
+        expect(referral_rows.count).to eq 1
 
         case_rows = page.all('tr', text: 'Case')
-        expect(case_rows.count).to eq 3
+        expect(case_rows.count).to eq 0
       end
     end
   end
