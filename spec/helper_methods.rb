@@ -27,14 +27,18 @@ def clear_field(selector)
 end
 
 def fill_login_form
-  return if ENV['USERNAME'].blank? || ENV['PASSWORD'].blank?
+  return if ENV['USERNAME'].blank?
   Capybara.fill_in('username', with: ENV.fetch('USERNAME'))
-  Capybara.fill_in('password', with: ENV.fetch('PASSWORD'))
+  if Capybara.page.text.include?('Password') && !ENV['PASSWORD'].blank?
+    Capybara.fill_in('password', with: ENV.fetch('PASSWORD'))
+  end
   Capybara.click_button('Sign In')
 end
 
 def login_user
-  fill_login_form
+  if Capybara.page.text.include? 'username'
+    fill_login_form
+  end
   click_link 'Intake'
 rescue
   false
