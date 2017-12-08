@@ -42,7 +42,7 @@ feature 'Release Two Enabled' do
 
     # story #146835849
     within '#search-card', text: 'Search' do
-      autocompleter_fill_in 'Search for any person', 'zz'
+      autocompleter_fill_in 'Search for clients', 'zz'
       sleep 0.3
       expect(page).not_to have_button('Create a new person')
     end
@@ -54,7 +54,7 @@ feature 'Release Two Enabled' do
     click_link 'Start Screening'
 
     within '#search-card', text: 'Search' do
-      autocompleter_fill_in 'Search for any person', 'Tonkin'
+      autocompleter_fill_in 'Search for clients', 'Tonkin'
       within('ul.react-autosuggest__suggestions-list') do
         first('li').click
       end
@@ -63,7 +63,7 @@ feature 'Release Two Enabled' do
     within 'div[id^="participants-card-"].card.show' do
       expect(page).to have_content 'Tonkin'
       expect(page).to_not have_link('Edit participant')
-      expect(page).to have_button('Delete participant')
+      expect(page).to have_button('Delete')
     end
   end
 
@@ -73,7 +73,7 @@ feature 'Release Two Enabled' do
       visit '/'
       login_user
       click_link 'Start Screening'
-      autocompleter_fill_in 'Search for any person', person_name
+      autocompleter_fill_in 'Search for clients', person_name
       within('ul.react-autosuggest__suggestions-list') do
         first('li').click
       end
@@ -83,7 +83,7 @@ feature 'Release Two Enabled' do
       visit '/'
       click_link 'Start Screening'
 
-      autocompleter_fill_in 'Search for any person', person_name
+      autocompleter_fill_in 'Search for clients', person_name
       within('ul.react-autosuggest__suggestions-list') do
         first('li').click
       end
