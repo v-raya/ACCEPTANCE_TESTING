@@ -9,8 +9,6 @@ describe 'History Card with cases and referrals', type: :feature do
   let(:screening_page) { ScreeningPage.new }
 
   before do
-    # visit '/'
-    # login_user
     screening_page.visit
   end
 
