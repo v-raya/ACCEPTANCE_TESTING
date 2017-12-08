@@ -56,9 +56,9 @@ describe 'History Card with cases and referrals', type: :feature do
           expect(page).to have_content 'People and Roles'
         end
 
-        tr = page.find(:xpath, ".//tr[./td[contains(., '0767-8360-2365-0000808')]]")
+        referral_tr = page.find(:xpath, ".//tr[./td[contains(., '0767-8360-2365-0000808')]]")
 
-        expect(tr).to have_referral(
+        expect(referral_tr).to have_referral(
           start_date: '12/23/1998',
           referral_id: '0767-8360-2365-0000808',
           status: 'Open',
@@ -70,9 +70,6 @@ describe 'History Card with cases and referrals', type: :feature do
             type: 'Caretaker Absence/Incapacity'
           }]
         )
-
-        referral_rows = page.all('tr', text: 'Referral')
-        expect(referral_rows.count).to eq 1
       end
     end
 
@@ -81,8 +78,8 @@ describe 'History Card with cases and referrals', type: :feature do
       expect(page).to have_content shared_hoi_2[:name]
 
       within '#history-card' do
-        referral_rows = page.all('tr', text: 'Referral')
-        expect(referral_rows.count).to eq 1
+        shared_rows = page.all(:xpath, ".//tr[./td[contains(., '0767-8360-2365-0000808')]]")
+        expect(shared_rows.count).to eq 1
       end
     end
   end
@@ -94,10 +91,9 @@ describe 'History Card with cases and referrals', type: :feature do
 
     within '#history-card' do
       within 'table.table-hover' do
-        referral_rows = page.all('tr', text: 'Referral')
-        expect(referral_rows.count).to eq 3
+        referral_tr = page.find(:xpath, ".//tr[./td[contains(., '1251-0655-3661-3001316')]]")
 
-        within referral_rows[2] do
+        within referral_tr do
           expect(page).to have_referral(
             start_date: '01/18/2001',
             end_date: '01/19/2001',
@@ -139,10 +135,9 @@ describe 'History Card with cases and referrals', type: :feature do
 
     within '#history-card' do
       within 'table.table-hover' do
-        case_rows = page.all('tr', text: 'Case')
-        expect(case_rows.count).to eq 2
+        case_tr = page.find(:xpath, ".//tr[./td[contains(., '1194-4391-5581-3001320')]]")
 
-        within case_rows[1] do
+        within case_tr do
           expect(page).to have_case(
             start_date: '01/18/2001',
             end_date: '01/19/2001',
