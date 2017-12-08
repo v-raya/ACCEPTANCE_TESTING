@@ -16,7 +16,6 @@ describe 'History Card with cases and referrals', type: :feature do
 
   let(:shared_hoi_1) { { dob: '', name: 'Nina Tunkin', legacy_id: '1657-4651-9945-8000814' } }
   let(:shared_hoi_2) { { dob: '12/29/1995', name: 'Lawrence Bloschke', legacy_id: '0212-4560-3721-8000794' } }
-  let(:shared_hoi_3) { { dob: '12/29/1973', name: 'Patricia Bigglestone', legacy_id: '0684-6298-1001-8000794' } }
 
   scenario 'copy button' do
     pending 'implemented but fails because work-around no longer works'
@@ -41,7 +40,7 @@ describe 'History Card with cases and referrals', type: :feature do
     expect(find('#spec_meta').value).to eq(first('#history-card table')[:innerText])
   end
 
-  it 'does not display duplicate referrals and cases for people who share history' do
+  it 'does not display duplicate referrals for people who share history' do
     within '.container' do
       within '#history-card' do
         expect(page).to have_content 'Search for people and add them to see their child welfare history.'
@@ -76,9 +75,6 @@ describe 'History Card with cases and referrals', type: :feature do
 
         referral_rows = page.all('tr', text: 'Referral')
         expect(referral_rows.count).to eq 1
-
-        case_rows = page.all('tr', text: 'Case')
-        expect(case_rows.count).to eq 0
       end
     end
 
