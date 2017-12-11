@@ -39,6 +39,10 @@ describe 'Partcipant Card tests', type: :feature do
     click_link 'Start Screening'
   end
 
+  after do
+    logout_user
+  end
+
   it 'limits characters in the participant address zip field' do
     within '#search-card', text: 'Search' do
       autocompleter_fill_in 'Search for any person', 'zz'

@@ -8,6 +8,10 @@ describe 'Cross Report card', type: :feature do
     click_link 'Start Screening'
   end
 
+  after do
+    logout_user
+  end
+
   # Set variable to test 128 char limit and fields to accept any chars
   char132str = '0123@567890123G567890123%5678901A345&789' \
     '012345678901234567890123450123@567890123G567890123%5678901A345&789' \

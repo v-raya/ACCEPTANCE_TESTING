@@ -24,6 +24,10 @@ describe 'Worker Safety Card', type: :feature do
     click_link 'Start Screening'
   end
 
+  after do
+    logout_user
+  end
+
   it 'Saving blank card scenario' do
     within '#worker-safety-card' do
       check_select_options

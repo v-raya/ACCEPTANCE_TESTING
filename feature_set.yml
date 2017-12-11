@@ -27,3 +27,6 @@ save_referral:
 
 smoke:
   - Dashboard Ready
+
+screening_fix:
+  - History Card with cases and referrals

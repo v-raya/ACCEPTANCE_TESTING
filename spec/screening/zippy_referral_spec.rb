@@ -64,6 +64,10 @@ describe 'save a zippy referral', type: :feature do
     end
   end
 
+  after do
+    logout_user
+  end
+
   describe 'when decision is promote to referral' do
     it 'validates the bare minimum fields' do
       fill_in_bare_minimum

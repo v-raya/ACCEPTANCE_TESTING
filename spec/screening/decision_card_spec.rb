@@ -1,11 +1,17 @@
 # frozen_string_literal: true
 
 describe 'Decision card', type: :feature do
-  # Selecting Start Screening on homepage
-  it 'Test decision card' do
+  before do
     visit '/'
     login_user
     click_link 'Start Screening'
+  end
+
+  after do
+    logout_user
+  end
+  # Selecting Start Screening on homepage
+  it 'Test decision card' do
 
     # Set variable to test 64 char limit and fields to accept any char
     char66str = '0123@567890123G567890123%5678901A345&789' \

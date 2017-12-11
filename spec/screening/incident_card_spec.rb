@@ -9,6 +9,11 @@ describe 'Incident Information card', type: :feature do
     login_user
     click_link 'Start Screening'
   end
+
+  after do
+    logout_user
+  end
+  
   # Selecting Start Screening on homepage
   it 'Test Incident Info card' do
     # Set variable to test 64 char limit and fields to accept any char

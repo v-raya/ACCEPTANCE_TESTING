@@ -8,6 +8,10 @@ describe 'Validate date (date picker) on screening cards', type: :feature do
     click_link 'Start Screening'
   end
 
+  after do
+    logout_user
+  end
+
   it 'Validate date and time on screening information card' do
     [
       { sdate_time: '01012011 11:23 AM', s_display: '01/01/2011 11:23 AM', edate_time: '01022011 11:23 AM',

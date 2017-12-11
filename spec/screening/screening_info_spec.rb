@@ -8,6 +8,10 @@ describe 'Screening QA Test', type: :feature do
     click_link 'Start Screening'
   end
 
+  after do
+    logout_user
+  end
+  
   screen_info_init = {
     title: 'Child @bandonment1',
     worker: 'Jane $ocialworker',

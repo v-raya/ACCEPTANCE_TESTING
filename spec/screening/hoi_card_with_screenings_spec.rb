@@ -102,6 +102,10 @@ describe 'History Card with screenings', type: :feature do
     end
   end
 
+  after do
+    logout_user
+  end
+
   it 'Displays screenings on the history card' do
     skip 'This test is intermittent'
     screening_page = ScreeningPage.new.visit

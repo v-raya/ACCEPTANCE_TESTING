@@ -20,6 +20,10 @@ describe 'Relationship card QA test', type: :feature do
     click_link 'Start Screening'
   end
 
+  after do
+    logout_user
+  end
+
   it 'Test initial rendering of card' do
     within '#relationships-card' do
       # Verify initial rendering of card

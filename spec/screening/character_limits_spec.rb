@@ -8,6 +8,10 @@ describe 'Field limits', type: :feature do
     click_link 'Start Screening'
   end
 
+  after do
+    logout_user
+  end
+  
   it 'tests field limits for screening' do
     sixty_five_characters = (0...65).map { 's' }.join('')
     twenty_digits = (0...20).map { '1' }.join('')

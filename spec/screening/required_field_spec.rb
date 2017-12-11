@@ -19,6 +19,10 @@ describe 'Validate Screening require field labels', type: :feature do
     click_link 'Start Screening'
   end
 
+  after do
+    logout_user
+  end
+
   it 'validate Screening Info required labels' do
     within '#screening-information-card' do
       expect(page.find('label', text: 'Screening Start Date/Time')[:class]).to include('required')

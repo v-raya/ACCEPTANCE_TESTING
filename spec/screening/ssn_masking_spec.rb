@@ -9,6 +9,10 @@ describe 'SSN masking behavior', type: :feature do
     click_link 'Start Screening'
   end
 
+  after do
+    logout_user
+  end
+
   it 'correctly masks the SSN when inserting a person from search result'
 
   it 'Validates SSN' do

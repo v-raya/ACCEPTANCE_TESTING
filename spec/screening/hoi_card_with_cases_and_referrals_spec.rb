@@ -9,9 +9,13 @@ describe 'History Card with cases and referrals', type: :feature do
   let(:screening_page) { ScreeningPage.new }
 
   before do
-    # visit '/'
-    # login_user
-    screening_page.visit
+    visit '/'
+    login_user
+    click_link 'Start Screening'
+  end
+
+  after do
+    logout_user
   end
 
   let(:shared_hoi_1) { { dob: '1997-11-22', name: 'Marty R', legacy_id: 'M5Xs0Xb0Bv' } }

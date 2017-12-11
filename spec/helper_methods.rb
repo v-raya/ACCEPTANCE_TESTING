@@ -46,10 +46,8 @@ def generate_date(start_year = 2000, end_year = 2017)
   FFaker::Time.between(Time.new(start_year), Time.new(end_year)).strftime('%m/%d/%Y')
 end
 
-def clear_user_login
+def clear_cookies_current_path
   browser = Capybara.current_session.driver.browser
-  visit '/perry'
-
   if browser.respond_to?(:clear_cookies)
     # Rack::MockSession
     browser.clear_cookies
@@ -59,6 +57,12 @@ def clear_user_login
   else
     raise "Don't know how to clear cookies. Weird driver?"
   end
+end
+
+def logout_user
+  clear_cookies_current_path
+  visit "#{ENV['AUTH_URL']}"
+  clear_cookies_current_path
 end
 
 def humanize(string, capitalize_all: false)

@@ -9,6 +9,10 @@ describe 'Screening Validation QA Test', type: :feature do
     click_link 'Start Screening'
   end
 
+  after do
+    logout_user
+  end
+
   describe 'screening information card validations' do
     context 'with required fields' do
       let(:required_field_error_messages) do
