@@ -121,7 +121,7 @@ class ScreeningPage
 
   def add_person_from_search(name:, additional_info: nil)
     within '#search-card' do
-      autocompleter_fill_in 'Search for any person', "#{name} #{additional_info}"
+      autocompleter_fill_in 'screening_participants', "#{name} #{additional_info}"
       within('ul.react-autosuggest__suggestions-list') do
         page.first('li', text: name).click
       end
@@ -130,7 +130,7 @@ class ScreeningPage
 
   def add_new_person(person = nil)
     within '#search-card' do
-      autocompleter_fill_in 'Search for any person', 'abcdef'
+      autocompleter_fill_in 'screening_participants', 'abcdef'
       click_button 'Create a new person'
       sleep 0.5
     end
