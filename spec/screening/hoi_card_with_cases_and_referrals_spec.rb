@@ -16,7 +16,6 @@ describe 'History Card with cases and referrals', type: :feature do
   let(:shared_hoi_2) { { dob: '12/29/1995', name: 'Lawrence Bloschke', legacy_id: '0212-4560-3721-8000794' } }
 
   scenario 'copy button' do
-    pending 'implemented but fails because work-around no longer works'
     screening_page.add_person_from_search(additional_info: shared_hoi_1[:dob], name: shared_hoi_1[:name])
     within '#history-card' do
       click_button 'Copy'
