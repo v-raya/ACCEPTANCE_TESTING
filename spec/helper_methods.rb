@@ -35,8 +35,23 @@ def fill_login_form
   Capybara.click_button('Sign In')
 end
 
+def fill_json_login_form
+  authorization_json = {
+    user: 'RACFID',
+    staffId: '0X5',
+    roles: ['Supervisor'],
+    county_code: '56',
+    county_name: 'Ventura',
+    privileges: ['Countywide Read', 'Sensitive Persons']
+  }.to_json
+  Capybara.fill_in('username', with: ENV['USERNAME'] || authorization_json)
+  Capybara.click_button('Sign In')
+end
+
 def login_user
-  if Capybara.page.text.include? 'username'
+  if Capybara.page.text.include? 'Authorization JSON'
+    fill_json_login_form
+  elsif Capybara.page.text.include? 'username'
     fill_login_form
   end
   click_link 'Intake'
