@@ -1,6 +1,7 @@
 ## Requirements
 For local test running:
-- Ruby 2.3+ with Bundler 
+- Ruby 2.3+ with Bundler
+- Capybara-webkit requires Qt 5+ [Follow this installation guideline](https://github.com/thoughtbot/capybara-webkit/wiki/Installing-Qt-and-compiling-capybara-webkit)
 
 For Docker container test runs see [Using Docker](#using-docker)
 ## Setup
