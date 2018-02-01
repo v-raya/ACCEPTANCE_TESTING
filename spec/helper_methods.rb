@@ -56,7 +56,6 @@ def fill_production_login_form
   end
   Capybara.click_button('Sign In')
   if Capybara.page.text.include? 'Send Access Code'
-    puts 'WARNING: Environment requires 2-Factor Authentication'
     Capybara.click_button('Send Access Code')
     Capybara.fill_in('accessCode', with: '123456')
     Capybara.click_button('Validate Access Code')
