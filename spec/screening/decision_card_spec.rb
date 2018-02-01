@@ -5,7 +5,7 @@ describe 'Decision card', type: :feature do
   it 'Test decision card' do
     visit '/'
     login_user
-    click_link 'Start Screening'
+    click_button 'Start Screening'
 
     # Set variable to test 64 char limit and fields to accept any char
     char66str = '0123@567890123G567890123%5678901A345&789' \
@@ -18,7 +18,8 @@ describe 'Decision card', type: :feature do
         expect(page).to have_content 'Decision'
       end
       within '.card-body' do
-        expect(page).to have_content 'Decision'
+        # validate content of edit view
+        expect(page).to have_content 'Screening decision'
         expect(page).to have_content 'Additional information'
         expect(page).to have_content 'SDM Hotline Tool'
         expect(page).to have_content 'Determine Decision and Response Time by using Structured Decision Making.'
@@ -34,7 +35,7 @@ describe 'Decision card', type: :feature do
         expect(page).to have_button 'Cancel'
         expect(page).to have_button 'Save'
         expect(page).not_to have_content('Service name')
-        select 'Differential response', from: 'Decision'
+        select 'Differential response', from: 'Screening decision'
         expect(page).to have_content('Service name')
         fill_in('Service name', with: 'Family Strengthening')
         fill_in('Additional information',
@@ -63,7 +64,7 @@ describe 'Decision card', type: :feature do
         click_link 'Edit'
       end
       within '.card-body' do
-        expect(page).to have_select('Decision',
+        expect(page).to have_select('Screening decision',
                                     selected: 'Differential response')
         expect(page).to have_field('Service name', with: 'Family Strengthening')
         # Test for char type and field only accepts 64 chars
@@ -78,7 +79,7 @@ describe 'Decision card', type: :feature do
       end
       within '.card-body' do
         expect(page).not_to have_content('Staff name')
-        select 'Information to child welfare services', from: 'Decision'
+        select 'Information to child welfare services', from: 'Screening decision'
         expect(page).to have_content('Staff name')
         expect(page).not_to have_content('Service name')
         # Fill with 66 chars, two more than limit
@@ -87,7 +88,7 @@ describe 'Decision card', type: :feature do
         expect(page).to have_content 'Staff name'
         # validate field only accepts 64 char
         expect(page).to have_content char64str
-        expect(page).to have_content 'Decision'
+        expect(page).to have_content 'Screening decision'
         expect(page).to have_content 'Information to child welfare services'
       end
       within '.card-header' do
@@ -95,7 +96,7 @@ describe 'Decision card', type: :feature do
       end
       within '.card-body' do
         expect(page).not_to have_content('Response time')
-        select 'Promote to referral', from: 'Decision'
+        select 'Promote to referral', from: 'Screening decision'
         expect(page).to have_content('Response time')
         expect(page).not_to have_content('Staff name')
         select 'Immediate', from: 'Response time'
@@ -107,7 +108,7 @@ describe 'Decision card', type: :feature do
         select '10 days', from: 'Response time'
         expect(page).to have_select('Response time', selected: '10 days')
         expect(page).not_to have_content('Category')
-        select 'Screen out', from: 'Decision'
+        select 'Screen out', from: 'Screening decision'
         expect(page).to have_content('Category')
         expect(page).not_to have_content('Response time')
         select 'Evaluate out', from: 'Category'
@@ -124,7 +125,7 @@ describe 'Decision card', type: :feature do
         click_button 'Cancel'
         expect(page).to have_content 'Staff name'
         expect(page).to have_content char64str
-        expect(page).to have_content 'Decision'
+        expect(page).to have_content 'Screening decision'
         expect(page).to have_content 'Information to child welfare services'
       end
       within '.card-header' do
@@ -132,8 +133,8 @@ describe 'Decision card', type: :feature do
       end
       within '.card-body' do
         # validate de-selecting removes the conditional fields
-        select '', from: 'Decision'
-        expect(page).to have_content 'Decision'
+        select '', from: 'Screening decision'
+        expect(page).to have_content 'Screening decision'
         expect(page).to have_content 'Additional information'
         expect(page).to have_button 'Cancel'
         expect(page).to have_button 'Save'
@@ -150,7 +151,7 @@ describe 'Decision card', type: :feature do
 
     visit '/'
     login_user
-    click_link 'Start Screening'
+    click_button 'Start Screening'
 
     within '#decision-card.edit' do
       expect(page).not_to have_content(message)
@@ -179,7 +180,7 @@ describe 'Decision card', type: :feature do
 
     visit '/'
     login_user
-    click_link 'Start Screening'
+    click_button 'Start Screening'
 
     within '#decision-card.edit' do
       select 'Promote to referral', from: 'Screening Decision'
