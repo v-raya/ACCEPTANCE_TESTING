@@ -2,9 +2,7 @@
 
 require 'autocompleter_helpers'
 require 'capybara/rspec'
-require 'capybara/webkit'
 require 'ffaker'
-require 'headless'
 require 'helper_methods'
 require 'shame_helpers'
 require 'pry'
@@ -13,25 +11,20 @@ require 'datetime_helpers'
 require 'participant_helpers'
 require 'address_helpers'
 require 'screening_helpers'
+require 'selenium/webdriver'
 
 Dir[File.dirname(__FILE__) + '/support/**/*.rb'].each { |f| require f }
 
 module AcceptanceTesting
   def self.resolve_driver
     driver_option = ENV['CAPYBARA_DRIVER']
-    is_driver_defined = driver_option.nil? || driver_option.empty?
-    is_driver_defined ? :selenium : driver_option.to_sym
+    no_driver = driver_option.nil? || driver_option.empty?
+    no_driver ? :headless_firefox : driver_option.to_sym
   end
 
   def self.setup_env_settings
     @active_driver = resolve_driver
-    @use_xvfb = ENV['USE_XVFB'] == 'true'
     @app_url = ENV['APP_URL']
-  end
-
-  def self.setup_xvfb
-    @headless_manager = Headless.new
-    @headless_manager.start
   end
 
   def self.setup_capybara
@@ -42,22 +35,36 @@ module AcceptanceTesting
       config.default_max_wait_time  = 10
     end
 
-    Capybara.register_driver :chrome do |a|
-      Capybara::Selenium::Driver.new(a, browser: :chrome)
+    Capybara.register_driver :chrome do |app|
+      Capybara::Selenium::Driver.new(app, browser: :chrome)
     end
+
+    Capybara.register_driver :firefox do |app|
+      Capybara::Selenium::Driver.new(app, browser: :firefox)
+    end
+
+    Capybara.register_driver :headless_chrome do |app|
+      capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
+        chromeOptions: { args: %w(headless disable-gpu no-sandbox) }
+      )
+
+      Capybara::Selenium::Driver.new(app, browser: :chrome, desired_capabilities: capabilities)
+    end
+
+    Capybara.register_driver :headless_firefox do |app|
+      browser_options = Selenium::WebDriver::Firefox::Options.new()
+      browser_options.args << '--headless'
+
+      Capybara::Selenium::Driver.new(app, browser: :firefox, options: browser_options)
+    end
+
     Capybara.enable_aria_label = true
-    Capybara::Webkit.configure(&:allow_unknown_urls)
   end
 
   def self.setup
     setup_env_settings
     raise 'You must pass the app url with APP_URL=<url>.' unless @app_url
-    setup_xvfb if @use_xvfb
     setup_capybara
-  end
-
-  def self.teardown
-    @headless.destroy if @run_headless
   end
 end
 
