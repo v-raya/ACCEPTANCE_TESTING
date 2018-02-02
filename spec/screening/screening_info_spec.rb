@@ -76,7 +76,7 @@ describe 'Screening QA Test', type: :feature do
                                  with: screen_info_init[:title])
       expect(page).to have_field('Assigned Social Worker',
                                  disabled: true)
-    # Need test for how date is displayed once date picker is complete
+      # Need test for how date is displayed once date picker is complete
       expect(page).to have_select('Communication Method',
                                   selected: screen_info_init[:comm])
       start_date = Time.strptime(screen_info_chng1[:sdate], '%m/%d/%Y %l:%M %p')
@@ -99,7 +99,7 @@ describe 'Screening QA Test', type: :feature do
                                  with: screen_info_init[:title])
       expect(page).to have_field('Assigned Social Worker',
                                  disabled: true)
-    # Need test for how date is displayed once date picker is complete
+      # Need test for how date is displayed once date picker is complete
       expect(page).to have_select('Communication Method',
                                   selected: screen_info_chng1[:comm])
       fill_in_datepicker('Screening Start Date/Time', with: screen_info_chng2[:sdate])
