@@ -13,7 +13,7 @@ describe 'Dashboard Ready', type: :feature do
   end
 
   it 'has a Start Screening link' do
-    expect(page).to have_link('Start Screening')
+    expect(page).to have_button('Start Screening')
   end
 
   it 'has a screening name column' do
