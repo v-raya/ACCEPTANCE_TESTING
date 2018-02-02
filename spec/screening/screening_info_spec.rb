@@ -5,25 +5,22 @@ describe 'Screening QA Test', type: :feature do
   before do
     visit '/'
     login_user
-    click_link 'Start Screening'
+    click_button 'Start Screening'
   end
 
   screen_info_init = {
-    title: 'Child @bandonment1',
-    worker: 'Jane $ocialworker',
+    title: 'Child abandonment',
     comm: 'Mail',
     sdate: '08/13/2016 11:00 AM',
     edate: '08/15/2016 7:00 PM'
   }
 
   screen_info_chng1 = {
-    worker: 'John Socialworker',
     comm: 'Fax',
     sdate: '08/12/2016 1:00 PM'
   }
 
   screen_info_chng2 = {
-    worker: 'Helen Socialworker',
     sdate: '08/22/2016 3:00 PM',
     comm: 'In Person'
   }
@@ -32,9 +29,7 @@ describe 'Screening QA Test', type: :feature do
     character_buffet = 'C am-ron1234567890!@#$%^&*(),./;"[]'
     within '#screening-information-card.edit' do
       fill_in 'Title/Name of Screening', with: character_buffet
-      fill_in 'Assigned Social Worker', with: character_buffet
       expect(page).to have_field('Title/Name of Screening', with: 'C am-ron')
-      expect(page).to have_field('Assigned Social Worker', with: 'C amron')
     end
   end
 
@@ -54,7 +49,7 @@ describe 'Screening QA Test', type: :feature do
         expect(page).to have_field('Title/Name of Screening',
                                    with: '')
         expect(page).to have_field('Assigned Social Worker',
-                                   with: '')
+                                   disabled: true)
         expect(page).to have_field('Screening Start Date/Time',
                                    with: Time.now.strftime('%m/%d/%Y %-l:%M %p'))
         expect(page).to have_field('Screening End Date/Time',
@@ -63,7 +58,6 @@ describe 'Screening QA Test', type: :feature do
         expect(page).to have_button('Save')
         expect(page).to have_button('Cancel')
         fill_in('Title/Name of Screening', with: screen_info_init[:title])
-        fill_in('Assigned Social Worker', with: screen_info_init[:worker])
         fill_in_datepicker('Screening Start Date/Time', with: screen_info_init[:sdate])
         fill_in_datepicker('Screening End Date/Time', with: screen_info_init[:edate])
         select screen_info_init[:comm], from: 'Communication Method'
@@ -71,7 +65,7 @@ describe 'Screening QA Test', type: :feature do
       end
       expect(page).to have_content('Screening Information')
       expect(page).to have_content(screen_info_init[:title])
-      expect(page).to have_content(screen_info_init[:worker])
+      expect(page).to have_content('Assigned Social Worker')
       expect(page).to have_content(screen_info_init[:sdate])
       expect(page).to have_content(screen_info_init[:edate])
       expect(page).to have_content(screen_info_init[:comm])
@@ -81,11 +75,10 @@ describe 'Screening QA Test', type: :feature do
       expect(page).to have_field('Title/Name of Screening',
                                  with: screen_info_init[:title])
       expect(page).to have_field('Assigned Social Worker',
-                                 with: screen_info_init[:worker])
+                                 disabled: true)
       # Need test for how date is displayed once date picker is complete
       expect(page).to have_select('Communication Method',
                                   selected: screen_info_init[:comm])
-      fill_in('Assigned Social Worker', with: screen_info_chng1[:worker])
       start_date = Time.strptime(screen_info_chng1[:sdate], '%m/%d/%Y %l:%M %p')
       mouse_select_datepicker('#started_at', start_date.day)
       mouse_select_timepicker('#started_at', start_date.strftime('%l:%M %p'))
@@ -95,7 +88,7 @@ describe 'Screening QA Test', type: :feature do
       # Verify new info saved
       expect(page).to have_content('Screening Information')
       expect(page).to have_content(screen_info_init[:title])
-      expect(page).to have_content(screen_info_chng1[:worker])
+      expect(page).to have_content('Assigned Social Worker')
       expect(page).to have_content(screen_info_chng1[:sdate])
       expect(page).to have_content(screen_info_init[:edate])
       expect(page).to have_content(screen_info_chng1[:comm])
@@ -105,11 +98,10 @@ describe 'Screening QA Test', type: :feature do
       expect(page).to have_field('Title/Name of Screening',
                                  with: screen_info_init[:title])
       expect(page).to have_field('Assigned Social Worker',
-                                 with: screen_info_chng1[:worker])
+                                 disabled: true)
       # Need test for how date is displayed once date picker is complete
       expect(page).to have_select('Communication Method',
                                   selected: screen_info_chng1[:comm])
-      fill_in('Assigned Social Worker', with: screen_info_chng2[:worker])
       fill_in_datepicker('Screening Start Date/Time', with: screen_info_chng2[:sdate])
       select screen_info_chng2[:comm], from: 'Communication Method'
     end
@@ -119,7 +111,7 @@ describe 'Screening QA Test', type: :feature do
     within '#screening-information-card' do
       expect(page).to have_content('Screening Information')
       expect(page).to have_content(screen_info_init[:title])
-      expect(page).to have_content(screen_info_chng1[:worker])
+      expect(page).to have_content('Assigned Social Worker')
       expect(page).to have_content(screen_info_chng1[:sdate])
       expect(page).to have_content(screen_info_init[:edate])
       expect(page).to have_content(screen_info_chng1[:comm])
