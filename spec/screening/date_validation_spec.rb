@@ -5,7 +5,7 @@ describe 'Validate date (date picker) on screening cards', type: :feature do
   before do
     visit '/'
     login_user
-    click_link 'Start Screening'
+    click_button 'Start Screening'
   end
 
   it 'Validate date and time on screening information card' do
@@ -72,9 +72,10 @@ describe 'Validate date (date picker) on screening cards', type: :feature do
       expect(page).to have_content(Time.now.strftime('%m/%d/%Y'))
     end
     within '#cross-report-card.edit' do
-      find('label', text: 'District attorney').click
+      select 'Fresno', from: 'County'
+      find('label', text: 'Law enforcement').click
       fill_in_datepicker 'Cross Reported on Date', with: '08/17/2016'
-      select_today_from_calendar('#cross_report_reported_on')
+      select_today_from_calendar('#cross_report_inform_date')
       find('.card-body').click
       expect(page).to have_field('Cross Reported on Date', with: Time.now.strftime('%m/%d/%Y'))
       click_button 'Save'
@@ -93,7 +94,8 @@ describe 'Validate date (date picker) on screening cards', type: :feature do
     person1_id = find('div[id^="participants-card-"]', text: 'Unknown')[:id]
     person1_card = find('#' + person1_id)
     within '#cross-report-card' do
-      find('label', text: 'District attorney').click
+      select 'Fresno', from: 'County'
+      find('label', text: 'Law enforcement').click
     end
     [
       { date: '01012011', display: '01/01/2011' },
