@@ -37,7 +37,7 @@ describe 'Partcipant Card tests', type: :feature do
   before do
     visit '/'
     login_user
-    click_link 'Start Screening'
+    click_button 'Start Screening'
   end
 
   it 'disables and resets approximate age fields when there is a date of birth' do

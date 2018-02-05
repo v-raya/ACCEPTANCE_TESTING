@@ -6,7 +6,7 @@ describe 'SSN masking behavior', type: :feature do
   before do
     visit '/'
     login_user
-    click_link 'Start Screening'
+    click_button 'Start Screening'
   end
 
   it 'correctly masks the SSN when inserting a person from search result'

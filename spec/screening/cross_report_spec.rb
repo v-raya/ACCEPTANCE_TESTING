@@ -5,7 +5,7 @@ describe 'Cross Report card', type: :feature do
   before do
     visit '/'
     login_user
-    click_link 'Start Screening'
+    click_button 'Start Screening'
   end
 
   it 'Testing of Cross Report' do

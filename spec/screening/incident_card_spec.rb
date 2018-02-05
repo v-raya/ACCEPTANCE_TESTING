@@ -7,7 +7,7 @@ describe 'Incident Information card', type: :feature do
   before do
     visit '/'
     login_user
-    click_link 'Start Screening'
+    click_button 'Start Screening'
   end
   # Selecting Start Screening on homepage
   it 'Test Incident Info card' do
