@@ -120,7 +120,7 @@ module Screening
   end
 
   def self.incident_county(value = nil)
-    value || humanize(all_counties.sample, capitalize_all: true)
+    value
   end
 
   def self.address(value = nil)
