@@ -18,7 +18,7 @@ class ScreeningPage
     Capybara.visit '/'
     login_user
 
-    id ? Capybara.visit("/screenings/#{id}/edit") : click_link('Start Screening')
+    id ? Capybara.visit("/screenings/#{id}/edit") : click_button('Start Screening')
     self
   end
 
