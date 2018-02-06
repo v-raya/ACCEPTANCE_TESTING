@@ -18,7 +18,7 @@ class ScreeningPage
     Capybara.visit '/'
     login_user
 
-    id ? Capybara.visit("/screenings/#{id}/edit") : click_link('Start Screening')
+    id ? Capybara.visit("/screenings/#{id}/edit") : click_button('Start Screening')
     self
   end
 
@@ -47,7 +47,6 @@ class ScreeningPage
   def set_screening_information_attributes(attrs)
     within '#screening-information-card' do
       fill_in('Title/Name of Screening', with: attrs[:name]) if attrs[:name]
-      fill_in('Assigned Social Worker', with: attrs[:social_worker]) if attrs[:social_worker]
       fill_in('Screening Start Date/Time', with: attrs[:start_date]) if attrs[:start_date]
       fill_in('Screening End Date/Time', with: attrs[:end_date]) if attrs[:end_date]
       select(attrs[:communication_method], from: 'Communication Method') if attrs[:communication_method]
