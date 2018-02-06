@@ -9,7 +9,7 @@ require 'pry'
 task default: :spec
 
 RSpec::Core::RakeTask.new do |t|
-  t.rspec_opts = %w[-fp --color --require spec_helper]
+  t.rspec_opts = %w(-fp --color --require spec_helper)
 
   if ENV['FEATURE_SET'] != ''
     example_options.each do |example_name|

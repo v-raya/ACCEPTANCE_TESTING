@@ -2,20 +2,20 @@
 
 module Screening
   def self.screening_information_keys
-    %i[name social_worker start_date end_date communication_method]
+    %i(name social_worker start_date end_date communication_method)
   end
 
   def self.incident_information_keys
-    %i[incident_date incident_county address city state zip location_type]
+    %i(incident_date incident_county address city state zip location_type)
   end
 
   def self.worker_safety_keys
-    %i[safety_alerts safety_information]
+    %i(safety_alerts safety_information)
   end
 
   def self.keys
     screening_information_keys + incident_information_keys + worker_safety_keys +
-      %i[participants narrative cross_reports decision]
+      %i(participants narrative cross_reports decision)
   end
 
   def self.all_communication_methods
@@ -23,12 +23,12 @@ module Screening
   end
 
   def self.all_counties
-    %w[alameda alpine amador butte calaveras colusa contra_Costa del_norte el_dorado fresno glenn
+    %w(alameda alpine amador butte calaveras colusa contra_Costa del_norte el_dorado fresno glenn
        humboldt imperial inyo kern kings lake lassen los_angeles madera marin mariposa mendocino
        merced modoc mono monterey napa nevada orange placer plumas riverside sacramento san_benito
        san_bernardino san_diego san_francisco san_joaquin san_luis_Obispo san_mateo santa_barbara
        santa_clara santa_cruz shasta sierra siskiyou solano sonoma stanislaus sutter tehama trinity
-       tulare tuolumne ventura yolo yuba state_of_california]
+       tulare tuolumne ventura yolo yuba state_of_california)
   end
 
   def self.all_allegation_types
@@ -166,8 +166,10 @@ module Screening
 
   def self.referral(attrs = {})
     attrs[:participants] = [Participant.victim, Participant.perpetrator, Participant.reporter]
+    person1_name = Participant.full_name(attrs[:participants][0])
+    person2_name = Participant.full_name(attrs[:participants][1])
     attrs[:allegations] = {
-      field_label: "allegations #{Participant.full_name(attrs[:participants][0])} #{Participant.full_name(attrs[:participants][1])}",
+      field_label: "allegations #{person1_name} #{person2_name}",
       allegation_types: ['General neglect', 'Severe neglect']
     }
     attrs[:cross_reports] = {
