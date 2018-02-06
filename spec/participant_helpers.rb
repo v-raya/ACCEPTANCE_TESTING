@@ -9,8 +9,8 @@ module Participant
   end
 
   def self.keys
-    %i[roles first_name middle_name last_name name_suffix gender ssn date_of_birth
-       races ethnicity languages addresses]
+    %i(roles first_name middle_name last_name name_suffix gender ssn date_of_birth
+       races ethnicity languages addresses)
   end
 
   def self.all_ethnicity_details
@@ -18,7 +18,7 @@ module Participant
   end
 
   def self.all_genders
-    %w[Male Female Unknown]
+    %w(Male Female Unknown)
   end
 
   def self.all_languages
@@ -38,7 +38,7 @@ module Participant
   end
 
   def self.all_race_details
-    %w[European Caribbean Korean Ethiopian]
+    %w(European Caribbean Korean Ethiopian)
   end
 
   def self.roles(value = nil)

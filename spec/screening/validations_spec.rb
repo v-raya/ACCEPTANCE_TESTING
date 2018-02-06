@@ -6,7 +6,7 @@ describe 'Screening Validation QA Test', type: :feature do
   before do
     visit '/'
     login_user
-    click_link 'Start Screening'
+    click_button 'Start Screening'
   end
 
   describe 'screening information card validations' do

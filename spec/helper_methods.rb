@@ -87,7 +87,7 @@ def clear_user_login
   if browser.respond_to?(:clear_cookies)
     # Rack::MockSession
     browser.clear_cookies
-  elsif browser.respond_to?(:manage) and browser.manage.respond_to?(:delete_all_cookies)
+  elsif browser.respond_to?(:manage) && browser.manage.respond_to?(:delete_all_cookies)
     # Selenium::WebDriver
     browser.manage.delete_all_cookies
   else
@@ -96,7 +96,9 @@ def clear_user_login
 end
 
 def humanize(string, capitalize_all: false)
-  capitalize_all ?
-    string.split('_').map(&:capitalize).join(' ') :
+  if capitalize_all
+    string.split('_').map(&:capitalize).join(' ')
+  else
     string.split('_').join(' ').capitalize
+  end
 end

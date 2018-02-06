@@ -89,7 +89,6 @@ describe 'History Card with screenings', type: :feature do
       screening[:id] = screening_id
 
       screening_page.set_screening_information_attributes(name: screening[:name],
-                                                          social_worker: screening[:worker],
                                                           start_date: screening[:start_date],
                                                           end_date: screening[:end_date])
       screening_page.set_incident_information_attributes(incident_county: screening[:county])

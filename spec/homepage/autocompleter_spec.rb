@@ -5,7 +5,7 @@ describe 'Homepage Autocompleter', type: :feature do
   before do
     visit '/'
     login_user
-    click_link 'Start Screening'
+    click_button 'Start Screening'
   end
 
   # Checks to ensure login is successful

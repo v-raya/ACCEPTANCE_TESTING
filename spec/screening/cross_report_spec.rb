@@ -5,7 +5,7 @@ describe 'Cross Report card', type: :feature do
   before do
     visit '/'
     login_user
-    click_link 'Start Screening'
+    click_button 'Start Screening'
   end
 
   it 'Testing of Cross Report' do
@@ -17,67 +17,67 @@ describe 'Cross Report card', type: :feature do
         # Validate initial rendering of the card
         expect(page).to have_content('This report has cross reported to:')
         expect(page).to have_select('County', options: [
-          '',
-          'Alameda',
-          'Alpine',
-          'Amador',
-          'Butte',
-          'Calaveras',
-          'Colusa',
-          'Contra Costa',
-          'Del Norte',
-          'El Dorado',
-          'Fresno',
-          'Glenn',
-          'Humboldt',
-          'Imperial',
-          'Inyo',
-          'Kern',
-          'Kings',
-          'Lake',
-          'Lassen',
-          'Los Angeles',
-          'Madera',
-          'Marin',
-          'Mariposa',
-          'Mendocino',
-          'Merced',
-          'Modoc',
-          'Mono',
-          'Monterey',
-          'Napa',
-          'Nevada',
-          'Orange',
-          'Placer',
-          'Plumas',
-          'Riverside',
-          'Sacramento',
-          'San Benito',
-          'San Bernardino',
-          'San Diego',
-          'San Francisco',
-          'San Joaquin',
-          'San Luis Obispo',
-          'San Mateo',
-          'Santa Barbara',
-          'Santa Clara',
-          'Santa Cruz',
-          'Shasta',
-          'Sierra',
-          'Siskiyou',
-          'Solano',
-          'Sonoma',
-          'Stanislaus',
-          'State of California',
-          'Sutter',
-          'Tehama',
-          'Trinity',
-          'Tulare',
-          'Tuolumne',
-          'Ventura',
-          'Yolo',
-          'Yuba'
-        ])
+                                      '',
+                                      'Alameda',
+                                      'Alpine',
+                                      'Amador',
+                                      'Butte',
+                                      'Calaveras',
+                                      'Colusa',
+                                      'Contra Costa',
+                                      'Del Norte',
+                                      'El Dorado',
+                                      'Fresno',
+                                      'Glenn',
+                                      'Humboldt',
+                                      'Imperial',
+                                      'Inyo',
+                                      'Kern',
+                                      'Kings',
+                                      'Lake',
+                                      'Lassen',
+                                      'Los Angeles',
+                                      'Madera',
+                                      'Marin',
+                                      'Mariposa',
+                                      'Mendocino',
+                                      'Merced',
+                                      'Modoc',
+                                      'Mono',
+                                      'Monterey',
+                                      'Napa',
+                                      'Nevada',
+                                      'Orange',
+                                      'Placer',
+                                      'Plumas',
+                                      'Riverside',
+                                      'Sacramento',
+                                      'San Benito',
+                                      'San Bernardino',
+                                      'San Diego',
+                                      'San Francisco',
+                                      'San Joaquin',
+                                      'San Luis Obispo',
+                                      'San Mateo',
+                                      'Santa Barbara',
+                                      'Santa Clara',
+                                      'Santa Cruz',
+                                      'Shasta',
+                                      'Sierra',
+                                      'Siskiyou',
+                                      'Solano',
+                                      'Sonoma',
+                                      'Stanislaus',
+                                      'State of California',
+                                      'Sutter',
+                                      'Tehama',
+                                      'Trinity',
+                                      'Tulare',
+                                      'Tuolumne',
+                                      'Ventura',
+                                      'Yolo',
+                                      'Yuba'
+                                    ])
         select 'Fresno', from: 'County'
         expect(page).to have_unchecked_field('District attorney')
         expect(page).to have_unchecked_field('Department of justice')
@@ -140,12 +140,12 @@ describe 'Cross Report card', type: :feature do
         find('label', text: 'Community care licensing').click
         select 'Demo Community Care Licensing', from: 'Community care licensing agency name'
         expect(page).to have_select('Communication Method', options: [
-          '',
-          'Child Abuse Form',
-          'Electronic Report',
-          'Suspected Child Abuse Report',
-          'Telephone Report'
-        ])
+                                      '',
+                                      'Child Abuse Form',
+                                      'Electronic Report',
+                                      'Suspected Child Abuse Report',
+                                      'Telephone Report'
+                                    ])
         select 'Suspected Child Abuse Report', from: 'Communication Method'
 
         fill_in 'Cross Reported on Date', with: '08/23/1654'
@@ -170,19 +170,19 @@ describe 'Cross Report card', type: :feature do
         # Validate edit mode fields contain information that was saved
         expect(page).to have_checked_field('District attorney')
         expect(page).to have_select('District attorney agency name',
-                                   selected: 'Fresno County DA')
+                                    selected: 'Fresno County DA')
         expect(page).to have_checked_field('Department of justice')
         expect(page).to have_select('Department of justice agency name',
-                                   selected: 'Demo Department of Justice')
+                                    selected: 'Demo Department of Justice')
         expect(page).to have_checked_field('Law enforcement')
         expect(page).to have_select('Law enforcement agency name',
-                                   selected: 'Fresno Police Dept')
+                                    selected: 'Fresno Police Dept')
         expect(page).to have_checked_field('County licensing')
         expect(page).to have_select('County licensing agency name',
-                                   selected: 'Demo County Licensing')
+                                    selected: 'Demo County Licensing')
         expect(page).to have_checked_field('Community care licensing')
         expect(page).to have_select('Community care licensing agency name',
-                                   selected: 'Demo Community Care Licensing')
+                                    selected: 'Demo Community Care Licensing')
         expect(page).to have_select('Communication Method', selected: 'Suspected Child Abuse Report')
         expect(page).to have_field('Cross Reported on Date', with: '08/23/1654')
         expect(page).to have_button 'Cancel'

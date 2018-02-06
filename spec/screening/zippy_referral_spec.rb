@@ -35,7 +35,7 @@ describe 'save a zippy referral', type: :feature,
   before do
     visit '/'
     login_user
-    click_link 'Start Screening'
+    click_button 'Start Screening'
     [person1, person2, person3].each do |person|
       within '#search-card' do
         autocompleter_fill_in 'Search for any person', person[:fname]

@@ -2,11 +2,13 @@
 
 describe 'Decision card', type: :feature do
   # Selecting Start Screening on homepage
-  it 'Test decision card' do
+  before do
     visit '/'
     login_user
     click_button 'Start Screening'
+  end
 
+  it 'Test decision card' do
     # Set variable to test 64 char limit and fields to accept any char
     char66str = '0123@567890123G567890123%5678901A345&789' \
       '01234567890123456789012345'
@@ -149,10 +151,6 @@ describe 'Decision card', type: :feature do
   it 'displays an error message if screening decision is blank' do
     message = 'Please enter a decision'
 
-    visit '/'
-    login_user
-    click_button 'Start Screening'
-
     within '#decision-card.edit' do
       expect(page).not_to have_content(message)
       click_button 'Save'
@@ -177,10 +175,6 @@ describe 'Decision card', type: :feature do
 
   it 'when decision is promote to referral, displays an error message if response time is blank' do
     message = 'Please enter a response time'
-
-    visit '/'
-    login_user
-    click_button 'Start Screening'
 
     within '#decision-card.edit' do
       select 'Promote to referral', from: 'Screening Decision'
