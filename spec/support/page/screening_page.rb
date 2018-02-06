@@ -28,11 +28,19 @@ class ScreeningPage
     set_narrative(using)
     set_incident_information_attributes(using)
     add_allegations(using[:allegations]) if using[:allegations]
+    set_worker_safety_attributes
     set_cross_report_attributes(using[:cross_reports]) if using[:cross_reports]
     set_decision_attributes(using[:decision]) if using[:decision]
     self
   end
   alias and_populate populate
+
+  def set_worker_safety_attributes
+    click_link 'Worker Safety'
+    within '#worker-safety-card' do
+      click_button 'Save'
+    end
+  end
 
   def add_allegations(attrs)
     click_link 'Allegations'
