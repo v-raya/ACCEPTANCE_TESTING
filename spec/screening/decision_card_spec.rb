@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require 'keyboard_helper'
 
 describe 'Decision card', type: :feature do
   # Selecting Start Screening on homepage
@@ -161,7 +162,7 @@ describe 'Decision card', type: :feature do
 
     within '#decision-card.edit' do
       expect(page).to have_content(message)
-      select 'Differential response', from: 'Screening Decision'
+      select 'Differential response', from: 'Screening decision'
       expect(page).not_to have_content(message)
       click_button 'Save'
     end
@@ -175,7 +176,7 @@ describe 'Decision card', type: :feature do
     message = 'Please enter a response time'
 
     within '#decision-card.edit' do
-      select 'Promote to referral', from: 'Screening Decision'
+      select 'Promote to referral', from: 'Screening decision'
       blur
       expect(page).not_to have_content(message)
       click_button 'Save'
@@ -195,6 +196,102 @@ describe 'Decision card', type: :feature do
 
     within '#decision-card.show' do
       expect(page).not_to have_content(message)
+    end
+  end
+
+  describe 'when Acess restriciton' do
+    restriciton_rationale = 'Text to confirm Access Restriction'
+    access_restriction_error = 'Please enter an access restriction reason'
+
+    before do
+      ScreeningPage.new.visit
+    end
+    it 'is marked as Sensitive' do
+      within '#decision-card.edit' do
+        expect(page).not_to have_content('Restrictions Rationale')
+        select 'Mark as Sensitive', from: 'Access Restrictions'
+        expect(page).to have_select('Access Restrictions', selected: 'Mark as Sensitive')
+        expect(page).to have_content('Restrictions Rationale')
+        expect(page).not_to have_content(access_restriction_error)
+        fill_in('Restrictions Rationale', with: '')
+        blur
+        expect(page).to have_content(access_restriction_error)
+        click_button 'Save'
+      end
+
+      within '#decision-card.show' do
+        expect(page).to have_content('Sensitive')
+        expect(page).to have_content(access_restriction_error)
+        click_link 'Edit'
+      end
+
+      within '#decision-card.edit' do
+        expect(page).to have_content(access_restriction_error)
+        expect(page).to have_select('Access Restrictions', selected: 'Mark as Sensitive')
+        fill_in('Restrictions Rationale', with: restriciton_rationale)
+        expect(page).to have_field('Restrictions Rationale', with: restriciton_rationale)
+        expect(page).not_to have_content(access_restriction_error)
+        click_button 'Save'
+      end
+
+      within '#decision-card.show' do 
+        expect(page).to have_content('Sensitive')
+        expect(page).to have_content(restriciton_rationale)
+        expect(page).not_to have_content(access_restriction_error)
+      end
+    end
+    it 'is marked as Sealed' do
+      within '#decision-card.edit' do
+        expect(page).not_to have_content('Restrictions Rationale')
+        select 'Mark as Sealed', from: 'Access Restrictions'
+        expect(page).to have_select('Access Restrictions', selected: 'Mark as Sealed')
+        expect(page).to have_content('Restrictions Rationale')
+        expect(page).not_to have_content(access_restriction_error)
+        fill_in('Restrictions Rationale', with: '')
+        blur
+        expect(page).to have_content(access_restriction_error)
+        click_button 'Save'
+      end
+
+      within '#decision-card.show' do
+        expect(page).to have_content('Sealed')
+        expect(page).to have_content(access_restriction_error)
+        click_link 'Edit'
+      end
+
+      within '#decision-card.edit' do
+        expect(page).to have_content(access_restriction_error)
+        expect(page).to have_select('Access Restrictions', selected: 'Mark as Sealed')
+        fill_in('Restrictions Rationale', with: restriciton_rationale)
+        expect(page).to have_field('Restrictions Rationale', with: restriciton_rationale)
+        expect(page).not_to have_content(access_restriction_error)
+        click_button 'Save'
+      end
+
+      within '#decision-card.show' do 
+        expect(page).to have_content('Sealed')
+        expect(page).to have_content(restriciton_rationale)
+        expect(page).not_to have_content(access_restriction_error)
+      end
+    end
+    it 'is marked as Do not restrict access' do
+      within '#decision-card.edit' do
+        select 'Do not restrict access', from: 'Access Restrictions'
+        expect(page).to have_content('Do not restrict access')
+        expect(page).not_to have_content('Restrictions Rationale')
+        click_button 'Save'
+      end
+
+      within '#decision-card.show' do
+        expect(page).not_to have_content(access_restriction_error)
+        click_link 'Edit'
+      end
+
+      within '#decision-card.edit' do
+        expect(page).to have_content('Do not restrict access')
+        expect(page).not_to have_content('Restrictions Rationale')
+        click_button 'Save'
+      end
     end
   end
 end
