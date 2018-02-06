@@ -73,6 +73,7 @@ module Screening
   def self.cross_reports(value = nil)
     value || {
       agencies: cross_report_agencies,
+      county: 'Fresno',
       date: generate_date(2016, 2017),
       communication_method: all_cross_report_communication_methods.sample
     }
@@ -81,7 +82,8 @@ module Screening
   def self.cross_report_agencies(value = nil)
     return value if value
     agencies = Array.new(rand(0..4)) { all_cross_report_agencies.sample }.uniq
-    agencies.map { |agency| { type: agency, name: FFaker::Venue.name } }
+    # Cross report agencies dropdown now vary by county, select nothing by default
+    agencies.map { |agency| { type: agency, name: nil } }
   end
 
   def self.decision(value = nil)
@@ -173,8 +175,9 @@ module Screening
       allegation_types: ['General neglect', 'Severe neglect']
     }
     attrs[:cross_reports] = {
+      county: 'Fresno',
       agencies: [
-        { type: 'District attorney', name: 'Fresno County District Attorney' },
+        { type: 'District attorney', name: "Fresno County DA" },
         { type: 'Law enforcement', name: 'Fresno Polcie Department' }
       ],
       date: generate_date(2016, 2017),

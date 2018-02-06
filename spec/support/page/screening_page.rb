@@ -100,7 +100,11 @@ class ScreeningPage
 
   def set_cross_report_attributes(attrs)
     within '#cross-report-card' do
-      select 'Fresno', from: 'County'
+      if attrs[:county]
+        select attrs[:county], from: 'County'
+      else
+        select 'Fresno', from: 'County'
+      end
       attrs[:agencies] && attrs[:agencies].each do |agency|
         find('label', text: agency[:type]).click if agency[:type]
         select agency[:name], from: "#{agency[:type].tr(' ', '_').upcase}-agency-code" if agency[:name]
