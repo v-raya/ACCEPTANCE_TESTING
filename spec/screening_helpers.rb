@@ -94,7 +94,7 @@ module Screening
   end
 
   def self.social_worker(value = nil)
-    value || FFaker::Name.name
+    value
   end
 
   def self.start_date(value = nil)

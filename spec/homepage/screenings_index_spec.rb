@@ -32,14 +32,14 @@ describe 'Screening Index', type: :feature do
 
   it 'has a table populated with screening information' do
     ScreeningPage.new.visit.and_populate using:
-      Screening.referral(name: 'Eclipse', social_worker: 'Dracula', start_date: '08/21/2017')
+      Screening.referral(name: 'Eclipse', start_date: '08/21/2017')
 
     ScreeningPage.new.visit.and_populate using:
-      Screening.random(name: 'Illuminati', social_worker: 'prefer not to answer',
+      Screening.random(name: 'Illuminati',
                        start_date: '09/21/2016', decision: { screening_decision: nil })
 
     ScreeningPage.new.visit.and_populate using:
-      Screening.random(name: 'Sunglasses', social_worker: 'John G', start_date: '',
+      Screening.random(name: 'Sunglasses', start_date: '',
                        decision: { screening_decision: 'Screen out' })
 
     visit '/'
