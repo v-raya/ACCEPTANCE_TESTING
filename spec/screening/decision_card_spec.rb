@@ -205,4 +205,27 @@ describe 'Decision card', type: :feature do
       expect(page).not_to have_content(message)
     end
   end
+
+  it 'display additional information' do 
+    additional_information = '0123@567890123G567890123%5678901A' \
+      '345&789012345678901234567890123'
+    visit '/'
+    login_user
+    click_button 'Start Screening'
+
+    within '#decision-card.edit' do
+      select 'Differential response', from: 'Screening decision'
+      fill_in('Service name', with: 'Service Name')
+      fill_in('Additional information', with: additional_information)
+      select 'Do not restrict access', from: 'Access Restrictions'
+      expect(page).to have_field('Additional information', with: additional_information)
+      click_button 'Save'
+    end
+
+    within '#decision-card.show' do
+      expect(page).to have_content('Differential response')
+      expect(page).to have_content('Service Name')
+      expect(page).to have_content(additional_information)
+    end
+  end
 end
