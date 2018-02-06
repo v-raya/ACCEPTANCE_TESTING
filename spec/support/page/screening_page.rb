@@ -35,6 +35,7 @@ class ScreeningPage
   alias and_populate populate
 
   def add_allegations(attrs)
+    click_link 'Allegations'
     within '#allegations-card' do
       attrs[:allegation_types].each do |type|
         fill_in_react_select(attrs[:field_label], with: type)
@@ -45,6 +46,7 @@ class ScreeningPage
   end
 
   def set_screening_information_attributes(attrs)
+    click_link 'Screening Information'
     within '#screening-information-card' do
       fill_in('Title/Name of Screening', with: attrs[:name]) if attrs[:name]
       fill_in('Assigned Social Worker', with: attrs[:social_worker]) if attrs[:social_worker]
@@ -56,6 +58,7 @@ class ScreeningPage
   end
 
   def set_narrative(attrs)
+    click_link 'Narrative'
     within '#narrative-card' do
       fill_in('Report Narrative', with: attrs[:narrative]) if attrs[:narrative]
       click_button 'Save'
@@ -63,9 +66,10 @@ class ScreeningPage
   end
 
   def set_incident_information_attributes(attrs)
+    click_link 'Incident Information'
     within '#incident-information-card' do
-      select(attrs[:incident_county], from: 'Incident County') if attrs[:incident_county]
       fill_in_datepicker('Incident Date', with: attrs[:incident_date]) if attrs[:incident_date]
+      select(attrs[:incident_county], from: 'Incident County') if attrs[:incident_county]
       fill_in('Address', with: attrs[:address]) if attrs[:address]
       fill_in('City', with: attrs[:city]) if attrs[:city]
       select(attrs[:state], from: 'State') if attrs[:state]
@@ -76,6 +80,7 @@ class ScreeningPage
   end
 
   def set_allegations_attributes(attrs)
+    click_link 'Allegations'
     within '#allegations-card' do
       attrs[:allegations].each do |allegation|
         allegations_field_id = "allegations_#{allegation[:victim_id]}_#{allegation[:perpetrator_id]}"
@@ -99,6 +104,7 @@ class ScreeningPage
   end
 
   def set_cross_report_attributes(attrs)
+    click_link 'Cross Report'
     within '#cross-report-card' do
       if attrs[:county]
         select attrs[:county], from: 'County'
@@ -116,6 +122,7 @@ class ScreeningPage
   end
 
   def set_decision_attributes(attrs)
+    click_link 'Decision'
     within '#decision-card' do
       select(attrs[:screening_decision], from: 'Screening decision') if attrs[:screening_decision]
       select(attrs[:response_time], from: 'Response time') if attrs[:response_time]
@@ -144,6 +151,10 @@ class ScreeningPage
   end
 
   def set_participant_attributes(id, attrs)
+    # fields fail sometime fail to populate if not visible.
+    # TODO: Replace with `click_link Participant.full_name(attrs)` Once people are implemented in sidebar
+    # Capybara.execute_script("$('#participants-card-#{id}')[0].scrollIntoView(false)")
+    click_link 'People & Roles'
     within "#participants-card-#{id}" do
       fill_in('First Name', with: attrs[:first_name]) if attrs[:first_name]
       fill_in('Middle Name', with: attrs[:middle_name]) if attrs[:middle_name]
@@ -158,7 +169,7 @@ class ScreeningPage
       attrs[:addresses] && attrs[:addresses].each do |address|
         within '.card-body' do
           click_button 'Add new address'
-          address_div = all('#address-undefined').last
+          address_div = all('.list-item').last
           within address_div do
             fill_in('Address', with: address[:street_address]) if address[:street_address]
             fill_in('City', with: address[:city]) if address[:city]
