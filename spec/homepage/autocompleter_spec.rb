@@ -16,24 +16,24 @@ describe 'Homepage Autocompleter', type: :feature do
   # validate specific person is in suggestion list when searched by last name
   it 'find a result by a specific first name' do
     autocompleter_fill_in 'screening_participants', 'Houston'
-    within '.react-autosuggest__suggestions-list' do
-      expect(page).to have_content 'Houston d.'
+    within('#search-card')  do
+      expect(page).to have_content 'Houston Runge'
     end
   end
 
   # validate specific person is in suggestion list when searched by last name
   it 'find a result by a specific last name' do
     autocompleter_fill_in 'screening_participants', 'Griffin'
-    within '.react-autosuggest__suggestions-list' do
-      expect(page).to have_content 'Griffin Albert Flatley'
+    within('#search-card') do
+      expect(page).to have_content 'Non-victim1 O Griffin'
     end
   end
 
   # validate specific person is in suggestion list when searched by DOB
   it 'finds a result by DOB' do
     autocompleter_fill_in 'screening_participants', '1905'
-    within '.react-autosuggest__suggestions-list' do
-      expect(page).to have_content 'Boris B.'
+    within('#search-card') do
+      expect(page).to have_content 'Boris Spelsbury'
     end
   end
 
