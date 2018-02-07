@@ -3,9 +3,7 @@
 describe 'Screening QA Test', type: :feature do
   # Selecting Start Screening from homepage
   before do
-    visit '/'
-    login_user
-    click_button 'Start Screening'
+    ScreeningPage.new.visit
   end
 
   screen_info_init = {

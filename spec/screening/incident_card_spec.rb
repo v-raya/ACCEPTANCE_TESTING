@@ -5,9 +5,7 @@ require 'active_support/core_ext'
 
 describe 'Incident Information card', type: :feature do
   before do
-    visit '/'
-    login_user
-    click_button 'Start Screening'
+    ScreeningPage.new.visit
   end
   # Selecting Start Screening on homepage
   it 'Test Incident Info card' do

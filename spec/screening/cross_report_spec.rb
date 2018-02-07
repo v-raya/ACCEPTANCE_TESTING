@@ -3,9 +3,7 @@
 describe 'Cross Report card', type: :feature do
   # Selecting Create Person on homepage
   before do
-    visit '/'
-    login_user
-    click_button 'Start Screening'
+    ScreeningPage.new.visit
   end
 
   it 'Testing of Cross Report' do

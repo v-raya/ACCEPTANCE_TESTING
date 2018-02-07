@@ -35,9 +35,7 @@ person2 = {
 describe 'Partcipant Card tests', type: :feature do
   # Selecting Start Screening on homepage
   before do
-    visit '/'
-    login_user
-    click_button 'Start Screening'
+    ScreeningPage.new.visit
   end
 
   it 'disables and resets approximate age fields when there is a date of birth' do

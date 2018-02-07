@@ -19,9 +19,7 @@ end
 
 describe 'Worker Safety Card', type: :feature do
   before do
-    visit '/'
-    login_user
-    click_button 'Start Screening'
+    ScreeningPage.new.visit
   end
 
   it 'saves a blank card' do

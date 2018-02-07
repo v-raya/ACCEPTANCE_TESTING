@@ -3,9 +3,7 @@
 describe 'Validate date (date picker) on screening cards', type: :feature do
   # Selecting Create Person on homepage
   before do
-    visit '/'
-    login_user
-    click_button 'Start Screening'
+    ScreeningPage.new.visit
   end
 
   it 'Validate date and time on screening information card' do

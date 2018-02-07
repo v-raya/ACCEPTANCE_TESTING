@@ -3,9 +3,7 @@
 describe 'Field limits', type: :feature do
   # Selecting Create Person on homepage
   before do
-    visit '/'
-    login_user
-    click_button 'Start Screening'
+    ScreeningPage.new.visit
   end
 
   it 'tests field limits for screening' do

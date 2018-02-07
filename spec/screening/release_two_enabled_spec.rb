@@ -10,9 +10,7 @@ feature 'Release Two Enabled' do
   end
 
   scenario 'edit an existing screening' do
-    visit '/'
-    login_user
-    click_button 'Start Screening'
+    ScreeningPage.new.visit
 
     within '#snapshot-card' do
       expect(page).to have_content(
@@ -49,9 +47,7 @@ feature 'Release Two Enabled' do
   end
 
   scenario 'adding a screening person, adds them in show mode without edit links' do
-    visit '/'
-    login_user
-    click_button 'Start Screening'
+    ScreeningPage.new.visit
 
     within '#search-card', text: 'Search' do
       autocompleter_fill_in 'Search for clients', 'Tonkin'
@@ -70,9 +66,7 @@ feature 'Release Two Enabled' do
   context 'adding a person to a screening who has screening history' do
     let(:person_name) { 'Kerrie' }
     before do
-      visit '/'
-      login_user
-      click_button 'Start Screening'
+      ScreeningPage.new.visit
       autocompleter_fill_in 'Search for clients', person_name
       within('ul.react-autosuggest__suggestions-list') do
         first('li').click
@@ -80,8 +74,7 @@ feature 'Release Two Enabled' do
     end
 
     scenario 'will not display screening history in HOI' do
-      visit '/'
-      click_button 'Start Screening'
+      ScreeningPage.new.visit
 
       autocompleter_fill_in 'Search for clients', person_name
       within('ul.react-autosuggest__suggestions-list') do

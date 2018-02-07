@@ -14,9 +14,7 @@ person2 = {
 describe 'Validate Screening require field labels', type: :feature do
   # Selecting Create Person on homepage
   before do
-    visit '/'
-    login_user
-    click_button 'Start Screening'
+    ScreeningPage.new.visit
   end
 
   it 'validate Screening Info required labels' do

@@ -4,9 +4,7 @@ require 'active_support/core_ext/numeric/time'
 
 describe 'Screening Validation QA Test', type: :feature do
   before do
-    visit '/'
-    login_user
-    click_button 'Start Screening'
+    ScreeningPage.new.visit
   end
 
   describe 'screening information card validations' do

@@ -3,9 +3,7 @@
 describe 'Decision card', type: :feature do
   # Selecting Start Screening on homepage
   before do
-    visit '/'
-    login_user
-    click_button 'Start Screening'
+    ScreeningPage.new.visit
   end
 
   it 'Test decision card' do
