@@ -79,10 +79,6 @@ describe 'Field limits', type: :feature do
       fill_in 'District attorney agency name', with: one_hundred_and_twenty_nine_chars
       expect(find_field('District attorney agency name').value.length).to eq(128)
 
-      find('label', text: 'Department of justice').click
-      fill_in 'Department of justice agency name', with: one_hundred_and_twenty_nine_chars
-      expect(find_field('Department of justice agency name').value.length).to eq(128)
-
       find('label', text: 'Law enforcement').click
       fill_in 'Law enforcement agency name', with: one_hundred_and_twenty_nine_chars
       expect(find_field('Law enforcement agency name').value.length).to eq(128)

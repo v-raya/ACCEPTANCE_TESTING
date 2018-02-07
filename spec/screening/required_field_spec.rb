@@ -44,11 +44,8 @@ describe 'Validate Screening require field labels', type: :feature do
       expect(page.find('label', text: 'Communication Method')[:class]).to include('required')
       expect(page.find('label', text: 'District attorney agency name')[:class]).to include('required')
       first('label', text: 'District attorney').click
-      first('label', text: 'Department of justice').click
       expect(page.find('label', text: 'Cross Reported on Date')[:class]).to include('required')
       expect(page.find('label', text: 'Communication Method')[:class]).to include('required')
-      expect(page.find('label', text: 'Department of justice agency name')[:class]).to include('required')
-      first('label', text: 'Department of justice').click
       first('label', text: 'Law enforcement').click
       expect(page.find('label', text: 'Cross Reported on Date')[:class]).to include('required')
       expect(page.find('label', text: 'Communication Method')[:class]).to include('required')
@@ -59,10 +56,8 @@ describe 'Validate Screening require field labels', type: :feature do
       expect(page.find('label', text: 'Communication Method')[:class]).to include('required')
       expect(page.find('label', text: 'Licensing agency name')[:class]).to include('required')
       first('label', text: 'District attorney').click
-      first('label', text: 'Department of justice').click
       first('label', text: 'Law enforcement').click
       expect(page.find('label', text: 'District attorney agency name')[:class]).to include('required')
-      expect(page.find('label', text: 'Department of justice agency name')[:class]).to include('required')
       expect(page.find('label', text: 'Licensing agency name')[:class]).to include('required')
       expect(page.find('label', text: 'Law enforcement agency name')[:class]).to include('required')
       expect(page.find('label', text: 'Cross Reported on Date')[:class]).to include('required')
