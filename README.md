@@ -13,9 +13,10 @@ Assuming the above requirements are satisfied:
 
 ## Running specs
 
-There are 2 environment variables you can use to configure the test suite:
+There are 3 environment variables you can use to configure the test suite:
 - `APP_URL` (required): The full URL your application can be found at.
-- `CAPYBARA_DRIVER` (optional): Which Capybara driver to use. Options are `webkit` and `selenium`, default is `selenium`.
+- `CAPYBARA_DRIVER` (optional): Which Capybara driver to use. Options are `selenium`, `selenium_chrome`, `selenium_chrome_headless`, `selenium_firefox`, `selenium_firefox_headless`, `xvfb_firefox`, default is `selenium`.
+- `FEATURE_SET` (optional): Run specific tests specified in feature_set.yml.
 
 ## Spec results
 

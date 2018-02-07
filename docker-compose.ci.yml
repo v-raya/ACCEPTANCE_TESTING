@@ -3,9 +3,9 @@ services:
   acceptance_test:
     build: .
     environment:
-      APP_URL: "${APP_URL}"
-      CAPYBARA_DRIVER: "${CAPYBARA_DRIVER}"
-      FEATURE_SET: "${FEATURE_SET}"
-      USERNAME: "${USERNAME:-guest}"
-      PASSWORD: "${PASSWORD:-guest}"
+      - APP_URL
+      - CAPYBARA_DRIVER
+      - FEATURE_SET
+      - USERNAME
+      - PASSWORD
     command: rake
