@@ -3,6 +3,7 @@
 require 'autocompleter_helpers'
 require 'capybara/rspec'
 require 'ffaker'
+require 'headless'
 require 'helper_methods'
 require 'shame_helpers'
 require 'pry'
@@ -16,10 +17,15 @@ require 'selenium/webdriver'
 Dir[File.dirname(__FILE__) + '/support/**/*.rb'].each { |f| require f }
 
 module AcceptanceTesting
+  def self.use_xvfb?
+    ENV['USE_XVFB'] == 'true'
+  end
+
   def self.resolve_driver
     driver_option = ENV['CAPYBARA_DRIVER']
     no_driver = driver_option.nil? || driver_option.empty?
-    no_driver ? :headless_firefox : driver_option.to_sym
+    return :xvfb_firefox if no_driver && use_xvfb?
+    no_driver ? :selenium : driver_option.to_sym
   end
 
   def self.setup_env_settings
@@ -35,23 +41,16 @@ module AcceptanceTesting
       config.default_max_wait_time  = 10
     end
 
-    Capybara.register_driver :chrome do |app|
-      Capybara::Selenium::Driver.new(app, browser: :chrome)
+    Capybara.register_driver :xvfb_firefox do |app|
+      capabilities = Selenium::WebDriver::Remote::Capabilities.firefox(marionette: false)
+      Capybara::Selenium::Driver.new(app, browser: :firefox, desired_capabilities: capabilities)
     end
 
-    Capybara.register_driver :firefox do |app|
+    Capybara.register_driver :selenium_firefox do |app|
       Capybara::Selenium::Driver.new(app, browser: :firefox)
     end
 
-    Capybara.register_driver :headless_chrome do |app|
-      capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
-        chromeOptions: { args: %w(headless disable-gpu no-sandbox) }
-      )
-
-      Capybara::Selenium::Driver.new(app, browser: :chrome, desired_capabilities: capabilities)
-    end
-
-    Capybara.register_driver :headless_firefox do |app|
+    Capybara.register_driver :selenium_firefox_headless do |app|
       browser_options = Selenium::WebDriver::Firefox::Options.new
       browser_options.args << '--headless'
 
@@ -64,7 +63,17 @@ module AcceptanceTesting
   def self.setup
     setup_env_settings
     raise 'You must pass the app url with APP_URL=<url>.' unless @app_url
+    setup_xvfb if use_xvfb?
     setup_capybara
+  end
+
+  def self.setup_xvfb
+    @headless = Headless.new
+    @headless.start
+  end
+
+  def self.teardown
+    @headless.destroy if @headless
   end
 end
 
