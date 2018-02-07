@@ -24,7 +24,7 @@ describe 'Worker Safety Card', type: :feature do
     click_button 'Start Screening'
   end
 
-  it 'Saving blank card scenario' do
+  it 'saves a blank card' do
     within '#worker-safety-card' do
       check_select_options
       within '.card-header' do
@@ -42,8 +42,7 @@ describe 'Worker Safety Card', type: :feature do
         expect(page).to have_content('Worker Safety')
       end
       within '.card-body' do
-        expect(page).to have_content('Worker safety alerts')
-        expect(page).to have_content('Additional safety information')
+        expect(page.text).to eq('Worker safety alerts Additional safety information')
       end
       within '.card-header' do
         expect(page).to have_content('Worker Safety')
