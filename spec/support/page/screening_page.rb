@@ -119,6 +119,9 @@ class ScreeningPage
       else
         select 'Fresno', from: 'County'
       end
+      # This will no longer be needed once a loading indicator is implemented
+      # to prevent capybara from attempting to interact with fields that are not ready yet
+      sleep 0.5
       attrs[:agencies] && attrs[:agencies].each do |agency|
         find('label', text: agency[:type]).click if agency[:type]
         select agency[:name], from: "#{agency[:type].tr(' ', '_').upcase}-agency-code" if agency[:name]
@@ -159,9 +162,7 @@ class ScreeningPage
   end
 
   def set_participant_attributes(id, attrs)
-    # fields fail sometime fail to populate if not visible.
     # TODO: Replace with `click_link Participant.full_name(attrs)` Once people are implemented in sidebar
-    # Capybara.execute_script("$('#participants-card-#{id}')[0].scrollIntoView(false)")
     click_link 'People & Roles'
     within "#participants-card-#{id}" do
       fill_in('First Name', with: attrs[:first_name]) if attrs[:first_name]

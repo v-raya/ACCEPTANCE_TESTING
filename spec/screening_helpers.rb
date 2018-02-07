@@ -44,7 +44,7 @@ module Screening
   end
 
   def self.all_cross_report_agencies
-    ['District attorney', 'Department of justice', 'Law enforcement', 'Licensing']
+    ['District attorney', 'Law enforcement', 'Licensing']
   end
 
   def self.all_cross_report_communication_methods

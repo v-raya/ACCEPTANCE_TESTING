@@ -15,9 +15,7 @@ describe 'Relationship card QA test', type: :feature do
   person1_full_name, person2_full_name = nil
 
   before do
-    visit '/'
-    login_user
-    click_button 'Start Screening'
+    ScreeningPage.new.visit
   end
 
   it 'Test initial rendering of card' do

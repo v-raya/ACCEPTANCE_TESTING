@@ -33,9 +33,7 @@ person3 = {
 describe 'save a zippy referral', type: :feature,
                                   pending: 'Needs to be support removal of alert on successful submit' do
   before do
-    visit '/'
-    login_user
-    click_button 'Start Screening'
+    ScreeningPage.new.visit
     [person1, person2, person3].each do |person|
       within '#search-card' do
         autocompleter_fill_in 'Search for any person', person[:fname]

@@ -4,9 +4,7 @@ require 'react_select_helpers'
 
 describe 'SSN masking behavior', type: :feature do
   before do
-    visit '/'
-    login_user
-    click_button 'Start Screening'
+    ScreeningPage.new.visit
   end
 
   it 'correctly masks the SSN when inserting a person from search result'

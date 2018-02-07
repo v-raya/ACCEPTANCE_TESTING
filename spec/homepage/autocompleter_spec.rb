@@ -3,9 +3,7 @@
 describe 'Homepage Autocompleter', type: :feature do
   # Perform log in prior to all tests
   before do
-    visit '/'
-    login_user
-    click_button 'Start Screening'
+    ScreeningPage.new.visit
   end
 
   # Checks to ensure login is successful
