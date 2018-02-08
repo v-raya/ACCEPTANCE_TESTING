@@ -66,7 +66,7 @@ module Participant
   end
 
   def self.ssn(value = nil)
-    value || FFaker::SSN.ssn
+    value || "#{rand(9)}#{FFaker.numerify('##-##-####')}"
   end
 
   def self.date_of_birth(value = nil)
