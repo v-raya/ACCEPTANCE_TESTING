@@ -122,6 +122,7 @@ module Participant
 
   def self.victim(attrs = {})
     attrs[:roles] = ['Victim']
+    attrs[:date_of_birth] = generate_date(Date.today.year - rand(16), Date.today.year)
     random(attrs)
   end
 
