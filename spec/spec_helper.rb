@@ -73,7 +73,7 @@ module AcceptanceTesting
   end
 
   def self.teardown
-    @headless.destroy if @headless
+    @headless&.destroy
   end
 end
 

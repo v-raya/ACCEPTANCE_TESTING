@@ -178,7 +178,7 @@ module Screening
     attrs[:cross_reports] = {
       county: 'Fresno',
       agencies: [
-        { type: 'District attorney', name: "Fresno County DA" },
+        { type: 'District attorney', name: 'Fresno County DA' },
         { type: 'Law enforcement', name: 'Fresno Polcie Department' }
       ],
       date: generate_date(2016, 2017),
