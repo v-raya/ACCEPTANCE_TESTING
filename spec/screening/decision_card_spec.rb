@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'keyboard_helper'
 
 describe 'Decision card', type: :feature do
@@ -200,6 +201,117 @@ describe 'Decision card', type: :feature do
     end
   end
 
+  it 'with Promote to referral without allegations' do
+    referal_without_allegation_message = 'Please enter at least one allegation to promote to referral'
+    response_time_error_message = 'Please enter a response time'
+
+    ## with out Allegation
+    within '#decision-card.edit' do
+      expect(page).to_not have_content(referal_without_allegation_message)
+      select 'Promote to referral', from: 'Screening decision'
+      expect(page).to have_content('Response time')
+      blur
+      expect(page).to have_content(referal_without_allegation_message)
+      click_button 'Save'
+    end
+
+    within '#decision-card.show' do
+      expect(page).to have_content('Promote to referral')
+      expect(page).to have_content(referal_without_allegation_message)
+      expect(page).to have_content(response_time_error_message)
+      click_link 'Edit'
+    end
+
+    within '#decision-card.edit' do
+      expect(page).to have_content(response_time_error_message)
+      expect(page).to have_content('Promote to referral')
+      select 'Immediate', from: 'Response time'
+      expect(page).to have_select('Response time', selected: 'Immediate')
+      select '3 days', from: 'Response time'
+      expect(page).to have_select('Response time', selected: '3 days')
+      select '5 days', from: 'Response time'
+      expect(page).to have_select('Response time', selected: '5 days')
+      select '10 days', from: 'Response time'
+      expect(page).to have_select('Response time', selected: '10 days')
+      expect(page).to_not have_content(response_time_error_message)
+      click_button 'Save'
+    end
+
+    within '#decision-card.show' do
+      expect(page).to have_content('Promote to referral')
+      expect(page).to_not have_content(response_time_error_message)
+      expect(page).to have_content('10 days')
+    end
+  end
+
+  it 'with Promote to referral having atleast one allegation' do
+    decision_error_message = 'Please enter at least one allegation to promote to referral.'
+    allegation_error_message = 'Any report that is promoted for referral must include at least one allegation.'
+
+    victim = Participant.victim
+    perpetrator = Participant.perpetrator
+
+    expect(page).to have_content "Screening #{screening_page.id}"
+
+    victim[:id] = screening_page.add_new_person victim
+    perpetrator[:id] = screening_page.add_new_person perpetrator
+
+    screening_page.set_decision_attributes(screening_decision: 'Promote to referral')
+
+    within '#allegations-card' do
+      expect(page).to have_content allegation_error_message
+    end
+
+    screening_page.set_allegations_attributes(allegations: [
+                                                {
+                                                  victim_id: victim[:id],
+                                                  perpetrator_id: perpetrator[:id],
+                                                  allegation_types: ['Exploitation']
+                                                }
+                                              ])
+    within '#decision-card.edit' do
+      expect(page).to have_content('Promote to referral')
+      expect(page).not_to have_content(decision_error_message)
+      select '10 days', from: 'Response time'
+      expect(page).to have_content('10 days')
+      click_button 'Save'
+    end
+
+    within '#decision-card.show' do
+      expect(page).not_to have_content(decision_error_message)
+      expect(page).to have_content('Promote to referral')
+      expect(page).to have_content('10 days')
+    end
+  end
+
+  it 'with Screen Out and Category Value' do
+    additional_info_required_error_message = 'Please enter additional information'
+    within '#decision-card.edit' do
+      expect(page).to_not have_content(additional_info_required_error_message)
+      select 'Screen out', from: 'Screening decision'
+      expect(page).to have_content('Screen out')
+      select 'Consultation', from: 'Category'
+      expect(page).to have_content('Consultation')
+      expect(page.find('label', text: 'Additional information')[:class]).to_not include('required')
+      expect(page).to_not have_content(additional_info_required_error_message)
+      select 'Evaluate out', from: 'Category'
+      expect(page).to have_content('Evaluate out')
+      expect(page.find('label', text: 'Additional information')[:class]).to include('required')
+      expect(page).to_not have_content(additional_info_required_error_message)
+      click_button 'Save'
+    end
+
+    within '#decision-card.show' do
+      expect(page).to have_content(additional_info_required_error_message)
+      expect(page).to have_content('Screen out')
+      expect(page).to have_content('Evaluate out')
+      click_link 'Edit'
+    end
+    within '#decision-card.edit' do
+      expect(page).to have_content(additional_info_required_error_message)
+    end
+  end
+
   describe 'when Acess restriciton' do
     restriciton_rationale = 'Text to confirm Access Restriction'
     access_restriction_error = 'Please enter an access restriction reason'
@@ -232,7 +344,7 @@ describe 'Decision card', type: :feature do
         click_button 'Save'
       end
 
-      within '#decision-card.show' do 
+      within '#decision-card.show' do
         expect(page).to have_content('Sensitive')
         expect(page).to have_content(restriciton_rationale)
         expect(page).not_to have_content(access_restriction_error)
@@ -266,7 +378,7 @@ describe 'Decision card', type: :feature do
         click_button 'Save'
       end
 
-      within '#decision-card.show' do 
+      within '#decision-card.show' do
         expect(page).to have_content('Sealed')
         expect(page).to have_content(restriciton_rationale)
         expect(page).not_to have_content(access_restriction_error)
