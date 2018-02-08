@@ -14,7 +14,7 @@ describe 'Homepage Autocompleter', type: :feature do
   # validate specific person is in suggestion list when searched by last name
   it 'find a result by a specific first name' do
     autocompleter_fill_in 'screening_participants', 'Houston'
-    within('#search-card')  do
+    within('#search-card') do
       expect(page).to have_content 'Houston Runge'
     end
   end

@@ -66,7 +66,7 @@ describe 'Basic Person Search', type: :feature do
       expect(page).to have_field('Social security number', disabled: false, with: '953-00-9775')
       expect(page).to have_field('Date of birth', disabled: false, with: '05/04/1981')
       expect(page).to have_select('gender', disabled: false, selected: 'Male')
-      has_react_select_field("languages_#{person_id}", with: %w[German French])
+      has_react_select_field("languages_#{person_id}", with: %w(German French))
       # check race
       expect(page).to have_field('Asian', disabled: false, checked: true)
       expect(page).to have_select(

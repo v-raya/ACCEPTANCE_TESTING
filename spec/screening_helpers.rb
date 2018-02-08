@@ -74,7 +74,7 @@ module Screening
     value || {
       agencies: cross_report_agencies,
       county: 'Fresno',
-      date: generate_date(2016, 2017),
+      date: generate_date(2016, Date.today.year),
       communication_method: all_cross_report_communication_methods.sample
     }
   end
@@ -170,6 +170,7 @@ module Screening
     attrs[:participants] = [Participant.victim, Participant.perpetrator, Participant.reporter]
     person1_name = Participant.full_name(attrs[:participants][0])
     person2_name = Participant.full_name(attrs[:participants][1])
+    attrs[:end_date] = ''
     attrs[:allegations] = {
       field_label: "allegations #{person1_name} #{person2_name}",
       allegation_types: ['General neglect', 'Severe neglect']
@@ -177,7 +178,7 @@ module Screening
     attrs[:cross_reports] = {
       county: 'Fresno',
       agencies: [
-        { type: 'District attorney', name: "Fresno County DA" },
+        { type: 'District attorney', name: 'Fresno County DA' },
         { type: 'Law enforcement', name: 'Fresno Polcie Department' }
       ],
       date: generate_date(2016, 2017),

@@ -66,7 +66,7 @@ module Participant
   end
 
   def self.ssn(value = nil)
-    value || FFaker::SSN.ssn
+    value || "#{rand(9)}#{FFaker.numerify('##-##-####')}"
   end
 
   def self.date_of_birth(value = nil)
@@ -122,6 +122,7 @@ module Participant
 
   def self.victim(attrs = {})
     attrs[:roles] = ['Victim']
+    attrs[:date_of_birth] = generate_date(Date.today.year - rand(16), Date.today.year)
     random(attrs)
   end
 

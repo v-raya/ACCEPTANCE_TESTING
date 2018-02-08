@@ -11,7 +11,7 @@ describe 'Hotline. Person search with no results', type: :feature do
 
   it 'validate no search results' do
     autocompleter_fill_in 'screening_participants', '123qwerzzbnnmsjjdk'
-    within('#search-card')  do
+    within('#search-card') do
       expect(page).to have_content 'No results were found for "123qwerzzbnnmsjjdk"'
       expect(page).to have_content 'CREATE A NEW PERSON'
     end
