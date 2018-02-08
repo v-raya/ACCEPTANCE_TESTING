@@ -2,9 +2,10 @@
 require 'keyboard_helper'
 
 describe 'Decision card', type: :feature do
+  let(:screening_page) { ScreeningPage.new }
   # Selecting Start Screening on homepage
   before do
-    ScreeningPage.new.visit
+    screening_page.visit
   end
 
   it 'Test decision card' do
@@ -203,9 +204,6 @@ describe 'Decision card', type: :feature do
     restriciton_rationale = 'Text to confirm Access Restriction'
     access_restriction_error = 'Please enter an access restriction reason'
 
-    before do
-      ScreeningPage.new.visit
-    end
     it 'is marked as Sensitive' do
       within '#decision-card.edit' do
         expect(page).not_to have_content('Restrictions Rationale')
