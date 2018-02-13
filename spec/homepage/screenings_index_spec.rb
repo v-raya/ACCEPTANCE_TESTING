@@ -30,21 +30,23 @@ describe 'Screening Index', type: :feature do
     expect(page).to have_css('th', text: 'Report Date and Time')
   end
 
-  it 'has a table populated with screening information' do
+  it 'has a table populated with screenings' do
     ScreeningPage.new.visit.and_populate using:
-      Screening.referral(name: 'Eclipse', start_date: '08/21/2017')
+      Screening.referral(name: 'Acceptance Testing One', start_date: '08/21/2017')
+
     ScreeningPage.new.visit.and_populate using:
-      Screening.random(name: 'Illuminati',
+      Screening.random(name: 'Acceptance Testing Two',
                        start_date: '09/21/2016', decision: { screening_decision: nil })
 
     ScreeningPage.new.visit.and_populate using:
-      Screening.random(name: 'Sunglasses', start_date: '',
+      Screening.random(name: 'Acceptance Testing Three', start_date: '',
                        decision: { screening_decision: 'Screen out' })
 
     visit '/'
-    expect(page).to have_css('tr', text: 'Eclipse Promote to referral Dracula 08/21/2017')
-    expect(page).to have_css('tr', text: 'Illuminati prefer not to answer 09/21/2016')
-    expect(page).to have_css('tr', text: 'Sunglasses Screen out John G')
+    click_link 'Intake'
+    expect(page).to have_css('tr', text: 'Acceptance Testing One')
+    expect(page).to have_css('tr', text: 'Acceptance Testing Two')
+    expect(page).to have_css('tr', text: 'Acceptance Testing Three')
   end
 
   it 'renders a link with the screening id if screening name is not set' do
