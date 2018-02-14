@@ -38,7 +38,7 @@ describe 'History Card with cases and referrals', type: :feature do
   end
 
   it 'does not display duplicate referrals for people who share history' do
-    within '.container' do
+    within all('.container').last do
       within '#history-card' do
         expect(page).to have_content 'Search for people and add them to see their child welfare history.'
       end
@@ -56,12 +56,12 @@ describe 'History Card with cases and referrals', type: :feature do
         end
 
         referral_tr = page.find(:xpath, ".//tr[./td[contains(., '0767-8360-2365-0000808')]]")
-
         expect(referral_tr).to have_referral(
           start_date: '12/23/1998',
           referral_id: '0767-8360-2365-0000808',
           status: 'Open',
           county: 'Imperial',
+          Reporter: '',
           worker: 'South ER Supervisor ERSUP',
           allegations: [{
             victim: 'Lawrence Bloschke',
@@ -72,7 +72,7 @@ describe 'History Card with cases and referrals', type: :feature do
       end
     end
 
-    within '.container' do
+    within all('.container').last do
       screening_page.add_person_from_search(additional_info: shared_hoi_2[:dob], name: shared_hoi_2[:name])
       expect(page).to have_content shared_hoi_2[:name]
 
@@ -89,9 +89,8 @@ describe 'History Card with cases and referrals', type: :feature do
     screening_page.add_person_from_search(additional_info: complete_referral[:dob], name: complete_referral[:name])
 
     within '#history-card' do
-      within 'table.table-hover' do
+      within 'table.history-table' do
         referral_tr = page.find(:xpath, ".//tr[./td[contains(., '1251-0655-3661-3001316')]]")
-
         within referral_tr do
           expect(page).to have_referral(
             start_date: '01/18/2001',
@@ -99,7 +98,8 @@ describe 'History Card with cases and referrals', type: :feature do
             status: 'Closed',
             referral_id: '1251-0655-3661-3001316',
             county: 'Imperial',
-            response_time: '5 Day',
+            response_time: '3 Day',
+            reporter: '',
             worker: 'North ER Worker 2 ER2',
             allegations: [
               {
@@ -133,7 +133,7 @@ describe 'History Card with cases and referrals', type: :feature do
     screening_page.add_person_from_search(name: full_name)
 
     within '#history-card' do
-      within 'table.table-hover' do
+      within 'table.history-table' do
         case_tr = page.find(:xpath, ".//tr[./td[contains(., '1194-4391-5581-3001320')]]")
 
         within case_tr do
