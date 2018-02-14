@@ -34,7 +34,7 @@ describe 'History Card with cases and referrals', type: :feature do
     ].join(';')
     page.execute_script js
     paste_into '#spec_meta'
-    expect(find('#spec_meta').value).to eq(first('#history-card table')[:innerText])
+    expect(find('#spec_meta').value.gsub(/\s+/,'')).to eq(first('#history-card table')[:innerText].gsub(/\s+/,''))
   end
 
   it 'does not display duplicate referrals for people who share history' do
