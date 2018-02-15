@@ -143,9 +143,7 @@ class ScreeningPage
   def add_person_from_search(name:, additional_info: nil)
     within '#search-card' do
       autocompleter_fill_in 'screening_participants', "#{name} #{additional_info}"
-      within('ul.react-autosuggest__suggestions-list') do
-        page.first('li', text: name).click
-      end
+      find('.profile-picture').first('img').click
     end
   end
 

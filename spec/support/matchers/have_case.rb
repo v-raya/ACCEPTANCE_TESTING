@@ -13,7 +13,7 @@ RSpec::Matchers.define :have_case do |expected|
     parents = expected[:parents]
 
     expect(actual).to have_content [start_date, end_date].compact.join(' - ')
-    expect(actual).to have_content "Case #{case_id} (#{[status, service_component].join(' - ')})"
+    expect(actual).to have_content "Case (#{[status, service_component].join(' - ')}) #{case_id}"
     expect(actual).to have_content county if county
     expect(actual).to have_content "Focus Child: #{focus_child}"
     expect(actual).to have_content 'Parent(s):'
