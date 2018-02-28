@@ -57,9 +57,14 @@ class ScreeningPage
     click_link 'Screening Information'
     within '#screening-information-card' do
       fill_in('Title/Name of Screening', with: attrs[:name]) if attrs[:name]
-      fill_in('Assigned Social Worker', with: attrs[:social_worker]) if attrs[:social_worker]
-      fill_in('Screening Start Date/Time', with: attrs[:start_date]) if attrs[:start_date]
-      fill_in('Screening End Date/Time', with: attrs[:end_date]) if attrs[:end_date]
+      if attrs[:start_date]
+        fill_in('Screening Start Date/Time', with: "")
+        fill_in('Screening Start Date/Time', with: attrs[:start_date])
+      end
+      if attrs[:end_date]
+        fill_in('Screening End Date/Time', with: "")
+        fill_in('Screening End Date/Time', with: attrs[:end_date])
+      end
       select(attrs[:communication_method], from: 'Communication Method') if attrs[:communication_method]
       click_button 'Save'
     end
