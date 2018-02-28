@@ -45,7 +45,7 @@ class ScreeningPage
   def add_allegations(attrs)
     click_link 'Allegations'
     within '#allegations-card' do
-      attrs[:allegation_types].each do |type|
+      attrs[:allegation_types] && attrs[:allegation_types].each do |type|
         fill_in_react_select(attrs[:field_label], with: type)
       end
       blur
@@ -124,15 +124,14 @@ class ScreeningPage
       else
         select 'Fresno', from: 'County'
       end
-      # This will no longer be needed once a loading indicator is implemented
-      # to prevent capybara from attempting to interact with fields that are not ready yet
-      sleep 0.5
-      attrs[:agencies] && attrs[:agencies].each do |agency|
-        find('label', text: agency[:type]).click if agency[:type]
-        select agency[:name], from: "#{agency[:type].tr(' ', '_').upcase}-agency-code" if agency[:name]
+      if attrs[:agencies].any?
+        attrs[:agencies].each do |agency|
+          find('label', text: agency[:type]).click if agency[:type]
+          select agency[:name], from: "#{agency[:type].tr(' ', '_').upcase}-agency-code" if agency[:name]
+        end
+        fill_in_datepicker('Cross Reported on Date', with: attrs[:date]) if attrs[:date]
+        select(attrs[:communication_method], from: 'Communication Method') if attrs[:communication_method]
       end
-      fill_in_datepicker('Cross Reported on Date', with: attrs[:date]) if attrs[:date]
-      select(attrs[:communication_method], from: 'Communication Method') if attrs[:communication_method]
       click_button 'Save'
     end
   end
@@ -149,8 +148,7 @@ class ScreeningPage
   def add_person_from_search(name:, additional_info: nil)
     within '#search-card' do
       autocompleter_fill_in 'screening_participants', "#{name} #{additional_info}"
-      sleep 1 # wait for search results
-      first('div.profile-picture').click
+      find('.profile-picture').first('img').click
     end
   end
 
@@ -160,7 +158,7 @@ class ScreeningPage
       click_button 'Create a new person'
       sleep 0.5
     end
-    person_id = page.all('div[id^="participants-card-"]').first[:id].split('-').last
+    person_id = page.find('div[id^="participants-card-"].edit')[:id].split('-').last
     set_participant_attributes(person_id, person) if person
     person_id
   end
@@ -168,13 +166,15 @@ class ScreeningPage
   def set_participant_attributes(id, attrs)
     # TODO: Replace with `click_link Participant.full_name(attrs)` Once people are implemented in sidebar
     click_link 'People & Roles'
-    within "#participants-card-#{id}" do
+    within "#participants-card-#{id}.edit" do
+      attrs[:roles] && attrs[:roles].each do |role|
+        fill_in_react_select('Role', with: role)
+      end
       fill_in('First Name', with: attrs[:first_name]) if attrs[:first_name]
       fill_in('Middle Name', with: attrs[:middle_name]) if attrs[:middle_name]
       fill_in('Last Name', with: attrs[:last_name]) if attrs[:last_name]
       fill_in('Social security number', with: attrs[:ssn]) if attrs[:ssn]
       fill_in('Date of birth', with: attrs[:date_of_birth]) if attrs[:date_of_birth]
-      fill_in_react_select('Role', with: attrs[:roles]) if attrs[:roles]
       select(attrs[:gender], from: 'Gender') if attrs[:gender]
       attrs[:languages] && attrs[:languages].each do |language|
         fill_in_react_select('Language(s)', with: language)
@@ -182,8 +182,10 @@ class ScreeningPage
       attrs[:addresses] && attrs[:addresses].each do |address|
         within '.card-body' do
           click_button 'Add new address'
-          address_div = all('.list-item').last
-          within address_div do
+          # TODO: add an identifier to the newly created address div so we can find it
+          # using the selector this way is very flaky
+          # Note: don't try to use all(selector).last because it does not "wait"
+          within 'div.list-item:nth-last-child(2)' do
             fill_in('Address', with: address[:street_address]) if address[:street_address]
             fill_in('City', with: address[:city]) if address[:city]
             select(address[:state], from: 'State') if address[:state]

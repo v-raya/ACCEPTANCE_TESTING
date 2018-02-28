@@ -56,9 +56,11 @@ describe 'Screening QA Test', type: :feature do
         expect(page).to have_button('Save')
         expect(page).to have_button('Cancel')
         fill_in('Title/Name of Screening', with: screen_info_init[:title])
+        # In selenium_firefox, if you put this after the fill_in_datepicker, it will unset the datepicker
+        # ¯\_(ツ)_/¯
+        select screen_info_init[:comm], from: 'Communication Method'
         fill_in_datepicker('Screening Start Date/Time', with: screen_info_init[:sdate])
         fill_in_datepicker('Screening End Date/Time', with: screen_info_init[:edate])
-        select screen_info_init[:comm], from: 'Communication Method'
         click_button 'Save'
       end
       expect(page).to have_content('Screening Information')
