@@ -57,9 +57,14 @@ class ScreeningPage
     click_link 'Screening Information'
     within '#screening-information-card' do
       fill_in('Title/Name of Screening', with: attrs[:name]) if attrs[:name]
-      fill_in('Assigned Social Worker', with: attrs[:social_worker]) if attrs[:social_worker]
-      fill_in('Screening Start Date/Time', with: attrs[:start_date]) if attrs[:start_date]
-      fill_in('Screening End Date/Time', with: attrs[:end_date]) if attrs[:end_date]
+      if attrs[:start_date]
+        fill_in('Screening Start Date/Time', with: "")
+        fill_in('Screening Start Date/Time', with: attrs[:start_date])
+      end
+      if attrs[:end_date]
+        fill_in('Screening End Date/Time', with: "")
+        fill_in('Screening End Date/Time', with: attrs[:end_date])
+      end
       select(attrs[:communication_method], from: 'Communication Method') if attrs[:communication_method]
       click_button 'Save'
     end
@@ -144,9 +149,8 @@ class ScreeningPage
   def add_person_from_search(name:, additional_info: nil)
     within '#search-card' do
       autocompleter_fill_in 'screening_participants', "#{name} #{additional_info}"
-      within('ul.react-autosuggest__suggestions-list') do
-        page.first('li', text: name).click
-      end
+      sleep 1 # wait for search results
+      first('div.profile-picture').click
     end
   end
 
