@@ -71,7 +71,7 @@ def login_user
   elsif Capybara.page.text.include? 'username'
     fill_login_form
   end
-  click_link 'Intake'
+  click_link 'Child Welfare History Snapshot Tool'
 rescue
   false
 end
