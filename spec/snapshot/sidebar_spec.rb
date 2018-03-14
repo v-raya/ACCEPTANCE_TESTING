@@ -7,6 +7,9 @@ describe 'Snapshot Index', type: :feature, js: true do
     click_button 'Start Snapshot'
   end
 
+  let(:nav_links) { page.all('.side-bar ul li a') }
+  let(:card_elements) { page.all('a.anchor', visible: false) }
+
   it 'has a sidebar' do
     expect(page).to have_css('.side-bar')
   end
@@ -20,19 +23,18 @@ describe 'Snapshot Index', type: :feature, js: true do
   end
 
   it 'has a sidebar anchor links that appear in the same order as they are presented on the right hand side' do
-    anchor_links = page.all('.side-bar ul li a').map{ |a| a['href']}
-    expect(anchor_links[0]).to include 'search-card-anchor'
-    expect(anchor_links[1]).to include 'relationships-card-anchor'
-    expect(anchor_links[2]).to include 'history-card-anchor'
+    card_elements.each_with_index do |element, index|
+      expect(nav_links[index][:href]).to include element[:id]
+    end
   end
 
   it 'has a side anchor links, when clicked should automatically scroll and put the card in focus' do
     click_link('People & Roles')
-    expect(page.current_url).to include('#search-card-anchor')
+    expect(page.current_url).to include '#search-card-anchor'
     click_link('Relationships')
-    expect(page.current_url).to include('#relationships-card-anchor')
+    expect(page.current_url).to include '#relationships-card-anchor'
     click_link('History')
-    expect(page.current_url).to include('#history-card-anchor')
+    expect(page.current_url).to include '#history-card-anchor'
   end
 
   it 'has a sidebar that sticks to the left side when scrolling down the page' do
