@@ -34,4 +34,12 @@ describe 'Snapshot Index', type: :feature, js: true do
     click_link('History')
     expect(page.current_url).to include('#history-card-anchor')
   end
+
+  it 'has a sidebar that sticks to the left side when scrolling down the page' do
+    page.execute_script "window.scrollBy(0,10000)"
+    click_link('People & Roles')
+    click_link('Relationships')
+    click_link('History')
+    expect(page).to have_css('.side-bar')
+  end
 end
