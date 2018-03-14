@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe 'Snapshot Index', type: :feature do
+describe 'Snapshot Index', type: :feature, js: true do
   before do
     visit '/'
     login_user
@@ -19,4 +19,19 @@ describe 'Snapshot Index', type: :feature do
     end
   end
 
+  it 'has a sidebar anchor links that appear in the same order as they are presented on the right hand side' do
+    anchor_links = page.all('.side-bar ul li a').map{ |a| a['href']}
+    expect(anchor_links[0]).to include 'search-card-anchor'
+    expect(anchor_links[1]).to include 'relationships-card-anchor'
+    expect(anchor_links[2]).to include 'history-card-anchor'
+  end
+
+  it 'has a side anchor links, when clicked should automatically scroll and put the card in focus' do
+    click_link('People & Roles')
+    expect(page.current_url).to include('#search-card-anchor')
+    click_link('Relationships')
+    expect(page.current_url).to include('#relationships-card-anchor')
+    click_link('History')
+    expect(page.current_url).to include('#history-card-anchor')
+  end
 end
