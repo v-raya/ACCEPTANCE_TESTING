@@ -9,7 +9,6 @@ describe 'Snapshot Index', type: :feature, js: true do
 
   let(:nav_links) { page.all('.side-bar ul li a') }
   let(:card_elements) { page.all('a.anchor', visible: false) }
-  let(:anchor_texts) { page.all('.side-bar ul li a').map {|a| a.text } }
 
   it 'has a sidebar' do
     expect(page).to have_css('.side-bar')
@@ -17,11 +16,9 @@ describe 'Snapshot Index', type: :feature, js: true do
 
   it 'has list of anchor links on the left hand side of the page' do
     within '.side-bar' do
-      anchor_texts.each do |anchor_text|
-        expect(page).to have_link(anchor_text)
-        expect(page).to have_link(anchor_text)
-        expect(page).to have_link(anchor_text)
-      end
+      expect(page).to have_link('People & Roles')
+      expect(page).to have_link('Relationships')
+      expect(page).to have_link('History')
     end
   end
 
