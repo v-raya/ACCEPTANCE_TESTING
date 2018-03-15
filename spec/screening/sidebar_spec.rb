@@ -1,14 +1,15 @@
 # frozen_string_literal: true
 
-describe 'Snapshot Index', type: :feature, js: true do
+describe 'Screening Index', type: :feature, js: true do
   before do
     visit '/'
     login_user
-    click_button 'Start Snapshot'
+    click_button 'Start Screening'
   end
 
   let(:nav_links) { page.all('.side-bar ul li a') }
   let(:card_elements) { page.all('a.anchor', visible: false) }
+  let(:cards) { page.all('div.card') }
 
   it 'has a sidebar' do
     expect(page).to have_css('.side-bar')
