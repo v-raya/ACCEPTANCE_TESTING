@@ -9,6 +9,7 @@ describe 'Snapshot Index', type: :feature, js: true do
 
   let(:nav_links) { page.all('.side-bar ul li a') }
   let(:card_elements) { page.all('a.anchor', visible: false) }
+  let(:anchor_texts) { page.all('.side-bar ul li a').map {|a| a.text } }
 
   it 'has a sidebar' do
     expect(page).to have_css('.side-bar')
@@ -16,9 +17,11 @@ describe 'Snapshot Index', type: :feature, js: true do
 
   it 'has list of anchor links on the left hand side of the page' do
     within '.side-bar' do
-      expect(page).to have_link('People & Roles', href: '#search-card-anchor')
-      expect(page).to have_link('Relationships', href: '#relationships-card-anchor')
-      expect(page).to have_link('History', href: '#history-card-anchor')
+      anchor_texts.each do |anchor_text|
+        expect(page).to have_link(anchor_text)
+        expect(page).to have_link(anchor_text)
+        expect(page).to have_link(anchor_text)
+      end
     end
   end
 
@@ -30,20 +33,15 @@ describe 'Snapshot Index', type: :feature, js: true do
 
   it 'has a side anchor links, when clicked should automatically scroll and put the card in focus' do
     click_link('People & Roles')
-    expect(page).to have_css ('#search-card')
     expect(page.current_url).to include '#search-card-anchor'
     click_link('Relationships')
-    expect(page).to have_css ('#relationships-card')
     expect(page.current_url).to include '#relationships-card-anchor'
     click_link('History')
-    expect(page).to have_css ('#history-card')
     expect(page.current_url).to include '#history-card-anchor'
   end
 
   it 'has a sidebar that sticks to the left side when scrolling down the page' do
     page.execute_script "window.scrollBy(0,10000)"
-    click_link('People & Roles')
-    click_link('Relationships')
     click_link('History')
     expect(page).to have_css('.side-bar')
   end
