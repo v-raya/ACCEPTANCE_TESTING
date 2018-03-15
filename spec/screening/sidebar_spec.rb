@@ -9,7 +9,6 @@ describe 'Screening Index', type: :feature, js: true do
 
   let(:nav_links) { page.all('.side-bar ul li a') }
   let(:card_elements) { page.all('a.anchor', visible: false) }
-  let(:cards) { page.all('div.card') }
 
   it 'has a sidebar' do
     expect(page).to have_css('.side-bar')
