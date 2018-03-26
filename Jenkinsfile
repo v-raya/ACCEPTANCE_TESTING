@@ -56,7 +56,7 @@ node ('preint') {
    stage('Run tests selenium'){
       withEnv(["APP_URL=${APP_URL}",
                "FEATURE_SET=${FEATURE_SET}",
-               "CAPYBARA_DRIVER=selenium"]) {
+               "CAPYBARA_DRIVER=${CAPYBARA_DRIVER}"]) {
                 sh 'docker-compose run acceptance_test'
       }
 	  }	
