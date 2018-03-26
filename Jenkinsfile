@@ -23,7 +23,7 @@ def notifyBuild(String buildStatus, Exception e) {
   }
 }
 
-node ('intake-slave') {
+node ('preint') {
    properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '5')),
               [$class: 'RebuildSettings', autoRebuild: false, rebuildDisabled: false],
 			  parameters([
