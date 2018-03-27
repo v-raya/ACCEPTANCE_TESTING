@@ -27,39 +27,39 @@ node ('preint') {
    properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '5')),
               [$class: 'RebuildSettings', autoRebuild: false, rebuildDisabled: false],
 			  parameters([
-			  string(defaultValue: 'smoke', description: '', name: 'FEATURE_SET'),
-			  string(defaultValue: 'https://web.preint.cwds.io', description: '', name: 'APP_URL')]),pipelineTriggers([])])
+			  string(defaultValue: 'xvfb_firefox', description: 'Name of the capybara driver, options include: webkit, xvfb_firefox', name: 'CAPYBARA_DRIVER'),
+			  string(defaultValue: 'smoke', description: 'The set of tests, each set can be found in feature_set.yml', name: 'FEATURE_SET'),
+			  string(defaultValue: 'https://web.preint.cwds.io', description: 'Target URL to run the tests', name: 'APP_URL')]),pipelineTriggers([])])
 
    def errorcode = null;
    def buildInfo = '';
 
  try {
-
-   stage('Preparation') {
+   stage('Checkout latest version') {
 		  cleanWs()
 		  git branch: 'master', credentialsId: '433ac100-b3c2-4519-b4d6-207c029a103b', url: 'git@github.com:ca-cwds/acceptance_testing.git'
    }
+
    stage('Build Docker'){
         sh 'docker-compose build'
-		//withDockerRegistry([credentialsId: '6ba8d05c-ca13-4818-8329-15d41a089ec0']) {
-			//sh "docker tag cwds/acceptance_testing cwds/acceptance_testing:${version}"
-			//sh "docker push cwds/acceptance_testing cwds/acceptance_testing:${version}"
-		//}
 	 }
-   //stage('Run tests webkit'){
-  // withEnv(["APP_URL=${APP_URL}",
-  //           "FEATURE_SET=${FEATURE_SET}",
-  //           "CAPYBARA_DRIVER=webkit"]) {
-  //            sh 'docker-compose run acceptance_test'
-  //} 
-	//}
-   stage('Run tests selenium'){
+
+   stage('Run tests'){
       withEnv(["APP_URL=${APP_URL}",
                "FEATURE_SET=${FEATURE_SET}",
                "CAPYBARA_DRIVER=${CAPYBARA_DRIVER}"]) {
                 sh 'docker-compose run acceptance_test'
       }
-	  }	
+	  }
+
+    stage ('Integration Env Deploy') {
+               build job: '/Integration Environment/deploy-intake-app/',
+                   parameters: [
+                   string(name: 'INTAKE_APP_VERSION', value: "latest"),
+                   string(name: 'inventory', value: 'inventories/integration/hosts.yml')
+                   ],
+                   wait: false
+    }
  } catch (Exception e)    {
 	   errorcode = e
 	   currentBuild.result = "FAIL"
