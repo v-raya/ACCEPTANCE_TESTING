@@ -1,13 +1,10 @@
-r1:
-  - Homepage Autocompleter
-  - Dashboard is displayed
-
 r2:
   - Release Two Enabled
   - History Card with cases and referrals
   - Snapshot. Person search with no results
 
 screening:
+  - Screening Index
   - Hotline. Person search with no results
   - Allegations Card Tests
   - History Card with screenings
