@@ -91,14 +91,6 @@ def clear_user_login
   end
 end
 
-def humanize(string, capitalize_all: false)
-  if capitalize_all
-    string.split('_').map(&:capitalize).join(' ')
-  else
-    string.split('_').join(' ').capitalize
-  end
-end
-
 def wait_for_result_to_appear(element: 'div.autocomplete-menu')
   Timeout.timeout(Capybara.default_max_wait_time) do
     if page.find(element).visible?
