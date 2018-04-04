@@ -37,7 +37,8 @@ describe 'Relationship card QA test', type: :feature do
     ScreeningPage.new.visit
     autocompleter_fill_in('Search for any person', "#{lucy[:first_name]} #{lucy[:last_name]}")
     wait_for_result_to_appear(element: 'div.autocomplete-menu div.profile-picture') do
-      page.find('div.autocomplete-menu').first('strong.highlighted', text: lucy_name).double_click
+      node = page.find('div.autocomplete-menu').first('strong.highlighted', text: lucy_name)
+      interact_with_node(capybara_node: node, event: 'double_click')
     end
   end
 
@@ -66,7 +67,8 @@ describe 'Relationship card QA test', type: :feature do
 
   describe 'existing adult' do
     before(:each) do
-      find('li', text: /#{grandpa_name}/).first('a').click
+      node = find('li', text: /#{grandpa_name}/).first('a')
+      interact_with_node(capybara_node: node)
     end
 
     describe 'Adding participant to an existing child on a screening' do
@@ -102,8 +104,9 @@ describe 'Relationship card QA test', type: :feature do
 
     describe 'Deleting a person that was added to a screening.' do
       before(:each) do
-        find('div.card.double-gap-bottom span', text: grandpa_name)
-          .sibling('button', text: 'Remove').click
+        node = find('div.card.double-gap-bottom span', text: grandpa_name)
+               .sibling('button', text: 'Remove')
+        interact_with_node(capybara_node: node)
       end
 
       it 'should remove participant to the sidebar' do

@@ -112,3 +112,7 @@ end
 def full_name(first: nil, middle: nil, last: nil)
   [first, middle, last].reject(&:blank?).join(' ')
 end
+
+def interact_with_node(capybara_node:, event: 'click')
+  capybara_node.send(event)
+end
