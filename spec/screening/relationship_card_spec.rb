@@ -1,89 +1,133 @@
 # frozen_string_literal: true
 
-person1 = {
-  fname: 'Marty',
-  lname: 'R'
-}
-person2 = {
-  fname: 'Ricky',
-  lname: 'W'
-}
-
 describe 'Relationship card QA test', type: :feature do
-  # Selecting Start Screening from homepage
-  # Note - This script is dependent on established seed data in the environment
-  person1_full_name, person2_full_name = nil
+  billy = { first_name: 'Billy', last_name: 'Treppas', relationship: 'Sister', relationship_type: '(Half)' }
+  joe   = { first_name: 'Joe', last_name: 'Atkyns', relationship: 'Daughter', relationship_type: '(Alleged)' }
+  larry = { first_name: 'Larry', last_name: 'Felgat', relationship: 'Brother', relationship_type: '' }
+  phil  = { first_name: 'Phil', last_name: 'Bartoleyn', relationship: 'Sister', relationship_type: '(Half)' }
+  grandpa = {
+    first_name: 'Grandpa',
+    last_name: 'Preece',
+    relationship: 'Granddaughter',
+    relationship_type: '(Paternal)',
+    relationships: [
+      billy.merge(relationship: 'Grandparen', relationship_type: '(Paternal)'),
+      joe.merge(relationship: 'Father', relationship_type: '(Birth)'),
+      larry.merge(relationship: 'Grandparen', relationship_type: '(Paternal)'),
+      phil.merge(relationship: 'No Relation', relationship_type: '')
+    ]
+  }
+  lucy = {
+    first_name: 'Lucy',
+    middle_name: 'Lee',
+    last_name: 'Gaspar',
+    relationships: [billy, joe, grandpa, larry, phil]
+  }
+  grandpa[:relationships].push(lucy.merge(relationship: 'Grandparent', relationship_type: '(Paternal)'))
 
-  before do
+  grandpa_name = full_name(first: grandpa[:first_name],
+                           middle: grandpa[:middle_name],
+                           last: grandpa[:last_name])
+
+  lucy_name = full_name(first: lucy[:first_name],
+                        middle: lucy[:middle_name],
+                        last: lucy[:last_name])
+
+  before(:each) do
     ScreeningPage.new.visit
+    autocompleter_fill_in('Search for any person', "#{lucy[:first_name]} #{lucy[:last_name]}")
+    wait_for_result_to_appear(element: 'div.autocomplete-menu div.profile-picture') do
+      node = page.find('div.autocomplete-menu').first('strong.highlighted', text: lucy_name)
+      interact_with_node(capybara_node: node, event: 'double_click')
+    end
   end
 
-  it 'Test initial rendering of card' do
-    within '#relationships-card' do
-      # Verify initial rendering of card
-      expect(page).to have_content('Relationships')
-      expect(page).to have_content('Add people to see their relationships here.')
-    end
-    # Adding an existing child to a screening
-    within '#search-card', text: 'Search' do
-      search_string = "#{person1[:fname]} #{person1[:lname]}"
-      autocompleter_fill_in 'Search for any person', search_string
-      matching_result = first('li', text: search_string)
-      person1_full_name = matching_result.first('strong').text
-      matching_result.click
+  describe 'Test initial rendering of card' do
+    it 'should verify initial rendering of card' do
+      within '#relationships-card' do
+        expect(page).to have_content('Relationships')
+        expect(page).to have_content('Search for people and add them to see their relationships.')
+      end
     end
 
-    within '#relationships-card' do
-      # Verify rendering of card
-      expect(page).to have_content("#{person1_full_name} is the...")
-      expect(page).to have_content('Son  of Missy R')
-      expect(page).to have_content('Son of Ricky W')
-      expect(page).to have_content('Brother of Roland W')
-      expect(page).to have_content('Brother  of Sharon W')
+    it 'should add an existing child to a screening' do
+      within '#relationships-card' do
+        expect(page).to have_content("#{lucy_name} is the...")
+
+        lucy[:relationships].each do |relation|
+          name = full_name(first: relation[:first_name],
+                           middle: relation[:middle_name],
+                           last: relation[:last_name])
+          expect(page).to \
+            have_content("#{relation[:relationship]} #{relation[:relationship_type]}   of #{name}  Attach")
+        end
+      end
+    end
+  end
+
+  describe 'existing adult' do
+    before(:each) do
+      node = find('li', text: /#{grandpa_name}/).first('a')
+      interact_with_node(capybara_node: node)
     end
 
-    # Adding an existing adult that is related to an existing child on a screening
-    within '#search-card', text: 'Search' do
-      search_string = "#{person2[:fname]} #{person2[:lname]}"
-      autocompleter_fill_in 'Search for any person', search_string
-      matching_result = first('li', text: search_string)
-      person2_full_name = matching_result.first('strong').text
-      matching_result.click
+    describe 'Adding participant to an existing child on a screening' do
+      it 'should add participant to the sidebar' do
+        within 'div.side-bar' do
+          expect(page).to have_css('a.link', text: grandpa_name)
+        end
+      end
+
+      it "should remove 'Attach' link for the existing participant's relationship that is added to the screening" do
+        expect(page).not_to \
+          have_content("#{grandpa[:relationship]} #{grandpa[:relationship_type]}   of #{grandpa_name} Attach")
+      end
+
+      it 'should verify rendering of related relations card' do
+        within '#relationships-card' do
+          expect(page).to have_content("#{grandpa_name} is the...")
+
+          grandpa[:relationships].each do |relation|
+            name = full_name(first: relation[:first_name],
+                             last: relation[:last_name])
+            expect(page).to \
+              have_content("#{relation[:relationship]} #{relation[:relationship_type]}   of #{name}")
+          end
+        end
+      end
+
+      it "should remove 'Attach' link from newly added participant from relationships-card" do
+        expect(page).not_to \
+          have_content("#{grandpa[:relationship]} #{grandpa[:relationship_type]}   of #{lucy_name}  Attach")
+      end
     end
 
-    person2_id = find('div[id^="participants-card-"]', text: person2[:fname])[:id]
-    person2_card = find('#' + person2_id)
+    describe 'Deleting a person that was added to a screening.' do
+      before(:each) do
+        node = find('div.card.double-gap-bottom span', text: grandpa_name)
+               .sibling('button', text: 'Remove')
+        interact_with_node(capybara_node: node)
+      end
 
-    within '#relationships-card' do
-      # Verify rendering of card
-      expect(page).to have_content("#{person1_full_name} is the...")
-      expect(page).to have_content('Son  of Missy R')
-      expect(page).to have_content('Son of Ricky W')
-      expect(page).to have_content('Brother of Roland W')
-      expect(page).to have_content('Brother  of Sharon W')
-      expect(page).to have_content("#{person2_full_name} is the...")
-      expect(page).to have_content('Father  of Marty R')
-      expect(page).to have_content('Spouse of Missy R')
-      expect(page).to have_content('Father of Roland W')
-      expect(page).to have_content('Father  of Sharon W')
-    end
+      it 'should remove participant to the sidebar' do
+        within 'div.side-bar' do
+          expect(page).not_to have_css('a.link', text: grandpa_name)
+        end
+      end
 
-    # Deleting a person that was added to a screening.
-    within person2_card do
-      first(:css, 'i.fa.fa-times').click
-    end
-    within '#relationships-card' do
-      # Verify rendering of card
-      expect(page).to have_content("#{person1_full_name} is the...")
-      expect(page).to have_content('Son  of Missy R')
-      expect(page).to have_content('Son of Ricky W')
-      expect(page).to have_content('Brother of Roland W')
-      expect(page).to have_content('Brother  of Sharon W')
-      expect(page).not_to have_content("#{person2_full_name} is the...")
-      expect(page).not_to have_content('Father  of Marty R')
-      expect(page).not_to have_content('Spouse of Missy R')
-      expect(page).not_to have_content('Father of Roland W')
-      expect(page).not_to have_content('Father  of Sharon W')
+      it 'should verify removal of card' do
+        within '#relationships-card' do
+          expect(page).not_to have_content("#{grandpa_name} is the...")
+
+          grandpa[:relationships].each do |relation|
+            name = full_name(first: relation[:first_name],
+                             middle: relation[:middle_name],
+                             last: relation[:last_name])
+            expect(page).not_to \
+              have_content("#{relation[:relationship]} #{relation[:relationship_type]}   of #{name}")
+          end
+        end
+      end
     end
   end
 end

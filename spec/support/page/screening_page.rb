@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'react_select_helpers'
-require 'autocompleter_helpers'
 require 'spec_helper'
 
 class ScreeningPage
@@ -15,7 +14,7 @@ class ScreeningPage
   end
 
   def visit
-    Capybara.visit '/'
+    Capybara.visit '/intake'
     login_user
 
     id ? Capybara.visit("/screenings/#{id}/edit") : click_button('Start Screening')
