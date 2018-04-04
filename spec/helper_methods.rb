@@ -99,7 +99,7 @@ def humanize(string, capitalize_all: false)
   end
 end
 
-def wait_for_result_to_appear(element: 'div.autocomplete-menu', &block)
+def wait_for_result_to_appear(element: 'div.autocomplete-menu')
   Timeout.timeout(Capybara.default_max_wait_time) do
     if page.find(element).visible?
       yield if block_given?
@@ -107,4 +107,8 @@ def wait_for_result_to_appear(element: 'div.autocomplete-menu', &block)
       loop
     end
   end
+end
+
+def full_name(first: nil, middle: nil, last: nil)
+  [first, middle, last].reject(&:blank?).join(' ')
 end
