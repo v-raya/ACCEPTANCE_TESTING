@@ -2,12 +2,8 @@
 
 require 'active_support/core_ext/object/blank'
 
-def autocompleter_fill_in(label, string)
-  input = Capybara.find(:fillable_field, label)
-  string.split('').each do |char|
-    input.send_keys(char)
-    sleep(0.08)
-  end
+def autocompleter_fill_in(label, string, blur: false)
+  Capybara.fill_in(label, with: string, fill_options: { blur: blur })
 end
 
 def build_regex(words)
@@ -100,5 +96,15 @@ def humanize(string, capitalize_all: false)
     string.split('_').map(&:capitalize).join(' ')
   else
     string.split('_').join(' ').capitalize
+  end
+end
+
+def wait_for_result_to_appear(element: 'div.autocomplete-menu', &block)
+  Timeout.timeout(Capybara.default_max_wait_time) do
+    if page.find(element).visible?
+      yield if block_given?
+    else
+      loop
+    end
   end
 end
