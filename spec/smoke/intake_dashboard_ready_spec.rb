@@ -4,7 +4,7 @@ require 'helper_methods'
 
 describe 'Dashboard Ready', type: :feature do
   before do
-    visit '/'
+    visit '/intake'
     login_user
   end
 
@@ -13,7 +13,6 @@ describe 'Dashboard Ready', type: :feature do
   end
 
   it 'has a Start Screening link' do
-    visit '/intake'
     expect(page).to have_button('Start Screening')
   end
 
