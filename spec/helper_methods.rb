@@ -77,7 +77,7 @@ def generate_date(start_year = 2000, end_year = 2017)
 end
 
 def clear_user_login
-  browser = current_session.driver.browser
+  browser = Capybara.current_session.driver.browser
   visit '/perry'
 
   if browser.respond_to?(:clear_cookies)
