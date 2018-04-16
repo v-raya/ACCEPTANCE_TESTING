@@ -68,6 +68,6 @@ node ('preint') {
 	finally {
 	    fingerprint 'reports/*'
 	    junit allowEmptyResults: true, testResults: 'reports/TEST-*.xml'
-      sh 'docker-compose down --rmi -v --remove-orphans -t 120'
+      sh 'docker-compose down --rmi all -v --remove-orphans -t 120'
 	}
 }
