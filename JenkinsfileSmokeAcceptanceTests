@@ -55,7 +55,7 @@ node ('preint') {
     stage ('Integration Env Deploy') {
                build job: '/Integration Environment/deploy-intake-app/',
                    parameters: [
-                   string(name: 'INTAKE_APP_VERSION', value: "latest"),
+                   string(name: 'INTAKE_APP_VERSION', value: "${INTAKE_APP_VERSION}"),
                    string(name: 'inventory', value: 'inventories/integration/hosts.yml')
                    ],
                    wait: false
