@@ -52,21 +52,22 @@ node ('preint') {
       }
 	  }
 
-    stage ('Integration Env Deploy') {
-               build job: '/Integration Environment/deploy-intake-app/',
-                   parameters: [
-                   string(name: 'INTAKE_APP_VERSION', value: "latest"),
-                   string(name: 'inventory', value: 'inventories/integration/hosts.yml')
-                   ],
-                   wait: false
-    }
+    /*stage ('Integration Env Deploy') {*/
+               /*build job: '/Integration Environment/deploy-intake-app/',*/
+                   /*parameters: [*/
+                   /*string(name: 'INTAKE_APP_VERSION', value: "latest"),*/
+                   /*string(name: 'inventory', value: 'inventories/integration/hosts.yml')*/
+                   /*],*/
+                   /*wait: false*/
+    /*}*/
  } catch (Exception e)    {
 	   errorcode = e
 	   currentBuild.result = "FAIL"
 	   notifyBuild(currentBuild.result,errorcode)
 	}
 	finally {
-	     fingerprint 'reports/*'
-	     junit allowEmptyResults: true, testResults: 'reports/TEST-*.xml'
+	    fingerprint 'reports/*'
+	    junit allowEmptyResults: true, testResults: 'reports/TEST-*.xml'
+      sh 'docker-compose down --rmi -v --remove-orphans -t 120'
 	}
 }
