@@ -20,6 +20,12 @@ describe 'Screening Index', type: :feature do
     end
   end
   
+  it 'should have logout drop down when user clicked on profile avtar' do
+    expect(page).not_to have_link('Logout')
+    find(:css, 'i.fa.fa-user').click
+    expect(page).to have_link('Logout')
+  end
+  
   it 'has a Start Screening button' do
     expect(page).to have_button('Start Screening')
   end
