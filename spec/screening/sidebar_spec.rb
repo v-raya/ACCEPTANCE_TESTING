@@ -42,4 +42,12 @@ describe 'Screening Index', type: :feature, js: true do
     click_link('History')
     expect(page).to have_css('.side-bar')
   end
+
+  it 'header should hide when clicked on anywhere on the side nav links' do
+    expect(page).to have_css('.logo', visible: true)
+    click_link('History')
+    expect(page).to have_css('.logo', visible: false)
+  end
 end
+
+
