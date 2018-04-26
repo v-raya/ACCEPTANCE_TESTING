@@ -39,9 +39,7 @@ node('intake-slave') {
                 "FERB_IMAGE_VERSION=${FERB_IMAGE_VERSION}", "ELASTICSEARCH_IMAGE_VERSION=${ELASTICSEARCH_IMAGE_VERSION}",
                 "ELASTICSEARCH_IMAGE_VERSION=${ELASTICSEARCH_IMAGE_VERSION}", "PERRY_IMAGE_VERSION=${PERRY_IMAGE_VERSION}",
                 "DB2DATA_IMAGE_VERSION=${DB2DATA_IMAGE_VERSION}"]) {
-          dir('bubble'){
-            sh './scripts/ci/acceptance_testing_run.rb'
-          }
+          sh './scripts/ci/acceptance_testing_run.rb'
         }
       }
     }
