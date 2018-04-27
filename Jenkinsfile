@@ -4,8 +4,8 @@ node('intake-slave') {
   properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '10')),
       [$class: 'RebuildSettings', autoRebuild: false, rebuildDisabled: false],
       parameters([
-        string(defaultValue: 'cwds/intake:snapshot_v1.0.73', description: 'Intake container version', name: 'INTAKE_IMAGE_VERSION'),
-        string(defaultValue: 'cwds/intake_api_prototype:21a91b', description: 'Intake Api container version', name: 'INTAKE_API_IMAGE_VERSION'),
+        string(defaultValue: 'cwds/intake:1.1.174', description: 'Intake container version', name: 'INTAKE_IMAGE_VERSION'),
+        string(defaultValue: 'cwds/intake_api_prototype:latest', description: 'Intake Api container version', name: 'INTAKE_API_IMAGE_VERSION'),
         string(defaultValue: 'cwds/postgresql_data:0.5.8-SNAPSHOT', description: 'Postgres container version', name: 'POSTGRES_IMAGE_VERSION'),
         string(defaultValue: 'cwds/dora:1.5.7_1989-RC', description: 'Dora container version', name: 'DORA_IMAGE_VERSION'),
         string(defaultValue: 'cwds/api:0.6.2.312', description: 'Ferb container version', name: 'FERB_IMAGE_VERSION'),
