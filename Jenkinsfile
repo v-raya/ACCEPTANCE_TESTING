@@ -52,7 +52,8 @@ node('intake-slave') {
   finally {
     stage('Clean') {
       dir('bubble'){
-        'docker-compose -f docker-compose.bubble.yml down --rmi all --remove-orphans -t 120 -v'
+        echo '== Tearing down test bubble'
+        sh 'docker-compose -f docker-compose.bubble.yml down --rmi all --remove-orphans -t 120 -v'
       }
       cleanWs()
     }
