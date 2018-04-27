@@ -23,10 +23,10 @@ def clear_field(selector)
 end
 
 def fill_login_form
-  return if ENV['USERNAME'].blank?
-  fill_in('username', with: ENV.fetch('USERNAME'))
-  if page.text.include?('Password') && !ENV['PASSWORD'].blank?
-    fill_in('password', with: ENV.fetch('PASSWORD'))
+  return if ENV['ACCEPTAMCE_TEST_USER'].blank?
+  fill_in('username', with: ENV.fetch('ACCEPTAMCE_TEST_USER'))
+  if page.text.include?('Password') && !ENV['ACCEPTAMCE_TEST_PASSWORD'].blank?
+    fill_in('password', with: ENV.fetch('ACCEPTAMCE_TEST_PASSWORD'))
   end
   click_button('Sign In')
 end
@@ -40,15 +40,15 @@ def fill_json_login_form
     county_name: 'Ventura',
     privileges: ['Countywide Read', 'Sensitive Persons']
   }.to_json
-  fill_in('username', with: ENV['USERNAME'] || authorization_json)
+  fill_in('username', with: ENV['ACCEPTAMCE_TEST_USER'] || authorization_json)
   click_button('Sign In')
 end
 
 def fill_production_login_form
-  return if ENV['USERNAME'].blank?
-  fill_in('Username', with: ENV.fetch('USERNAME'))
-  if page.text.include?('CWS/NS Password') && !ENV['PASSWORD'].blank?
-    fill_in('Password', with: ENV.fetch('PASSWORD'))
+  return if ENV['ACCEPTAMCE_TEST_USER'].blank?
+  fill_in('Username', with: ENV.fetch('ACCEPTAMCE_TEST_USER'))
+  if page.text.include?('CWS/NS Password') && !ENV['ACCEPTAMCE_TEST_PASSWORD'].blank?
+    fill_in('Password', with: ENV.fetch('ACCEPTAMCE_TEST_PASSWORD'))
   end
   click_button('Sign In')
   if page.text.include? 'Send Access Code'
