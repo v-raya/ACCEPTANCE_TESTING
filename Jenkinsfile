@@ -53,7 +53,7 @@ node('intake-slave') {
     stage('Clean') {
       dir('bubble'){
         echo '== Tearing down test bubble'
-        sh 'docker-compose -f docker-compose.bubble.yml down --rmi all --remove-orphans -t 120 -v'
+        sh "docker-compose -p acceptance_bubble_${BUILD_NUMBER} -f docker-compose.bubble.yml down --rmi all --remove-orphans -t 120 -v"
       }
       cleanWs()
     }
