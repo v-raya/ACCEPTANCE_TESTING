@@ -6,6 +6,6 @@ services:
       - APP_URL
       - CAPYBARA_DRIVER
       - FEATURE_SET
-      - USERNAME
-      - PASSWORD
+      - ACCEPTANCE_TEST_USER
+      - ACCEPTANCE_TEST_PASSWORD
     command: rake
