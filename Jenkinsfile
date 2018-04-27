@@ -11,7 +11,8 @@ node('intake-slave') {
         string(defaultValue: 'cwds/api:0.6.2.312', description: 'Ferb container version', name: 'FERB_IMAGE_VERSION'),
         string(defaultValue: 'cwds/elasticsearch_xpack_data:1.5.7-SNAPSHOT', description: 'ElasticSearch container version', name: 'ELASTICSEARCH_IMAGE_VERSION'),
         string(defaultValue: 'cwds/perry:1.6.2_424-RC', description: 'Perry container version', name: 'PERRY_IMAGE_VERSION'),
-        string(defaultValue: 'cwds/db2data:0.5.6-SNAPSHOT', description: 'DB2 Data container version', name: 'DB2DATA_IMAGE_VERSION')
+        string(defaultValue: 'cwds/db2data:0.5.6-SNAPSHOT', description: 'DB2 Data container version', name: 'DB2DATA_IMAGE_VERSION'),
+        string(defaultValue: 'smoke', description: 'Feature set', name: 'FEATURE_SET')
     ])
   ])
 
@@ -38,7 +39,7 @@ node('intake-slave') {
                 "POSTGRES_IMAGE_VERSION=${POSTGRES_IMAGE_VERSION}", "DORA_IMAGE_VERSION=${DORA_IMAGE_VERSION}",
                 "FERB_IMAGE_VERSION=${FERB_IMAGE_VERSION}", "ELASTICSEARCH_IMAGE_VERSION=${ELASTICSEARCH_IMAGE_VERSION}",
                 "ELASTICSEARCH_IMAGE_VERSION=${ELASTICSEARCH_IMAGE_VERSION}", "PERRY_IMAGE_VERSION=${PERRY_IMAGE_VERSION}",
-                "DB2DATA_IMAGE_VERSION=${DB2DATA_IMAGE_VERSION}"]) {
+                "DB2DATA_IMAGE_VERSION=${DB2DATA_IMAGE_VERSION}", "FEATURE_SET=${FEATURE_SET}"]) {
           sh './scripts/ci/acceptance_testing_run.rb'
         }
       }
