@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'react_select_helpers'
-require 'autocompleter_helpers'
 require 'helper_methods'
 require 'support/page/screening_page'
 

@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'autocompleter_helpers'
 require 'capybara/rspec'
 require 'ffaker'
 require 'headless'
