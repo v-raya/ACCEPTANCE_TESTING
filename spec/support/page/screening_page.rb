@@ -9,7 +9,7 @@ class ScreeningPage
 
   attr_reader :id
 
-  def initalize(id: nil)
+  def initialize(id: nil)
     @id = id
   end
 
