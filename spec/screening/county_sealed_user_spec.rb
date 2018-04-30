@@ -70,4 +70,23 @@ describe 'County Sealed user', type: :feature do
       end
     end
 
+    describe 'return not results from search' do
+      it 'should not be able to attach people to Screening' do
+        [different_county_not_sensitive_sealed].each do |participant|
+          search_name = full_name(first: participant[:first_name], last: participant[:last_name])
+          select_name = full_name(first: participant[:first_name], middle: participant[:middle_name],
+                                  last: participant[:last_name])
+
+          puts search_name
+
+          autocompleter_fill_in 'Search for any person', search_name
+          wait_for_result_to_appear(element: 'div.autocomplete-menu') do
+            @node = page.find('div.autocomplete-menu').find('strong', text: /#{select_name}/)
+          end
+
+          expect(@node.text).to eq "No results were found for \"#{select_name}\""
+        end
+      end
+    end
+  end
 end
