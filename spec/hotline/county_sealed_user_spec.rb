@@ -1,6 +1,18 @@
 # frozen_string_literal: true
 
 describe 'County Sealed user', type: :feature do
+  ENV['ACCEPTANCE_TEST_USER'] = {
+    "user": 'CLUSTR',
+    "staffId": '0UX',
+    "roles": ['SocialWorker'],
+    "county_code": '34',
+    "county_cws_code": '1101',
+    "county_name": 'Sacramento',
+    "privileges": ['CWS Case Management System',
+                   'Sealed',
+                   'Sensitive Persons']
+  }.to_json
+
   let(:same_county_not_sensitive_not_sealed) { { first_name: 'Peter', middle_name: '', last_name: 'Gasticke' } }
   let(:same_county_sensitive_not_sealed) { { first_name: 'David', middle_name: 'Duggan', last_name: 'Parminter' } }
   let(:same_county_not_sensitive_sealed) { { first_name: 'Jared', middle_name: '', last_name: 'Readshaw' } }
