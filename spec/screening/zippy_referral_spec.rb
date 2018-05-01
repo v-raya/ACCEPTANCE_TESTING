@@ -103,7 +103,7 @@ describe 'save a zippy referral', type: :feature,
       within '#decision-card' do
         click_link 'Edit'
         select 'Differential response', from: 'Decision'
-        fill_in('Service name', with: 'Family Strengthening')
+        fill_in('Service Name', with: 'Family Strengthening')
         click_button 'Save'
       end
 
@@ -163,8 +163,8 @@ describe 'save a zippy referral', type: :feature,
     end
 
     within '#decision-card' do
-      select 'Promote to referral', from: 'Screening decision'
-      select '3 days', from: 'Response time'
+      select 'Promote to referral', from: 'Screening Decision'
+      select '3 days', from: 'Response Time'
       click_button 'Save'
     end
   end

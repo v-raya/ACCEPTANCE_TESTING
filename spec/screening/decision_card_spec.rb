@@ -22,8 +22,8 @@ describe 'Decision card', type: :feature do
       end
       within '.card-body' do
         # validate content of edit view
-        expect(page).to have_content 'Screening decision'
-        expect(page).to have_content 'Additional information'
+        expect(page).to have_content 'Screening Decision'
+        expect(page).to have_content 'Additional Information'
         expect(page).to have_content 'SDM Hotline Tool'
         expect(page).to have_content 'Determine Decision and Response Time by using Structured Decision Making.'
         expect(page).to have_link 'Complete SDM'
@@ -37,19 +37,19 @@ describe 'Decision card', type: :feature do
         sdm_window.close
         expect(page).to have_button 'Cancel'
         expect(page).to have_button 'Save'
-        expect(page).not_to have_content('Service name')
-        select 'Differential response', from: 'Screening decision'
-        expect(page).to have_content('Service name')
-        fill_in('Service name', with: 'Family Strengthening')
-        fill_in('Additional information',
+        expect(page).not_to have_content('Service Name')
+        select 'Differential response', from: 'Screening Decision'
+        expect(page).to have_content('Service Name')
+        fill_in('Service Name', with: 'Family Strengthening')
+        fill_in('Additional Information',
                 with: 'This is a test for $peci@! char & num8er5')
         click_button 'Save'
         # validate content of show view
-        expect(page).to have_content 'Service name'
+        expect(page).to have_content 'Service Name'
         expect(page).to have_content 'Family Strengthening'
         expect(page).to have_content 'Decision'
         expect(page).to have_content 'Differential response'
-        expect(page).to have_content 'Additional information'
+        expect(page).to have_content 'Additional Information'
         expect(page).to have_content 'This is a test for $peci@! char & num8er5'
         expect(page).to have_content 'SDM Hotline Tool'
         expect(page).to have_content 'Determine Decision and Response Time by using Structured Decision Making.'
@@ -67,13 +67,13 @@ describe 'Decision card', type: :feature do
         click_link 'Edit'
       end
       within '.card-body' do
-        expect(page).to have_select('Screening decision',
+        expect(page).to have_select('Screening Decision',
                                     selected: 'Differential response')
-        expect(page).to have_field('Service name', with: 'Family Strengthening')
+        expect(page).to have_field('Service Name', with: 'Family Strengthening')
         # Test for char type and field only accepts 64 chars
-        fill_in('Service name', with: char66str)
+        fill_in('Service Name', with: char66str)
         # validate field only accepts 64 char
-        expect(page).to have_field('Service name', with: char64str)
+        expect(page).to have_field('Service Name', with: char64str)
         click_button 'Save'
         expect(page).to have_content char64str
       end
@@ -81,17 +81,17 @@ describe 'Decision card', type: :feature do
         click_link 'Edit'
       end
       within '.card-body' do
-        expect(page).not_to have_content('Staff name')
-        select 'Information to child welfare services', from: 'Screening decision'
-        expect(page).to have_content('Staff name')
-        expect(page).not_to have_content('Service name')
+        expect(page).not_to have_content('Staff Name')
+        select 'Information to child welfare services', from: 'Screening Decision'
+        expect(page).to have_content('Staff Name')
+        expect(page).not_to have_content('Service Name')
         # Fill with 66 chars, two more than limit
-        fill_in('Staff name', with: char66str)
+        fill_in('Staff Name', with: char66str)
         click_button 'Save'
-        expect(page).to have_content 'Staff name'
+        expect(page).to have_content 'Staff Name'
         # validate field only accepts 64 char
         expect(page).to have_content char64str
-        expect(page).to have_content 'Screening decision'
+        expect(page).to have_content 'Screening Decision'
         expect(page).to have_content 'Information to child welfare services'
       end
       within '.card-header' do
@@ -99,9 +99,9 @@ describe 'Decision card', type: :feature do
       end
       within '.card-body' do
         expect(page).not_to have_content('Response time')
-        select 'Promote to referral', from: 'Screening decision'
+        select 'Promote to referral', from: 'Screening Decision'
         expect(page).to have_content('Response time')
-        expect(page).not_to have_content('Staff name')
+        expect(page).not_to have_content('Staff Name')
         select 'Immediate', from: 'Response time'
         expect(page).to have_select('Response time', selected: 'Immediate')
         select '3 days', from: 'Response time'
@@ -111,7 +111,7 @@ describe 'Decision card', type: :feature do
         select '10 days', from: 'Response time'
         expect(page).to have_select('Response time', selected: '10 days')
         expect(page).not_to have_content('Category')
-        select 'Screen out', from: 'Screening decision'
+        select 'Screen out', from: 'Screening Decision'
         expect(page).to have_content('Category')
         expect(page).not_to have_content('Response time')
         select 'Evaluate out', from: 'Category'
@@ -126,9 +126,9 @@ describe 'Decision card', type: :feature do
         expect(page).to have_select('Category', selected: 'Other')
         # Verify original content before canceling remains
         click_button 'Cancel'
-        expect(page).to have_content 'Staff name'
+        expect(page).to have_content 'Staff Name'
         expect(page).to have_content char64str
-        expect(page).to have_content 'Screening decision'
+        expect(page).to have_content 'Screening Decision'
         expect(page).to have_content 'Information to child welfare services'
       end
       within '.card-header' do
@@ -136,14 +136,14 @@ describe 'Decision card', type: :feature do
       end
       within '.card-body' do
         # validate de-selecting removes the conditional fields
-        select '', from: 'Screening decision'
-        expect(page).to have_content 'Screening decision'
-        expect(page).to have_content 'Additional information'
+        select '', from: 'Screening Decision'
+        expect(page).to have_content 'Screening Decision'
+        expect(page).to have_content 'Additional Information'
         expect(page).to have_button 'Cancel'
         expect(page).to have_button 'Save'
-        expect(page).not_to have_content 'Staff name'
+        expect(page).not_to have_content 'Staff Name'
         expect(page).not_to have_content 'Response time'
-        expect(page).not_to have_content 'Service name'
+        expect(page).not_to have_content 'Service Name'
         expect(page).not_to have_content 'Category'
       end
     end
@@ -164,7 +164,7 @@ describe 'Decision card', type: :feature do
 
     within '#decision-card.edit' do
       expect(page).to have_content(message)
-      select 'Differential response', from: 'Screening decision'
+      select 'Differential response', from: 'Screening Decision'
       expect(page).not_to have_content(message)
       click_button 'Save'
     end
@@ -178,7 +178,7 @@ describe 'Decision card', type: :feature do
     message = 'Please enter a response time'
 
     within '#decision-card.edit' do
-      select 'Promote to referral', from: 'Screening decision'
+      select 'Promote to referral', from: 'Screening Decision'
       blur
       expect(page).not_to have_content(message)
       click_button 'Save'
@@ -208,7 +208,7 @@ describe 'Decision card', type: :feature do
     ## with out Allegation
     within '#decision-card.edit' do
       expect(page).to_not have_content(referal_without_allegation_message)
-      select 'Promote to referral', from: 'Screening decision'
+      select 'Promote to referral', from: 'Screening Decision'
       expect(page).to have_content('Response time')
       blur
       expect(page).to have_content(referal_without_allegation_message)
@@ -288,15 +288,15 @@ describe 'Decision card', type: :feature do
     additional_info_required_error_message = 'Please enter additional information'
     within '#decision-card.edit' do
       expect(page).to_not have_content(additional_info_required_error_message)
-      select 'Screen out', from: 'Screening decision'
+      select 'Screen out', from: 'Screening Decision'
       expect(page).to have_content('Screen out')
       select 'Consultation', from: 'Category'
       expect(page).to have_content('Consultation')
-      expect(page.find('label', text: 'Additional information')[:class]).to_not include('required')
+      expect(page.find('label', text: 'Additional Information')[:class]).to_not include('required')
       expect(page).to_not have_content(additional_info_required_error_message)
       select 'Evaluate out', from: 'Category'
       expect(page).to have_content('Evaluate out')
-      expect(page.find('label', text: 'Additional information')[:class]).to include('required')
+      expect(page.find('label', text: 'Additional Information')[:class]).to include('required')
       expect(page).to_not have_content(additional_info_required_error_message)
       click_button 'Save'
     end

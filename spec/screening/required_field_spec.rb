@@ -185,10 +185,10 @@ describe 'Validate Screening require field labels', type: :feature do
     within '#decision-card' do
       expect(page.find('label', text: 'Screening Decision')[:class]).to include('required')
       select 'Promote to referral', from: 'Decision'
-      expect(page.find('label', text: 'Response time')[:class]).to include('required')
+      expect(page.find('label', text: 'Response Time')[:class]).to include('required')
       click_button 'Save'
       expect(page.find('label', text: 'Screening Decision')[:class]).to include('required')
-      expect(page.find('label', text: 'Response time')[:class]).to include('required')
+      expect(page.find('label', text: 'Response Time')[:class]).to include('required')
     end
   end
 end
