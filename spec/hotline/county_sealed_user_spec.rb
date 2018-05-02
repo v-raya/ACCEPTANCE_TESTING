@@ -8,9 +8,7 @@ describe 'County Sealed user', type: :feature do
     "county_code": '34',
     "county_cws_code": '1101',
     "county_name": 'Sacramento',
-    "privileges": ['CWS Case Management System',
-                   'Sealed',
-                   'Sensitive Persons']
+    "privileges": ['CWS Case Management System', 'Sealed']
   }.to_json
 
   let(:same_county_not_sensitive_not_sealed) { { first_name: 'Peter', middle_name: '', last_name: 'Gasticke' } }
@@ -28,8 +26,9 @@ describe 'County Sealed user', type: :feature do
 
     describe 'return results from search' do
       it 'should attach people to Screening' do
-        [same_county_not_sensitive_not_sealed, same_county_sensitive_not_sealed,
-         same_county_not_sensitive_sealed, no_county_not_sensitive_sealed].each do |participant|
+        [same_county_not_sensitive_not_sealed, same_county_not_sensitive_sealed,
+         no_county_not_sensitive_sealed].each do |participant|
+
           search_name = full_name(first: participant[:first_name], last: participant[:last_name])
           select_name = full_name(first: participant[:first_name], middle: participant[:middle_name],
                                   last: participant[:last_name])
@@ -55,7 +54,9 @@ describe 'County Sealed user', type: :feature do
 
     describe 'return results from search' do
       it 'should not be able to attach people to Screening' do
-        [different_county_sensitive_not_sealed, no_county_sensitive_not_sealed].each do |participant|
+        [same_county_sensitive_not_sealed, different_county_sensitive_not_sealed,
+         no_county_sensitive_not_sealed].each do |participant|
+
           search_name = full_name(first: participant[:first_name], last: participant[:last_name])
           select_name = full_name(first: participant[:first_name], middle: participant[:middle_name],
                                   last: participant[:last_name])
