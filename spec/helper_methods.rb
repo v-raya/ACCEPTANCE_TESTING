@@ -94,7 +94,7 @@ end
 def wait_for_result_to_appear(element: 'div.autocomplete-menu')
   Timeout.timeout(Capybara.default_max_wait_time) do
     if page.first(element).visible?
-      yield if block_given?
+      within(element) { yield } if block_given?
     else
       loop
     end
