@@ -9,19 +9,19 @@ module Address
   end
 
   def self.street_address
-    FFaker::AddressUS.street_address
+    Faker::AddressUS.street_address
   end
 
   def self.city
-    FFaker::AddressUS.city
+    Faker::AddressUS.city
   end
 
   def self.state
-    FFaker::AddressUS.state
+    Faker::AddressUS.state
   end
 
   def self.zip
-    FFaker::AddressUS.zip_code[0...5]
+    Faker::AddressUS.zip_code[0...5]
   end
 
   def self.type

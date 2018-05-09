@@ -46,19 +46,19 @@ module Participant
   end
 
   def self.first_name(value = nil)
-    value || FFaker::Name.first_name
+    value || Faker::Name.first_name
   end
 
   def self.middle_name(value = nil)
-    value || FFaker::Product.letters(1)
+    value || Faker::Product.letters(1)
   end
 
   def self.last_name(value = nil)
-    value || FFaker::Name.last_name
+    value || Faker::Name.last_name
   end
 
   def self.name_suffix(value = nil)
-    value || FFaker::Name.suffix
+    value || Faker::Name.suffix
   end
 
   def self.gender(value = nil)
@@ -66,7 +66,7 @@ module Participant
   end
 
   def self.ssn(value = nil)
-    value || "#{rand(9)}#{FFaker.numerify('##-##-####')}"
+    value || "#{rand(9)}#{Faker.numerify('##-##-####')}"
   end
 
   def self.date_of_birth(value = nil)
