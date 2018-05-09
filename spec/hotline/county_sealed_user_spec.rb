@@ -21,7 +21,7 @@ describe 'County Sealed user', type: :feature do
 
   describe '.privileges' do
     before do
-      ScreeningPage.new(id: 1).visit
+      Screening.new.visit
     end
 
     describe 'return results from search' do
