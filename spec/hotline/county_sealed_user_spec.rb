@@ -24,7 +24,7 @@ describe 'County Sealed user', type: :feature do
       ScreeningPage.new(id: 1).visit
     end
 
-    describe 'return results from search', driver: :headless_chrome do
+    describe 'return results from search' do
       it 'should attach people to Screening' do
         [same_county_not_sensitive_not_sealed, same_county_not_sensitive_sealed,
          no_county_not_sensitive_sealed].each do |participant|
