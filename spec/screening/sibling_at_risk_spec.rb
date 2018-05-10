@@ -3,23 +3,23 @@
 describe 'Sibling At Risk Validation Tests', type: :feature do
   victim1 = {
     roles: ['Victim'],
-    first_name: FFaker::Name.first_name,
-    last_name: FFaker::Name.last_name
+    first_name: Faker::Name.first_name,
+    last_name: Faker::Name.last_name
   }
   perpetrator1 = {
     roles: ['Perpetrator'],
-    first_name: FFaker::Name.first_name,
-    last_name: FFaker::Name.last_name
+    first_name: Faker::Name.first_name,
+    last_name: Faker::Name.last_name
   }
   victim2 = {
     roles: ['Victim'],
-    first_name: FFaker::Name.first_name,
-    last_name: FFaker::Name.last_name
+    first_name: Faker::Name.first_name,
+    last_name: Faker::Name.last_name
   }
   perpetrator2 = {
     roles: ['Perpetrator'],
-    first_name: FFaker::Name.first_name,
-    last_name: FFaker::Name.last_name
+    first_name: Faker::Name.first_name,
+    last_name: Faker::Name.last_name
   }
 
   let(:screening_page) { ScreeningPage.new }

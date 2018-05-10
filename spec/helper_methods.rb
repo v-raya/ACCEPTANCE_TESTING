@@ -73,7 +73,7 @@ rescue
 end
 
 def generate_date(start_year = 2000, end_year = 2017)
-  FFaker::Time.between(Time.new(start_year), Time.new(end_year)).strftime('%m/%d/%Y')
+  Faker::Time.between(Time.new(start_year), Time.new(end_year)).strftime('%m/%d/%Y')
 end
 
 def clear_user_login
@@ -94,7 +94,7 @@ end
 def wait_for_result_to_appear(element: 'div.autocomplete-menu')
   Timeout.timeout(Capybara.default_max_wait_time) do
     if page.first(element).visible?
-      yield if block_given?
+      within(element) { yield } if block_given?
     else
       loop
     end

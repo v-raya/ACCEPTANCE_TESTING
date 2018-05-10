@@ -21,7 +21,7 @@ describe 'County Sealed user', type: :feature do
 
   describe '.privileges' do
     before do
-      ScreeningPage.new.visit
+      Screening.new.visit
     end
 
     describe 'return results from search' do
@@ -33,12 +33,9 @@ describe 'County Sealed user', type: :feature do
           select_name = full_name(first: participant[:first_name], middle: participant[:middle_name],
                                   last: participant[:last_name])
 
-          puts search_name
-
           autocompleter_fill_in 'Search for any person', search_name
-          wait_for_result_to_appear(element: 'div.autocomplete-menu div.profile-picture') do
-            node = page.find('div.autocomplete-menu').first('strong.highlighted', text: select_name)
-            interact_with_node(capybara_node: node, event: 'double_click')
+          wait_for_result_to_appear do
+            find('strong.highlighted', text: select_name).click
           end
 
           within 'div.side-bar' do
@@ -53,32 +50,75 @@ describe 'County Sealed user', type: :feature do
     end
 
     describe 'return results from search' do
+      it 'should not be able to attach same_county_sensitive_not_sealed to Screening' do
+        search_name = full_name(first: same_county_sensitive_not_sealed[:first_name],
+                                last: same_county_sensitive_not_sealed[:last_name])
+        select_name = full_name(first: same_county_sensitive_not_sealed[:first_name],
+                                middle: same_county_sensitive_not_sealed[:middle_name],
+                                last: same_county_sensitive_not_sealed[:last_name])
+
+        autocompleter_fill_in 'Search for any person', search_name
+        alert_text = accept_alert do
+          wait_for_result_to_appear do
+            find('strong.highlighted', text: select_name).click
+          end
+        end
+
+        expect(alert_text).to eq 'You are not authorized to add this person.'
+        within 'div.side-bar' do
+          expect(page).not_to have_css('a.link', text: search_name)
+        end
+
+        within 'div#relationships-card' do
+          expect(page).not_to have_css('span.person', text: select_name)
+        end
+      end
+
+      it 'should not be able to attach different_county_sensitive_not_sealed to Screening' do
+        search_name = full_name(first: different_county_sensitive_not_sealed[:first_name],
+                                last: different_county_sensitive_not_sealed[:last_name])
+        select_name = full_name(first: different_county_sensitive_not_sealed[:first_name],
+                                middle: different_county_sensitive_not_sealed[:middle_name],
+                                last: different_county_sensitive_not_sealed[:last_name])
+
+        autocompleter_fill_in 'Search for any person', search_name
+        alert_text = accept_alert do
+          wait_for_result_to_appear do
+            find('strong.highlighted', text: select_name).click
+          end
+        end
+
+        expect(alert_text).to eq 'You are not authorized to add this person.'
+        within 'div.side-bar' do
+          expect(page).not_to have_css('a.link', text: search_name)
+        end
+
+        within 'div#relationships-card' do
+          expect(page).not_to have_css('span.person', text: select_name)
+        end
+      end
+
       it 'should not be able to attach people to Screening' do
-        [same_county_sensitive_not_sealed, different_county_sensitive_not_sealed,
-         no_county_sensitive_not_sealed].each do |participant|
+        search_name = full_name(first: no_county_sensitive_not_sealed[:first_name],
+                                last: no_county_sensitive_not_sealed[:last_name])
+        select_name = full_name(first: no_county_sensitive_not_sealed[:first_name],
+                                middle: no_county_sensitive_not_sealed[:middle_name],
+                                last: no_county_sensitive_not_sealed[:last_name])
 
-          search_name = full_name(first: participant[:first_name], last: participant[:last_name])
-          select_name = full_name(first: participant[:first_name], middle: participant[:middle_name],
-                                  last: participant[:last_name])
-
-          puts search_name
-
-          autocompleter_fill_in 'Search for any person', search_name
-          wait_for_result_to_appear(element: 'div.autocomplete-menu div.profile-picture') do
-            node = page.find('div.autocomplete-menu').first('strong.highlighted', text: select_name)
-            interact_with_node(capybara_node: node, event: 'double_click')
+        autocompleter_fill_in 'Search for any person', search_name
+        alert_text = accept_alert do
+          wait_for_result_to_appear do
+            find('strong.highlighted', text: select_name).click
           end
+        end
 
-          alert_text = page.driver.accept_modal(true)
+        expect(alert_text).to eq 'You are not authorized to add this person.'
+        within 'div.side-bar' do
+          expect(page).not_to have_css('a.link', text: search_name)
+        end
 
-          expect(alert_text).to eq 'You are not authorized to add this person.'
-          within 'div.side-bar' do
-            expect(page).not_to have_css('a.link', text: search_name)
-          end
-
-          within 'div#relationships-card' do
-            expect(page).not_to have_css('span.person', text: select_name)
-          end
+        within 'div#relationships-card' do
+          expect(page).not_to have_css('span.person', text: select_name)
         end
       end
     end
@@ -90,11 +130,9 @@ describe 'County Sealed user', type: :feature do
           select_name = full_name(first: participant[:first_name], middle: participant[:middle_name],
                                   last: participant[:last_name])
 
-          puts search_name
-
           autocompleter_fill_in 'Search for any person', search_name
-          wait_for_result_to_appear(element: 'div.autocomplete-menu') do
-            @node = page.find('div.autocomplete-menu').find('strong', text: /#{select_name}/)
+          wait_for_result_to_appear do
+            @node = find('strong', text: /#{select_name}/)
           end
 
           expect(@node.text).to eq "No results were found for \"#{select_name}\""

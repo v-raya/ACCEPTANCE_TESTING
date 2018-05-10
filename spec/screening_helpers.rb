@@ -92,7 +92,7 @@ module Screening
   end
 
   def self.name(value = nil)
-    value || FFaker::Movie.title
+    value || Faker::Movie.title
   end
 
   def self.social_worker(value = nil)
@@ -112,7 +112,7 @@ module Screening
   end
 
   def self.narrative(value = nil)
-    value || FFaker::HipsterIpsum.paragraph
+    value || Faker::HipsterIpsum.paragraph
   end
 
   def self.incident_date(value = nil)
@@ -148,7 +148,7 @@ module Screening
   end
 
   def self.safety_information(value = nil)
-    value || FFaker::CheesyLingo.paragraph
+    value || Faker::CheesyLingo.paragraph
   end
 
   def self.screening_decision(value = nil)
@@ -156,7 +156,7 @@ module Screening
   end
 
   def self.additional_information(value = nil)
-    value || FFaker::DizzleIpsum.paragraph
+    value || Faker::DizzleIpsum.paragraph
   end
 
   def self.random(attrs = {})
