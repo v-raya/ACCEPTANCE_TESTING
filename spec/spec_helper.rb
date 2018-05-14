@@ -2,7 +2,6 @@
 
 require 'byebug'
 require 'capybara/rspec'
-require 'ffaker'
 require 'helper_methods'
 require 'shame_helpers'
 require 'react_select_helpers'
@@ -11,6 +10,7 @@ require 'participant_helpers'
 require 'address_helpers'
 require 'screening_helpers'
 require 'selenium/webdriver'
+require 'faker'
 
 Dir[File.dirname(__FILE__) + '/support/**/*.rb'].each { |f| require f }
 
