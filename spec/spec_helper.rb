@@ -2,7 +2,6 @@
 
 require 'byebug'
 require 'capybara/rspec'
-require 'ffaker'
 require 'helper_methods'
 require 'shame_helpers'
 require 'react_select_helpers'
