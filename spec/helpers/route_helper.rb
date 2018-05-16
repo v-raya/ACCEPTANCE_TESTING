@@ -14,7 +14,7 @@ end
 
 def screening_path(id: nil)
   raise StandardError, "id can't be blank" if id.blank?
-  [env_prefix, '/screening', '/', id].compact.join
+  [env_prefix, '/screenings', '/', id].compact.join
 end
 
 def edit_screening_path(id: nil)

@@ -4,7 +4,13 @@ require_relative 'snapshot'
 
 # screening
 class Screening < Snapshot
+  attr_reader :id
+
   # instance methods
+  def initialize
+    @id = Capybara.current_url.match(/[[:digit:]]{1,9}/)
+  end
+
   def complete
     ScreeningInformation.complete_form_and_save
     Narrative.complete_form_and_save
