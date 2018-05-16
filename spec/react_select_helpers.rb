@@ -40,7 +40,3 @@ module ReactSelectHelpers
     end
   end
 end
-
-RSpec.configure do |config|
-  config.include ReactSelectHelpers, type: :feature
-end
