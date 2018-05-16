@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-module Address
+# address
+class Address
   def self.all_types
     [
       'Common', 'Day Care', 'Home', 'Homeless', 'Other', 'Penal Institution',
