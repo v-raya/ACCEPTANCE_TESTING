@@ -24,9 +24,6 @@ end
 
 def new_screening_path
   'New Screening'
-  # visit root_path
-  # yield if block_given?
-  # click_button('Start Screening')
 end
 
 def env_prefix

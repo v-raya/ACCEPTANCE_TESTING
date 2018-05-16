@@ -21,26 +21,6 @@ def fill_in_credentials(user)
   $current_user ||= JSON.parse(user, object_class: OpenStruct)
 end
 
-def login_county_social_worker_only(path: root_path)
-  login_user(user: COUNTY_SOCIAL_WORKER_ONLY, path: path)
-end
-
-def login_county_sensitive_social_worker(path: root_path)
-  login_user(user: COUNTY_SENSITIVE_SOCIAL_WORKER, path: path)
-end
-
-def login_county_sealed_social_worker(path: root_path)
-  login_user(user: COUNTY_SEALED_SOCIAL_WORKER, path: path)
-end
-
-def login_state_sensitive_social_worker(path: root_path)
-  login_user(user: STATE_SENSITIVE_SOCIAL_WORKER, path: path)
-end
-
-def login_state_sealed_social_worker(path: root_path)
-  login_user(user: STATE_SEALED_SOCIAL_WORKER, path: path)
-end
-
 def logout_user
   visit '/logout'
 end

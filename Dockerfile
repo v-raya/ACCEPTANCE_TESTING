@@ -4,6 +4,5 @@ RUN bundle config --global frozen 1
 WORKDIR /usr/src/app
 ADD . $WORKDIR
 RUN bundle install -j8
-ENV USE_XVFB true
 ENV GENERATE_TEST_REPORTS yes
 ENV LC_ALL C.UTF-8

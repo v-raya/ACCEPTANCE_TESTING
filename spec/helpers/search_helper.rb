@@ -24,7 +24,3 @@ def wait_for_result_to_appear(element: 'div.autocomplete-menu')
     end
   end
 end
-
-def interact_with_node(capybara_node:, event: 'click')
-  capybara_node.send(event)
-end
