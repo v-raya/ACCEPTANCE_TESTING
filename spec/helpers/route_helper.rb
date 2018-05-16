@@ -4,6 +4,10 @@ def root_path
   '/'
 end
 
+def intake_path
+  env_prefix
+end
+
 def snapshot_path
   [env_prefix, '/snapshot'].compact.join
 end
