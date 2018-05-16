@@ -4,7 +4,6 @@ require 'bundler'
 require 'rspec/core/rake_task'
 require 'rspec_junit_formatter'
 require 'yaml'
-require 'pry'
 
 task default: :spec
 
