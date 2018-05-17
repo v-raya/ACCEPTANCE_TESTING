@@ -19,15 +19,15 @@ class CrossReport
   INPUT_FIELDS = {}.freeze
 
   CHECKBOX_FIELDS = {
-    '#type-DISTRICT_ATTORNEY' => 'District attorney',
-    '#type-LAW_ENFORCEMENT' => 'Law enforcement'
+    '#type-DISTRICT_ATTORNEY' => 'District Attorney',
+    '#type-LAW_ENFORCEMENT' => 'Law Enforcement'
   }.freeze
 
   # rubocop:disable Style/MutableConstant
   DEFAULT_VALUES = {
     county: 'Sacramento',
-    district_attorney: 'District attorney',
-    law_enforcement: 'Law enforcement'
+    district_attorney: 'District Attorney',
+    law_enforcement: 'Law Enforcement'
   }
 
   CONTAINER = '#cross-report-card'
