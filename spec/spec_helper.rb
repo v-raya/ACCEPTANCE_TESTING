@@ -37,12 +37,12 @@ RSpec.configure do |config|
   include Capybara::DSL
 
   config.before(:all, type: :feature) do
-    logout_user
+    visit logout_path
   end
 
   config.before(:each) do
     if Capybara.current_driver == :headless_chrome && self.class.metadata[:reset_user]
-      logout_user
+      visit logout_path
       send(self.class.metadata[:reset_user], user: self.class.metadata[:user],
                                              path: self.class.metadata[:path])
     end
@@ -52,7 +52,7 @@ RSpec.configure do |config|
     page.instance_variable_set(:@touched, false)
     if Capybara.current_driver == :headless_chrome &&
        self.class.metadata[:reset_user]
-      logout_user
+      visit logout_path
     end
   end
 

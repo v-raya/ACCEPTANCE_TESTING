@@ -19,15 +19,15 @@ class CrossReport
   INPUT_FIELDS = {}.freeze
 
   CHECKBOX_FIELDS = {
-    '#type-DISTRICT_ATTORNEY' => 'District attorney',
-    '#type-LAW_ENFORCEMENT' => 'Law enforcement'
+    '#type-LAW_ENFORCEMENT' => 'Law Enforcement',
+    '#type-DISTRICT_ATTORNEY' => 'District Attorney'
   }.freeze
 
   # rubocop:disable Style/MutableConstant
   DEFAULT_VALUES = {
     county: 'Sacramento',
-    district_attorney: 'District attorney',
-    law_enforcement: 'Law enforcement'
+    district_attorney: 'District Attorney',
+    law_enforcement: 'Law Enforcement'
   }
 
   CONTAINER = '#cross-report-card'
@@ -50,7 +50,7 @@ class CrossReport
     CHECKBOX_FIELDS.each do |input, label|
       check_box = find(input)
       label = find('label', text: label, exact_text: true)
-      label.select_option unless check_box.checked?
+      label.click(wait: true) unless check_box.checked?
     end
   end
 end
