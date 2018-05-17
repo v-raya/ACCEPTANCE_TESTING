@@ -8,7 +8,7 @@ class Screening < Snapshot
 
   # instance methods
   def initialize
-    @id = Capybara.current_url.match(/[[:digit:]]{1,9}/)
+    @id ||= Capybara.current_url.match(%r((?<=screenings\/)([[:digit:]]{1,9})))
   end
 
   def complete
