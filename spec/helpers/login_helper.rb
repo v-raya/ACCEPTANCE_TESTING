@@ -18,6 +18,7 @@ def fill_in_credentials(user)
   user = user.to_json if user.is_a?(Hash)
   fill_in('username', with: ENV.fetch('ACCEPTANCE_TEST_USER', user))
   click_button('Sign In')
+  expect(page).not_to have_button('Sign In')
   $current_user = JSON.parse(user, object_class: OpenStruct)
 end
 
