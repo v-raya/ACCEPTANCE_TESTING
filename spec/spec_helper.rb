@@ -4,6 +4,7 @@ require 'byebug'
 require 'capybara/rspec'
 require 'faker'
 require 'selenium/webdriver'
+require 'chromedriver/helper'
 require 'active_support/core_ext/object/blank'
 
 %w[person victim reporter perpetrator screening_information
@@ -13,6 +14,8 @@ require 'active_support/core_ext/object/blank'
 end
 Dir[File.dirname(__FILE__) + '/support/**/*.rb'].each { |f| require f }
 Dir[File.dirname(__FILE__) + '/helpers/**/*.rb'].each { |f| require f }
+
+Chromedriver.set_version('2.38')
 
 Capybara.configure do |config|
   config.app_host                = ENV.fetch('APP_URL') { raise 'You must pass the app url with APP_URL=<url>.' }
