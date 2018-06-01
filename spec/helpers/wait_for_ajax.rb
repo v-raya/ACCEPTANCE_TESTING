@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 module WaitForAjax
-  def wait_for_ajax
-    Timeout.timeout(Capybara.default_max_wait_time) do
+  def wait_for_ajax(time: Capybara.default_max_wait_time)
+    Timeout.timeout(time) do
       loop until finished_all_ajax_requests?
     end
   end

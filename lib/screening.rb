@@ -28,6 +28,7 @@ class Screening < Snapshot
 
   def click_submit
     find('div.page-header-container').click_button('SUBMIT')
+    wait_for_ajax(time: 5)
   end
 
   def click_create_new_person
