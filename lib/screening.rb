@@ -40,6 +40,7 @@ class Screening < Snapshot
         person = Object.const_get(role.capitalize).new(args)
         search_client(query: person.full_name)
         click_create_new_person
+        WaitForAjax.wait_for_ajax
         person.complete_form(args)
       end
     end
