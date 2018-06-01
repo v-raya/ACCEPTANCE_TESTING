@@ -1,9 +1,12 @@
 # frozen_string_literal: true
 
 require_relative 'date_time_helper'
+require_relative '../spec/helpers/wait_for_ajax'
 
 # form helper
 module FormHelper
+  include WaitForAjax
+
   def fill_form(**args)
     within(self::CONTAINER) do
       select_fields(args)
@@ -14,7 +17,10 @@ module FormHelper
   end
 
   def select_fields(**args)
-    self::SELECT_FIELDS.each { |key, value| select(args[key], from: value) }
+    self::SELECT_FIELDS.each do |key, value|
+      select(args[key], from: value)
+      WaitForAjax.wait_for_ajax
+    end
   end
 
   def fill_input_filds(**args)
@@ -77,7 +83,8 @@ module FormHelper
     find(self::CONTAINER)[:class].include?('edit')
   end
 
-  def clear_field(field)
-    find_field(field).send_keys([:control, 'a'], :backspace)
+  def clear_field(selector)
+    fill_in(selector, with: ' ').send_keys(:backspace)
   end
+  module_function :clear_field
 end
