@@ -9,7 +9,7 @@ module WaitForAjax
   module_function :wait_for_ajax
 
   def finished_all_ajax_requests?
-    page.evaluate_script('$.active').zero?
+    page.evaluate_script('(window.$ ? $.active : 0)').zero?
   end
   module_function :finished_all_ajax_requests?
 end
