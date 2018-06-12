@@ -39,7 +39,7 @@ node ('preint') {
     }
   } catch (Exception e) {
     errorcode = e
-    slackSend color: 'danger', channel: '#tech_intake', message: 'Intake acceptance test fail: ${env.JOB_NAME} ${env.BUILD_NUMBER}'
+    slackSend color: 'danger', channel: '#tech_intake', message: "Intake smoke acceptance tests failed: ${env.JOB_NAME} ${env.BUILD_NUMBER}"
   }
 
   finally {
