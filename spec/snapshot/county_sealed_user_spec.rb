@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe 'A Social Worker', type: :feature do
+describe 'A County Social Worker', type: :feature do
   let(:same_county_not_sensitive_not_sealed) { Person.new(first_name: 'Peter', last_name: 'Gasticke') }
   let(:same_county_sensitive_not_sealed) do
     Person.new(first_name: 'David', middle_name: 'Duggan', last_name: 'Parminter')
