@@ -15,16 +15,16 @@ DEFAULT_SUPERVISIOR = {
 }.freeze
 
 SOCIAL_WORKER_ONLY = {
-  "user": "BRADYG",
-  "staffId": "aaw",
+  "user": 'BRADYG',
+  "staffId": 'aaw',
   "roles": [
-    "SocialWorker"
+    'SocialWorker'
   ],
-  "county_code": "17",
-  "county_cws_code": "1084",
-  "county_name": "Lake",
+  "county_code": '17',
+  "county_cws_code": '1084',
+  "county_name": 'Lake',
   "privileges": [
-    "CWS Case Management System"
+    'CWS Case Management System'
   ]
 }.freeze
 
