@@ -28,16 +28,6 @@ SOCIAL_WORKER_ONLY = {
   ]
 }.freeze
 
-COUNTY_SOCIAL_WORKER_ONLY = {
-  "user": 'BRADYG',
-  "staffId": 'aaw',
-  "roles": ['SocialWorker'],
-  "county_code": '17',
-  "county_cws_code": '1084',
-  "county_name": 'Lake',
-  "privileges": ['CWS Case Management System']
-}.freeze
-
 COUNTY_SENSITIVE_SOCIAL_WORKER = {
   "user": 'BRADYP',
   "staffId": 'aax',
