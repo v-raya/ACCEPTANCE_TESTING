@@ -1,28 +1,12 @@
-r2:
-  - Release Two Enabled
-  - History Card with cases and referrals
-  - Snapshot. Person search with no results
+hotline:
+  - A Social Worker
 
-screening:
-  - Screening Index
-  - Hotline. Person search with no results
-  - Allegations Card Tests
-  - History Card with screenings
-  - History Card with cases and referrals
-  - Cross Report card
-  - Decision card
-  - Decision requires allegations
-  - Incident Information card
-  - Narrative card
-  - Partcipant Card tests
-  - Relationship card QA test
-  - Validate Screening require field labels
-  - Screening QA Test
-  - SSN masking behavior
-  - Worker Safety Card
-
-save_referral:
-  - save a zippy referral
+snapshot:
+  - A Social Worker only
+  - A County Social Worker with Sensitive privilege
+  - A County Social Worker with Sealed privilege
+  - A State Social Worker with Sensitive privilege
+  - A State Social Worker with Sealed privilege
 
 smoke:
   - Dashboard Ready
