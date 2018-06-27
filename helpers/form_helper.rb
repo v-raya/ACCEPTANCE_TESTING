@@ -24,7 +24,7 @@ module FormHelper
   end
 
   def fill_input_fields(args = {})
-    self.class::INPUT_FIELDS.each do |key, value|
+    self::INPUT_FIELDS.each do |key, value|
       Capybara.fill_in(value, with: args[key],
                               fill_options: { clear: :backspace })
     end
