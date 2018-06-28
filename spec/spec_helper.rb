@@ -46,6 +46,8 @@ Capybara.register_driver :selenium_safari do |app|
   Capybara::Selenium::Driver.new(app, browser: :safari)
 end
 
+Capybara.default_max_wait_time = 10
+
 Capybara.javascript_driver = :headless_chrome
 
 Capybara.page.driver.browser.manage.window.maximize
