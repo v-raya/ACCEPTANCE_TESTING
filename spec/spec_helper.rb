@@ -15,6 +15,12 @@ end
 Dir[File.dirname(__FILE__) + '/support/**/*.rb'].each { |f| require f }
 Dir[File.dirname(__FILE__) + '/helpers/**/*.rb'].each { |f| require f }
 
+REGISTER_DRIVERS = {
+  'selenium_firefox' => 'firefox',
+  'selenium_edge' => 'edge',
+  'selenium_ie' => 'ie'
+}
+
 Chromedriver.set_version('2.38')
 
 Capybara.configure do |config|
@@ -23,8 +29,10 @@ Capybara.configure do |config|
   config.default_driver          = ENV.fetch('CAPYBARA_DRIVER', 'headless_chrome').to_sym
 end
 
-Capybara.register_driver :selenium_firefox do |app|
-  Capybara::Selenium::Driver.new(app, browser: :firefox)
+REGISTER_DRIVERS.each do |driver, browser|
+  Capybara.register_driver driver.to_sym do |app|
+    Capybara::Selenium::Driver.new(app, browser: browser.to_sym)
+  end
 end
 
 Capybara.register_driver :headless_chrome do |app|
@@ -34,7 +42,26 @@ Capybara.register_driver :headless_chrome do |app|
   Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
 end
 
+Capybara.register_driver :selenium_safari do |app|
+  Capybara::Selenium::Driver.new(app, browser: :safari)
+end
+
 Capybara.javascript_driver = :headless_chrome
+
+Capybara.page.driver.browser.manage.window.maximize
+
+# capybara session
+module Capybara
+  # session
+  class Session
+    alias_method :old_visit, :visit
+
+    def visit(path, **_args)
+      sleep 0.2 if %i[selenium_safari].include?(Capybara.current_driver)
+      old_visit(path)
+    end
+  end
+end
 
 RSpec.configure do |config|
   include Capybara::DSL
