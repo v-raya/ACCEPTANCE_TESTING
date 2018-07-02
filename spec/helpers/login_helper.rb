@@ -11,7 +11,7 @@ def login_user(user: DEFAULT_SUPERVISIOR, password: nil, path: root_path)
 end
 
 def fill_in_login(user, password)
-  entered_user = fill_in_user_name(user, password)
+  entered_user = fill_in_user(user, password)
   fill_in_password(password) if password.present?
 
   if password.present?
@@ -23,7 +23,7 @@ def fill_in_login(user, password)
   end
 end
 
-def fill_in_user_name(user, password)
+def fill_in_user(user, password)
   user_name = if password.present? && user.is_a?(String)
                 user
               elsif user.is_a?(String)
