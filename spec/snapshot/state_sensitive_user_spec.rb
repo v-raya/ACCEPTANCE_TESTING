@@ -43,26 +43,23 @@ describe 'A State Social Worker', type: :feature do
           expect(page).to have_css('span.person', text: same_county_sensitive_not_sealed.full_name)
         end
       end
-    end
 
-    describe 'privilege revoked' do
-      it 'should not be able to attach different_county_sensitive_not_sealed client' do
+      it 'should be able to attach different_county_sensitive_not_sealed client' do
         search_client(label: 'Search for clients',
                       query: different_county_sensitive_not_sealed.search_name)
-        alert_text = accept_alert do
-          find('strong.highlighted', text: different_county_sensitive_not_sealed.full_name).click
-        end
+        find('strong.highlighted', text: different_county_sensitive_not_sealed.full_name).click
 
-        expect(alert_text).to eq 'You are not authorized to add this person.'
         within 'div.side-bar' do
-          expect(page).not_to have_css('a.link', text: different_county_sensitive_not_sealed.search_name)
+          expect(page).to have_css('a.link', text: different_county_sensitive_not_sealed.search_name)
         end
 
         within 'div#relationships-card' do
-          expect(page).not_to have_css('span.person', text: different_county_sensitive_not_sealed.full_name)
+          expect(page).to have_css('span.person', text: different_county_sensitive_not_sealed.full_name)
         end
       end
+    end
 
+    describe 'privilege revoked' do
       it 'should not be able to attach no_county_sensitive_not_sealed client' do
         search_client(label: 'Search for clients',
                       query: no_county_sensitive_not_sealed.search_name)
