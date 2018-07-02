@@ -17,8 +17,7 @@ Dir[File.dirname(__FILE__) + '/helpers/**/*.rb'].each { |f| require f }
 
 REGISTER_DRIVERS = {
   'selenium_firefox' => 'firefox',
-  'selenium_edge' => 'edge',
-  'selenium_ie' => 'ie'
+  'selenium_edge' => 'edge'
 }
 
 Chromedriver.set_version('2.38')
@@ -34,6 +33,13 @@ REGISTER_DRIVERS.each do |driver, browser|
     Capybara::Selenium::Driver.new(app, browser: browser.to_sym)
   end
 end
+
+  Capybara.register_driver :selenium_ie do |app|
+    capabilities = Selenium::WebDriver::Remote::Capabilities.ie(
+      ignore_zoom_setting: true
+    )
+    Capybara::Selenium::Driver.new(app, browser: :ie)
+  end
 
 Capybara.register_driver :headless_chrome do |app|
   options = Selenium::WebDriver::Chrome::Options.new(

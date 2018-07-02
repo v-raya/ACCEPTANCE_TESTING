@@ -17,7 +17,11 @@ end
 def fill_in_credentials(user)
   user = user.to_json if user.is_a?(Hash)
   fill_in('username', with: ENV.fetch('ACCEPTANCE_TEST_USER', user))
-  click_button('Sign In')
+  if Capybara.current_driver == :selenium_ie
+    page.evaluate_script('document.forms[0].submit()')
+  else
+    click_button('Sign In')
+  end
   WaitForAjax.wait_for_ajax
   $current_user = JSON.parse(user, object_class: OpenStruct)
 end
