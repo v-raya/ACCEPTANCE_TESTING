@@ -53,7 +53,9 @@ Capybara.default_max_wait_time = 10
 
 Capybara.javascript_driver = :headless_chrome
 
-Capybara.page.driver.browser.manage.window.maximize
+unless Capybara.current_driver == :headless_chrome
+  Capybara.page.driver.browser.manage.window.maximize
+end
 
 # capybara session
 module Capybara

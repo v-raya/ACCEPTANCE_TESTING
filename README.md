@@ -97,5 +97,7 @@ Assuming the above requirements are satisfied:
 ## <a name="running-specs"></a>Running specs
   - ### Locally
     - `APP_URL=http://intake.local.cwds.io CAPYBARA_DRIVER=selenium_chrome rspec spec`
+  - ### Integration
+    - `ACCEPTANCE_TEST_USER=<email> ACCEPTANCE_TEST_PASSWORD=<password> APP_URL=https://web.integration.cwds.io CAPYBARA_DRIVER=selenium_chrome rspec spec/snapshot`
   - ### Docker
     - `APP_URL=http://intake.local.cwds.io CAPYBARA_DRIVER=selenium_chrome docker-compose run --rm acceptance_test`
