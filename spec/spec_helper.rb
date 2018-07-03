@@ -34,12 +34,9 @@ REGISTER_DRIVERS.each do |driver, browser|
   end
 end
 
-  Capybara.register_driver :selenium_ie do |app|
-    capabilities = Selenium::WebDriver::Remote::Capabilities.ie(
-      ignore_zoom_setting: true
-    )
-    Capybara::Selenium::Driver.new(app, browser: :ie)
-  end
+Capybara.register_driver :selenium_ie do |app|
+  Capybara::Selenium::Driver.new(app, browser: :ie)
+end
 
 Capybara.register_driver :headless_chrome do |app|
   options = Selenium::WebDriver::Chrome::Options.new(

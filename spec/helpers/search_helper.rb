@@ -20,10 +20,11 @@ def blur_search_and_slow_text_input(search_field:, query:)
 end
 
 def search_client_and_select(label:, query:, text:)
+  search_client(label: label, query: query)
   if Capybara.current_driver == :selenium_ie
-    search_client(label: label, query: query).send_keys(:enter)
+    script = "$('strong.highlighted:contains(#{text})').first().click()"
+    page.execute_script(script)
   else
-    search_client(label: label, query: query)
     find('strong.highlighted', text: text).click
   end
 end
