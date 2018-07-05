@@ -17,8 +17,7 @@ Dir[File.dirname(__FILE__) + '/helpers/**/*.rb'].each { |f| require f }
 
 REGISTER_DRIVERS = {
   'selenium_firefox' => 'firefox',
-  'selenium_edge' => 'edge',
-  'selenium_ie' => 'ie'
+  'selenium_edge' => 'edge'
 }
 
 Chromedriver.set_version('2.38')
@@ -35,6 +34,10 @@ REGISTER_DRIVERS.each do |driver, browser|
   end
 end
 
+Capybara.register_driver :selenium_ie do |app|
+  Capybara::Selenium::Driver.new(app, browser: :ie)
+end
+
 Capybara.register_driver :headless_chrome do |app|
   options = Selenium::WebDriver::Chrome::Options.new(
     args: %w[headless no-sandbox]
@@ -45,6 +48,8 @@ end
 Capybara.register_driver :selenium_safari do |app|
   Capybara::Selenium::Driver.new(app, browser: :safari)
 end
+
+Capybara.default_max_wait_time = 10
 
 Capybara.javascript_driver = :headless_chrome
 
@@ -73,17 +78,18 @@ RSpec.configure do |config|
   end
 
   config.before(:each) do
-    if Capybara.current_driver == :headless_chrome && self.class.metadata[:reset_user]
+    if (Capybara.current_driver == :headless_chrome || ENV['RESET_USER'].present?) &&
+       self.class.metadata[:user]
       visit logout_path
-      send(self.class.metadata[:reset_user], user: self.class.metadata[:user],
-                                             path: self.class.metadata[:path])
+      send('login_user', user: self.class.metadata[:user],
+                         path: self.class.metadata[:path])
     end
   end
 
   config.after(:each) do
     page.instance_variable_set(:@touched, false)
-    if Capybara.current_driver == :headless_chrome &&
-       self.class.metadata[:reset_user]
+    if (Capybara.current_driver == :headless_chrome || ENV['RESET_USER'].present?) &&
+       self.class.metadata[:user]
       visit logout_path
     end
   end

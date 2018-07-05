@@ -10,7 +10,7 @@ module FormHelper
   def fill_form(**args)
     within(self::CONTAINER) do
       select_fields(args)
-      fill_input_filds(args)
+      fill_input_fields(args)
       fill_multi_select_form(args)
       select_check_box_fields(args)
     end
