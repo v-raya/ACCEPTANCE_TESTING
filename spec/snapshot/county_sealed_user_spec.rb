@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 describe 'A County Social Worker', type: :feature do
+  user = COUNTY_SEALED_SOCIAL_WORKER
   let(:same_county_not_sensitive_not_sealed) { Person.new(first_name: 'Peter', last_name: 'Gasticke') }
   let(:same_county_sensitive_not_sealed) do
     Person.new(first_name: 'David', middle_name: 'Duggan', last_name: 'Parminter')
@@ -15,7 +16,7 @@ describe 'A County Social Worker', type: :feature do
 
   describe 'with Sealed' do
     before(:all) do
-      login_user(user: COUNTY_SEALED_SOCIAL_WORKER, path: snapshot_path)
+      login_user(user: user, path: snapshot_path)
     end
 
     describe 'privilege granted' do
@@ -68,7 +69,7 @@ describe 'A County Social Worker', type: :feature do
       end
     end
 
-    describe 'privilege revoked' do
+    describe 'privilege revoked', user: user, path: snapshot_path do
       it 'should not be able to attach same_county_sensitive_not_sealed client' do
         alert_text = accept_alert do
           search_client_and_select(label: 'Search for clients',

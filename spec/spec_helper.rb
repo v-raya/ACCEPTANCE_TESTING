@@ -78,17 +78,18 @@ RSpec.configure do |config|
   end
 
   config.before(:each) do
-    if Capybara.current_driver == :headless_chrome && self.class.metadata[:reset_user]
+    if (Capybara.current_driver == :headless_chrome || ENV['RESET_USER'].present?) &&
+       self.class.metadata[:user]
       visit logout_path
-      send(self.class.metadata[:reset_user], user: self.class.metadata[:user],
-                                             path: self.class.metadata[:path])
+      send('login_user', user: self.class.metadata[:user],
+                         path: self.class.metadata[:path])
     end
   end
 
   config.after(:each) do
     page.instance_variable_set(:@touched, false)
-    if Capybara.current_driver == :headless_chrome &&
-       self.class.metadata[:reset_user]
+    if (Capybara.current_driver == :headless_chrome || ENV['RESET_USER'].present?) &&
+       self.class.metadata[:user]
       visit logout_path
     end
   end
