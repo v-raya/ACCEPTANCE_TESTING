@@ -16,6 +16,7 @@ def fill_in_login(user, password)
 
   if password.present?
     Capybara.find_field('signInSubmitButton').click
+    redirect_from_confirmation_page
   else
     Capybara.click_button('Sign In')
     WaitForAjax.wait_for_ajax
@@ -49,6 +50,10 @@ def redirect_to_intented_path(path)
   else
     Capybara.visit path
   end
+end
+
+def redirect_from_confirmation_page
+  Capybara.click_button('Sign In as') if Capybara.has_button?('Sign In as')
 end
 
 def logout_user
