@@ -25,7 +25,7 @@ def search_client_and_select(label:, query:, text:)
     script = "$('strong.highlighted:contains(#{text})').first().click()"
     page.execute_script(script)
   else
-    find('strong.highlighted', text: text).click
+    find('div.autocomplete-menu .col-md-12', text: text).click
   end
 end
 

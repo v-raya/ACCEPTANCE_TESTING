@@ -25,26 +25,58 @@ describe 'A County Social Worker', type: :feature do
                                  query: same_county_not_sensitive_not_sealed.search_name,
                                  text: same_county_not_sensitive_not_sealed.full_name)
 
-        within 'div.side-bar' do
-          expect(page).to have_css('a.link', text: same_county_not_sensitive_not_sealed.search_name)
+        within('div.side-bar') do
+          expect(page).to \
+            have_css('div.side-bar a.link',
+                     text: same_county_not_sensitive_not_sealed.search_name)
         end
 
-        within 'div#relationships-card' do
-          expect(page).to have_css('span.person', text: same_county_not_sensitive_not_sealed.full_name)
+        within('div#relationships-card') do
+          expect(page).to \
+            have_css('.card-body', text: "#{same_county_not_sensitive_not_sealed.full_name} is the...")
+        end
+
+        within('div#history-card') do
+          expect(page).to have_css('table')
+        end
+      end
+
+      it 'should attach relation for same_county_not_sensitive_not_sealed' do
+        first('div#relationships-card a', text: 'Attach').click
+
+        within('div#relationships-card') do
+          expect(page).to \
+            have_css('span', text: "of #{same_county_not_sensitive_not_sealed.full_name}")
+        end
+      end
+
+      it 'should remove same_county_not_sensitive_not_sealed' do
+        first('div.card-header span', text: same_county_not_sensitive_not_sealed.full_name)
+          .find(:xpath, '..').click_button('Remove')
+
+        expect(page).not_to have_css('div.side-bar a.link', text: same_county_not_sensitive_not_sealed.search_name)
+
+        within('div#relationships-card') do
+          expect(page).not_to \
+            have_css('.card-body', text: "#{same_county_not_sensitive_not_sealed.full_name} is the...")
+        end
+
+        within('div#history-card') do
+          expect(page).not_to have_css('table')
         end
       end
 
       it 'should attach same_county_not_sensitive_sealed client' do
-        search_client_and_select(label: 'Search for clients', query: same_county_not_sensitive_sealed.search_name,
+        search_client_and_select(label: 'Search for clients',
+                                 query: same_county_not_sensitive_sealed.search_name,
                                  text: same_county_not_sensitive_sealed.full_name)
 
-        within 'div.side-bar' do
-          expect(page).to have_css('a.link', text: same_county_not_sensitive_sealed.search_name)
-        end
+        side_bar_link = find('div.side-bar a.link', text: same_county_not_sensitive_sealed.search_name)
+        expect(side_bar_link).to be_present
 
-        within 'div#relationships-card' do
-          expect(page).to have_css('span.person', text: same_county_not_sensitive_sealed.full_name)
-        end
+        relation_card = find('div#relationships-card .card-body',
+                             text: "#{same_county_not_sensitive_sealed.full_name} is the...")
+        expect(relation_card).to be_present
       end
 
       it 'should attach no_county_not_sensitive_sealed client' do
@@ -52,12 +84,14 @@ describe 'A County Social Worker', type: :feature do
                                  query: no_county_not_sensitive_sealed.search_name,
                                  text: no_county_not_sensitive_sealed.full_name)
 
-        within 'div.side-bar' do
-          expect(page).to have_css('a.link', text: no_county_not_sensitive_sealed.search_name)
+        within('div.side-bar') do
+          expect(page).to have_css('div.side-bar a.link', text: no_county_not_sensitive_sealed.search_name)
         end
 
-        within 'div#relationships-card' do
-          expect(page).to have_css('span.person', text: no_county_not_sensitive_sealed.full_name)
+        within('div#relationships-card') do
+          expect(page).to \
+            have_css('.card-body',
+                     text: "#{no_county_not_sensitive_sealed.full_name} has no known relationships")
         end
       end
 
@@ -83,8 +117,10 @@ describe 'A County Social Worker', type: :feature do
         end
 
         within 'div#relationships-card' do
-          expect(page).not_to have_css('span.person', text: same_county_sensitive_not_sealed.full_name)
+          expect(page).to have_css('span.person', text: same_county_sensitive_not_sealed.full_name)
         end
+
+        expect(page).to have_no_table('div#history-card')
       end
 
       it 'should not be able to attach different_county_sensitive_not_sealed client' do
