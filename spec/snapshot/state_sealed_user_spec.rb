@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 describe 'A State Social Worker', type: :feature do
-  user = STATE_SEALED_SOCIAL_WORKER 
+  user = STATE_SEALED_SOCIAL_WORKER
   let(:different_county_not_sensitive_not_sealed) { Person.new(first_name: 'Peter', last_name: 'Gasticke') }
   let(:same_county_sensitive_not_sealed) { Person.new(first_name: 'Cronathan', last_name: 'Schofield') }
   let(:same_county_sealed_not_sensitive) { Person.new(first_name: 'Victim1', last_name: 'Fennell') }
