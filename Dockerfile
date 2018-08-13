@@ -1,4 +1,4 @@
-FROM cwds/intake_testing_base_image:latest
+FROM cwds/intake_testing_base_image:2.1
 LABEL application=acceptance_black_box
 RUN bundle config --global frozen 1
 WORKDIR /usr/src/app
