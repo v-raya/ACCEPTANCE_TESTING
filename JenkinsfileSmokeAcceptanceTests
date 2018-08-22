@@ -32,7 +32,7 @@ node ('preint') {
     stage ('Integration Env Deploy') {
                build job: '/Integration Environment/intake-app-pipeline/',
                    parameters: [
-                   string(name: 'APP_VERSION', value: APP_VERSION),
+                   string(name: 'APP_VERSION', value: INTAKE_APP_VERSION),
                    string(name: 'INVENTORY', value: 'inventories/integration/hosts.yml'),
                    string(name: 'PLAYBOOK_NAME', value: 'deploy-intake.yml'),
                    string(name: 'ENABLE_NEWRELIC', value: 'true'),
