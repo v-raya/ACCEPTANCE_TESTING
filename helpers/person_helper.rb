@@ -61,23 +61,26 @@ module PersonHelpers
     middle_name: 'Middle Name',
     last_name: 'Last Name',
     ssn: 'Social security number',
-    date_of_birth_input: 'Date of birth'
+    date_of_birth_input: 'Date of birth',
+    approximate_age: 'Approximate Age'
   }.freeze
 
-  DEFAULT_VALUES = {
-    first_name: Faker::Name.first_name,
-    middle_name: Faker::Name.first_name,
-    last_name: Faker::Name.last_name,
-    ssn: Faker::Base.numerify('7##-1#-####'),
-    date_of_birth_input: Faker::Date.birthday(18, 66).strftime('%m/%d/%Y'),
-    suffix: '',
-    approximate_age_units: APPROXIMATE_AGE.sample,
-    gender: SEX_AT_BIRTH.sample,
-    race: RACES.keys.sample,
-    ethnicity: HISPANIC_LATINO_ORIGIN.keys.sample,
-    role: ROLES.sample(1),
-    languages: LANGUAGES.sample(2)
-  }.freeze
+  def default_values(**args)
+    {
+      first_name: first_name, middle_name: middle_name,
+      last_name: last_name, ssn: ssn, suffix: suffix,
+      date_of_birth_input: date_of_birth, role: role,
+      gender: args.fetch(:gender, SEX_AT_BIRTH.sample),
+      race: args.fetch(:races, RACES.keys.sample),
+      ethnicity: args.fetch(:ethnicity, HISPANIC_LATINO_ORIGIN.keys.sample),
+      languages: args.fetch(:languages, LANGUAGES.sample(2))
+    }
+  end
 
-  CONTAINER = ''
+  def approximate_age(**args)
+    {
+      approximate_age: rand(1..10),
+      approximate_age_units: args.fetch(:approximate_age_units, APPROXIMATE_AGE.sample),
+    }
+  end
 end

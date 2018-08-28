@@ -26,17 +26,15 @@ class Allegation
 
   CONTAINER = '#allegations-card'
 
-  def self.generate_clients
-    screening = Screening.new
-    screening.create_victim
-    screening.create_reporter
-    screening.create_perpetrator
-  end
+  def self.fill_form(**args)
+    inputs = find_all(MULTI_SELECT_FIELDS[:select_input])
+    raise StandardError, 'create or attach a victim first' if inputs.blank?
 
-  def self.fill_form(**_args)
-    generate_clients
-    find_all(MULTI_SELECT_FIELDS[:select_input]).each do |element|
-      ALLEGATION.sample(2).each { |allegation| element.set(allegation).send_keys(:enter) }
+    within(CONTAINER) do
+      inputs.each do |element|
+        allegations = args.fetch(:allegations, ALLEGATION.sample(2))
+        allegations.each { |allegation| element.set(allegation).send_keys(:enter) }
+      end
     end
   end
 end

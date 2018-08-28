@@ -8,7 +8,7 @@ class WorkerSafety
 
   SAFETY_ALERTS = ['Dangerous Animal on Premises', 'Dangerous Environment',
                    'Firearms in Home', 'Gang Affiliation or Gang Activity',
-                   'Hostile, Aggressive Client', 'Remote or Isolated Location',
+                   'Hostile Aggressive Client', 'Remote or Isolated Location',
                    'Severe Mental Health Status', 'Threat or Assault on Staff Member',
                    'Other'].freeze
   SELECT_FIELDS = {}.freeze
