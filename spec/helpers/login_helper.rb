@@ -3,57 +3,30 @@
 require 'json'
 require_relative 'default_users_helper'
 
-def login_user(user: DEFAULT_SUPERVISIOR, password: nil, path: root_path)
-  Capybara.visit '/'
-  password = ENV.fetch('ACCEPTANCE_TEST_PASSWORD', password)
-  fill_in_login(user, password)
-  redirect_to_intented_path(path)
+def login_user(user: DEFAULT_SUPERVISIOR, path: root_path)
+  Capybara.visit path
+  fill_in_login(user)
 end
 
-def fill_in_login(user, password)
-  entered_user = fill_in_user(user, password)
-  fill_in_password(password) if password.present?
-
-  if password.present?
-    Capybara.find_field('signInSubmitButton').click
-    redirect_from_confirmation_page
+def fill_in_login(user)
+  if ENV['APP_URL'].include?('local') || ENV['APP_URL'].include?('preint')
+    low_level_environment(user)
   else
+    Capybara.fill_in('Email', with: ENV['ACCEPTANCE_TEST_USER'])
+    Capybara.fill_in('Password', with: ENV['ACCEPTANCE_TEST_PASSWORD'])
     Capybara.click_button('Sign In')
-    WaitForAjax.wait_for_ajax
-    $current_user = JSON.parse(entered_user, object_class: OpenStruct)
+    multi_factor_auth
   end
 end
 
-def fill_in_user(user, password)
-  user_name = if password.present? && user.is_a?(String)
-                user
-              elsif user.is_a?(String)
-                Demo::DEFAULT_USERS[user || 'default_supervisior'].to_json
-              else
-                user.to_json
-              end
-  Capybara.fill_in('username', with: ENV.fetch('ACCEPTANCE_TEST_USER', user_name))
-  user_name
+def low_level_environment(user)
+  Capybara.fill_in('Authorization JSON', with: user.to_json)
+  Capybara.click_button('Sign In')
 end
 
-def fill_in_password(password)
-  Capybara.fill_in('password', with: password)
-end
-
-def redirect_to_intented_path(path)
-  if path.include?('/intake/screenings/new')
-    Capybara.visit '/intake'
-    Capybara.click_button('Start Screening')
-  elsif path.include?('/screenings/new')
-    Capybara.visit '/'
-    Capybara.click_button('Start Screening')
-  else
-    Capybara.visit path
-  end
-end
-
-def redirect_from_confirmation_page
-  Capybara.click_button('Sign In as') if Capybara.has_button?('Sign In as')
+def multi_factor_auth
+  Capybara.fill_in('Enter Code', with: ENV['MFA'])
+  Capybara.click_button('Verify')
 end
 
 def logout_user

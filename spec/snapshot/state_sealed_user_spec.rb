@@ -19,9 +19,8 @@ describe 'A State Social Worker', type: :feature do
 
     describe 'privilege granted' do
       it 'should attach different_county_not_sensitive_not_sealed client' do
-        search_client_and_select(label: 'Search for clients',
-                                 query: different_county_not_sensitive_not_sealed.search_name,
-                                 text: different_county_not_sensitive_not_sealed.full_name)
+        search_client(query: different_county_not_sensitive_not_sealed.search_name)
+        select_client(text: different_county_not_sensitive_not_sealed.full_name)
 
         within 'div.side-bar' do
           expect(page).to have_css('a.link', text: different_county_not_sensitive_not_sealed.search_name)
@@ -33,9 +32,8 @@ describe 'A State Social Worker', type: :feature do
       end
 
       it 'should attach same_county_sealed_not_sensitive client' do
-        search_client_and_select(label: 'Search for clients',
-                                 query: same_county_sealed_not_sensitive.search_name,
-                                 text: same_county_sealed_not_sensitive.full_name)
+        search_client(query: same_county_sealed_not_sensitive.search_name)
+        select_client(text: same_county_sealed_not_sensitive.full_name)
 
         within 'div.side-bar' do
           expect(page).to have_css('a.link', text: same_county_sealed_not_sensitive.search_name)
@@ -47,9 +45,8 @@ describe 'A State Social Worker', type: :feature do
       end
 
       it 'should attach no_county_sealed_not_sensitive client' do
-        search_client_and_select(label: 'Search for clients',
-                                 query: no_county_sealed_not_sensitive.search_name,
-                                 text: no_county_sealed_not_sensitive.full_name)
+        search_client(query: no_county_sealed_not_sensitive.search_name)
+        select_client(text: no_county_sealed_not_sensitive.full_name)
 
         within 'div.side-bar' do
           expect(page).to have_css('a.link', text: no_county_sealed_not_sensitive.search_name)
@@ -64,9 +61,8 @@ describe 'A State Social Worker', type: :feature do
     describe 'privilege revoked', user: user, path: snapshot_path do
       it 'should not be able to attach same_county_sensitive_not_sealed client' do
         alert_text = accept_alert do
-          search_client_and_select(label: 'Search for clients',
-                                   query: same_county_sensitive_not_sealed.search_name,
-                                   text: same_county_sensitive_not_sealed.full_name)
+          search_client(query: same_county_sensitive_not_sealed.search_name)
+          select_client(text: same_county_sensitive_not_sealed.full_name)
         end
 
         expect(alert_text).to eq 'You are not authorized to add this person.'
@@ -81,9 +77,8 @@ describe 'A State Social Worker', type: :feature do
 
       it 'should not be able to attach no_county_sensitive_not_sealed client' do
         alert_text = accept_alert do
-          search_client_and_select(label: 'Search for clients',
-                                   query: no_county_sensitive_not_sealed.search_name,
-                                   text: no_county_sensitive_not_sealed.full_name)
+          search_client(query: no_county_sensitive_not_sealed.search_name)
+          select_client(text: no_county_sensitive_not_sealed.full_name)
         end
 
         expect(alert_text).to eq 'You are not authorized to add this person.'
@@ -98,9 +93,8 @@ describe 'A State Social Worker', type: :feature do
 
       it 'should not be able to attach different_county_sensitive_not_sealed client' do
         alert_text = accept_alert do
-          search_client_and_select(label: 'Search for clients',
-                                   query: different_county_sensitive_not_sealed.search_name,
-                                   text: different_county_sensitive_not_sealed.full_name)
+          search_client(query: different_county_sensitive_not_sealed.search_name)
+          select_client(text: different_county_sensitive_not_sealed.full_name)
         end
 
         expect(alert_text).to eq 'You are not authorized to add this person.'
@@ -114,7 +108,7 @@ describe 'A State Social Worker', type: :feature do
       end
 
       it 'should not be able to attach different_county_sealed_not_sensitive client' do
-        search_client(label: 'Search for clients', query: different_county_sealed_not_sensitive.search_name)
+        search_client(query: different_county_sealed_not_sensitive.search_name)
         node = find('strong', text: /#{different_county_sealed_not_sensitive.full_name}/)
 
         expect(node.text).to eq "No results were found for \"#{different_county_sealed_not_sensitive.full_name}\""

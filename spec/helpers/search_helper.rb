@@ -2,8 +2,8 @@
 
 require_relative '../../helpers/form_helper'
 
-def search_client(label: 'Search for any person', query:)
-  search_field = Capybara.find(:fillable_field, label)
+def search_client(query:)
+  search_field = Capybara.find(:fillable_field, 'Search for')
   if Capybara.current_driver == :selenium_edge
     blur_search_and_slow_text_input(search_field: search_field, query: query)
   else
@@ -19,13 +19,12 @@ def blur_search_and_slow_text_input(search_field:, query:)
   query.to_s.split(//).each { |l| search_field.set(l, clear: :none) }
 end
 
-def search_client_and_select(label:, query:, text:)
-  search_client(label: label, query: query)
+def select_client(text:)
   if Capybara.current_driver == :selenium_ie
     script = "$('strong.highlighted:contains(#{text})').first().click()"
     page.execute_script(script)
   else
-    find('div.autocomplete-menu .col-md-12', text: text).click
+    find('div.autocomplete-menu .search-item', text: text).click
   end
 end
 

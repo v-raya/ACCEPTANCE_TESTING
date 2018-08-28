@@ -8,6 +8,7 @@ module FormHelper
   include WaitForAjax
 
   def fill_form(**args)
+    edit_form if not_editable?
     within(self::CONTAINER) do
       select_fields(args)
       fill_input_fields(args)
@@ -23,7 +24,7 @@ module FormHelper
     end
   end
 
-  def fill_input_fields(args = {})
+  def fill_input_fields(**args)
     self::INPUT_FIELDS.each do |key, value|
       Capybara.fill_in(value, with: args[key],
                               fill_options: { clear: :backspace })
@@ -49,17 +50,17 @@ module FormHelper
   end
 
   def fill_form_and_save(**args)
-    fill_form(**args)
+    fill_form(args)
     click_save
   end
 
   def complete_form(**args)
-    complete_hash = Hash[self::DEFAULT_VALUES.each { |key, value| args.fetch(key, value) }]
-    fill_form(complete_hash)
+    self::DEFAULT_VALUES.each { |key, value| args[key] = value if args[key].blank? }
+    fill_form(args)
   end
 
   def complete_form_and_save(**args)
-    complete_form(**args)
+    complete_form(args)
     click_save
   end
 
