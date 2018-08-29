@@ -32,13 +32,7 @@ class CrossReport
 
   CONTAINER = '#cross-report-card'
 
-  def self.complete_form(**args)
-    DEFAULT_VALUES[:county] = $current_user.county_name || 'Sacramento'
-    super
-  end
-
   def self.fill_form(**args)
-    edit_form if not_editable?
     super
     within CONTAINER do
       fill_in('Cross Reported on Date', with: past_date)

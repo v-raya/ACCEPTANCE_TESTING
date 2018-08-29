@@ -21,4 +21,13 @@ class Narrative
   }.freeze
 
   CONTAINER = '#narrative-card'
+
+  def self.fill_input_fields(**args)
+    self::INPUT_FIELDS.each do |key, value|
+      next if args[key].blank?
+      args[key].split(//).each do |l|
+        Capybara.fill_in(value, with: l, fill_options: { clear: :none })
+      end
+    end
+  end
 end

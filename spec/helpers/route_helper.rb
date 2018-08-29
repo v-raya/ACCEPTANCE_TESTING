@@ -23,7 +23,7 @@ def edit_screening_path(id: nil)
 end
 
 def new_screening_path
-  'New Screening'
+  [env_prefix, '/screenings', '/new'].compact.join
 end
 
 def logout_path
@@ -31,6 +31,6 @@ def logout_path
 end
 
 def env_prefix
-  return nil if ENV['APP_URL'].blank? || ENV['APP_URL'].include?('local')
+  return nil if ENV['APP_URL'].include?('local')
   '/intake'
 end
