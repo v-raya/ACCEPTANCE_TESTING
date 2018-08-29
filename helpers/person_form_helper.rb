@@ -49,7 +49,6 @@ module PersonFormHelper
 
   def set_ethnicity_detail(key, _value, **args)
     return if args[:ethnicity] != key
-    byebug
     Capybara.find("#participant-#{@id}-ethnicity-detail")
             .first(:option, self.class::HISPANIC_LATINO_ORIGIN[args[:ethnicity]].sample)
             .select_option
