@@ -8,7 +8,6 @@ module PersonFormHelper
   include WaitForAjax
 
   def fill_form(**args)
-    # edit_form if not_editable?
     within(participant_element) do
       select_fields(args)
       fill_input_fields(args)
@@ -33,9 +32,17 @@ module PersonFormHelper
   def fill_input_fields(**args)
     self.class::INPUT_FIELDS.each do |key, value|
       next if args[key].blank?
-      Capybara.fill_in(value, with: args[key],
-                              fill_options: { clear: :backspace })
+      if key == :date_of_birth_input
+        2.times { fill_input_field(args[key], value) }
+      else
+        fill_input_field(args[key], value)
+      end
     end
+  end
+
+  def fill_input_field(text, field)
+    Capybara.fill_in(field, with: text,
+                            fill_options: { clear: :backspace })
   end
 
   def fill_multi_select_form(**args)

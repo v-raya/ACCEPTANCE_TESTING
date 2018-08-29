@@ -19,6 +19,14 @@ describe 'A State Social Worker', type: :feature do
       date_of_birth_input: (Date.today - (365 * 25)).strftime('%m/%d/%Y')
     }
   end
+  let(:perpetrator) do
+    {
+      first_name: 'Create',
+      middle_name: 'New',
+      last_name: 'User',
+      date_of_birth_input: (Date.today - (365 * 55)).strftime('%m/%d/%Y')
+    }
+  end
 
   before(:all) do
     login_user(user: user, path: new_screening_path)
@@ -76,6 +84,9 @@ describe 'A State Social Worker', type: :feature do
         end
         screening.attach_reporter(reporter) do |person|
           person.complete_form_and_save(reporter)
+        end
+        screening.create_perpetrator(perpetrator) do |person|
+          person.complete_form_and_save(perpetrator)
         end
 
         allegations = { allegations: ['General Neglect'] }

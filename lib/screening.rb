@@ -29,17 +29,13 @@ class Screening < Snapshot
     WaitForAjax.wait_for_ajax
   end
 
-  def click_create_new_person
-    click_button('Create a new person')
-  end
-
   %w[victim reporter perpetrator].each do |role|
     define_method "attach_#{role}" do |**args, &block|
       person = Object.const_get(role.capitalize).new(args)
       search_client(query: person.full_name)
       select_client(text: person.search_name)
-      block.present? ? block.call(person) : person.fill_form(args)
       WaitForAjax.wait_for_ajax
+      block.present? ? block.call(person) : person.fill_form(args)
     end
   end
 
@@ -48,8 +44,8 @@ class Screening < Snapshot
       person = Object.const_get(role.capitalize).new(args)
       search_client(query: person.full_name)
       click_create_new_person
-      block.present? ? block.call(person) : person.fill_form(args)
       WaitForAjax.wait_for_ajax
+      block.present? ? block.call(person) : person.fill_form(args)
     end
   end
 end

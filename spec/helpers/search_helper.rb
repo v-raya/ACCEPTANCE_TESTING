@@ -28,6 +28,10 @@ def select_client(text:)
   end
 end
 
+def click_create_new_person
+  Capybara.click_button('Create a new person')
+end
+
 def wait_for_result_to_appear(element: 'div.autocomplete-menu')
   Timeout.timeout(Capybara.default_max_wait_time) do
     if page.first(element).visible?
