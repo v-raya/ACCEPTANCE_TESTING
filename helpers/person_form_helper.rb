@@ -13,10 +13,13 @@ module PersonFormHelper
       fill_input_fields(args)
       fill_multi_select_form(args)
       select_check_box_fields(args)
+      select_fields_with_card_id(args)
     end
   end
 
   def participant_element
+    return "#participants-card-#{@id}" if @id.present?
+
     element = first('.card.participant')
     @id = element[:id].match(/\d+/)
     "#participants-card-#{@id}"
@@ -27,6 +30,29 @@ module PersonFormHelper
       next if args[key].blank?
       Capybara.select(args[key], from: value)
     end
+  end
+
+  def select_fields_with_card_id(**args)
+    lookup_race_details_fields.each do |key, value|
+      next if args[key].blank?
+      set_race_detail(key, value, args)
+      set_ethnicity_detail(key, value)
+    end
+  end
+
+  def set_race_detail(key, value, **args)
+    return if args[:race] != key
+    Capybara.find(value)
+            .first(:option, self.class::RACES[args[:race]].sample)
+            .select_option
+  end
+
+  def set_ethnicity_detail(key, _value, **args)
+    return if args[:ethnicity] != key
+    byebug
+    Capybara.find("#participant-#{@id}-ethnicity-detail")
+            .first(:option, self.class::HISPANIC_LATINO_ORIGIN[args[:ethnicity]].sample)
+            .select_option
   end
 
   def fill_input_fields(**args)

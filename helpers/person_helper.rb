@@ -8,7 +8,7 @@ module PersonHelpers
     'White' => ['Armenian', 'Central American',
                 'European', 'Middle Eastern',
                 'Romanian'],
-    'Black or African American' => %w[Black Ethiopian Caribbean],
+    'Black or African American' => %w[Ethiopian Caribbean],
     'Asian' => ['Asian Indian', 'Cambodian', 'Chinese', 'Filipino', 'Hmong',
                 'Japanese', 'Korean', 'Laotion', 'Other Asian', 'Vietnamese'],
     'American Indian or Alaska Native' => ['American Indian', 'Alaska Native'],
@@ -42,7 +42,6 @@ module PersonHelpers
 
   SELECT_FIELDS = {
     suffix: 'Suffix',
-    approximate_age_units: 'approximate_age_units',
     gender: 'Sex at Birth'
   }.freeze
 
@@ -80,7 +79,21 @@ module PersonHelpers
   def approximate_age(**args)
     {
       approximate_age: rand(1..10),
-      approximate_age_units: args.fetch(:approximate_age_units, APPROXIMATE_AGE.sample),
+      approximate_age_units: args.fetch(:approximate_age_units, APPROXIMATE_AGE.sample)
+    }
+  end
+
+  def lookup_approxiate_age_unit_field
+    { approximate_age_units: "#person-#{@id}-approximate-age-units" }
+  end
+
+  def lookup_race_details_fields
+    {
+      'White' => "#participant-#{@id}-White-race-detail",
+      'Black or African American' => "#participant-#{@id}-Black_or_African_American-race-detail",
+      'Asian' => "#participant-#{@id}-Asian-race-detail",
+      'American Indian or Alaska Native' => "#participant-#{@id}-American_Indian_or_Alaska_Native-race-detail",
+      'Native Hawaiian or Other Pacific Islander' => "#participant-#{@id}-Native_Hawaiian_or_Other_Pacific_Islander-race-detail"
     }
   end
 end
