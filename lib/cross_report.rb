@@ -23,20 +23,22 @@ class CrossReport
     '#type-DISTRICT_ATTORNEY' => 'District Attorney'
   }.freeze
 
-  # rubocop:disable Style/MutableConstant
   DEFAULT_VALUES = {
     county: 'Sacramento',
     district_attorney: 'District Attorney',
     law_enforcement: 'Law Enforcement'
-  }
+  }.freeze
 
   CONTAINER = '#cross-report-card'
 
   def self.fill_form(**args)
     super
     within CONTAINER do
-      fill_in('Cross Reported on Date', with: past_date)
       select(COMMUNICATION_METHOD.sample, from: 'Communication Method')
+      2.times do
+        fill_in('Cross Reported on Date', with: past_date,
+                                          fill_options: { clear: :backspace })
+      end
     end
   end
 

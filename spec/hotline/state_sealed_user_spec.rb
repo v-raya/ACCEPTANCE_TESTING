@@ -13,9 +13,9 @@ describe 'A State Social Worker', type: :feature do
   end
   let(:reporter) do
     {
-      first_name: 'Mohammed',
+      first_name: 'Bob',
       middle_name: '',
-      last_name: 'John',
+      last_name: 'Lujan',
       date_of_birth_input: (Date.today - (365 * 25)).strftime('%m/%d/%Y')
     }
   end
@@ -63,7 +63,7 @@ describe 'A State Social Worker', type: :feature do
 
       it 'Incident Information completes and saves' do
         data = {
-          incident_date: '08/01/2018 3:44 PM',
+          incident_date: '08/01/2018',
           street_address: '547 Rare St',
           city: 'Sacramento',
           zip: '99999',

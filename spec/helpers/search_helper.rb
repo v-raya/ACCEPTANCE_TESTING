@@ -24,12 +24,16 @@ def select_client(text:)
     script = "$('strong.highlighted:contains(#{text})').first().click()"
     page.execute_script(script)
   else
-    find('div.autocomplete-menu .search-item', text: text).click
+    element = Capybara.find('div.autocomplete-menu .search-item', text: text)
+    element.hover
+    element.click
   end
 end
 
 def click_create_new_person
-  Capybara.click_button('Create a new person')
+  element = Capybara.find_button('Create a new person')
+  element.hover
+  element.click
 end
 
 def wait_for_result_to_appear(element: 'div.autocomplete-menu')

@@ -26,9 +26,18 @@ module FormHelper
 
   def fill_input_fields(**args)
     self::INPUT_FIELDS.each do |key, value|
-      Capybara.fill_in(value, with: args[key],
-                              fill_options: { clear: :backspace })
+      next if args[key].blank?
+      if %i[start_date end_date incident_date].include?(key)
+        2.times { fill_input_field(args[key], value) }
+      else
+        fill_input_field(args[key], value)
+      end
     end
+  end
+
+  def fill_input_field(text, field)
+    Capybara.find(:fillable_field, field)
+            .set(text, clear: :backspace)
   end
 
   def fill_multi_select_form(**args)

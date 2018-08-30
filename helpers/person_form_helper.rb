@@ -1,11 +1,13 @@
 # frozen_string_literal: true
 
 require_relative 'date_time_helper'
+require_relative 'race_ethnicity_helper'
 require_relative '../spec/helpers/wait_for_ajax'
 
 # form helper
 module PersonFormHelper
   include WaitForAjax
+  include RaceEthnicityHelper
 
   def fill_form(**args)
     within(participant_element) do
@@ -13,7 +15,6 @@ module PersonFormHelper
       fill_input_fields(args)
       fill_multi_select_form(args)
       select_check_box_fields(args)
-      select_fields_with_card_id(args)
     end
   end
 
@@ -34,24 +35,9 @@ module PersonFormHelper
 
   def select_fields_with_card_id(**args)
     lookup_race_details_fields.each do |key, value|
-      next if args[key].blank?
-      set_race_detail(key, value, args)
-      set_ethnicity_detail(key, value)
+      assign_race_detail(key, value)
     end
-  end
-
-  def set_race_detail(key, value, **args)
-    return if args[:race] != key
-    Capybara.find(value)
-            .first(:option, self.class::RACES[args[:race]].sample)
-            .select_option
-  end
-
-  def set_ethnicity_detail(key, _value, **args)
-    return if args[:ethnicity] != key
-    Capybara.find("#participant-#{@id}-ethnicity-detail")
-            .first(:option, self.class::HISPANIC_LATINO_ORIGIN[args[:ethnicity]].sample)
-            .select_option
+    assign_ethnicity_detail(args)
   end
 
   def fill_input_fields(**args)
@@ -66,8 +52,7 @@ module PersonFormHelper
   end
 
   def fill_input_field(text, field)
-    Capybara.fill_in(field, with: text,
-                            fill_options: { clear: :backspace })
+    Capybara.find(:fillable_field, field).set(text, clear: :backspace)
   end
 
   def fill_multi_select_form(**args)
@@ -76,13 +61,6 @@ module PersonFormHelper
       args[key].to_a.each do |option|
         Capybara.fill_in(value, with: option).send_keys(:enter)
       end
-    end
-  end
-
-  def select_check_box_fields(**args)
-    self.class::CHECKBOX_FIELDS.each_key do |key|
-      next if args[key].blank?
-      Capybara.find('label', text: args[key], exact_text: true).click
     end
   end
 

@@ -32,8 +32,8 @@ class Screening < Snapshot
   %w[victim reporter perpetrator].each do |role|
     define_method "attach_#{role}" do |**args, &block|
       person = Object.const_get(role.capitalize).new(args)
-      search_client(query: person.full_name)
-      select_client(text: person.search_name)
+      search_client(query: person.search_name)
+      select_client(text: person.full_name)
       WaitForAjax.wait_for_ajax
       block.present? ? block.call(person) : person.fill_form(args)
     end
@@ -42,7 +42,7 @@ class Screening < Snapshot
   %w[victim reporter perpetrator].each do |role|
     define_method "create_#{role}" do |**args, &block|
       person = Object.const_get(role.capitalize).new(args)
-      search_client(query: person.full_name)
+      search_client(query: person.search_name)
       click_create_new_person
       WaitForAjax.wait_for_ajax
       block.present? ? block.call(person) : person.fill_form(args)
