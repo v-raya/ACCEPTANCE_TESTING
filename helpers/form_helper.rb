@@ -54,7 +54,12 @@ module FormHelper
 
   def select_check_box_fields(**args)
     self::CHECKBOX_FIELDS.each_key do |key|
-      find('label', text: args[key], exact_text: true).click
+      if Capybara.current_driver == :selenium_ie
+        str = "$('#{self::CONTAINER} label:contains(#{args[key]})').click()"
+        page.execute_script(str)
+      else
+        find('label', text: args[key], exact_text: true).click
+      end
     end
   end
 
@@ -74,15 +79,27 @@ module FormHelper
   end
 
   def click_save
-    find(self::CONTAINER).click_button('Save')
+    if Capybara.current_driver == :selenium_ie
+      Capybara.execute_script("$('#{self::CONTAINER} button:contains("'Save'")').click()")
+    else
+      find(self::CONTAINER).click_button('Save')
+    end
   end
 
   def click_cancel
-    find(self::CONTAINER).click_button('Cancel')
+    if Capybara.current_driver == :selenium_ie
+      Capybara.execute_script("$('#{self::CONTAINER} button:contains("'Cancel'")').click()")
+    else
+      find(self::CONTAINER).click_button('Cancel')
+    end
   end
 
   def edit_form
-    find(self::CONTAINER).click_link('Edit')
+    if Capybara.current_driver == :selenium_ie
+      Capybara.execute_script("$('#{self::CONTAINER} a:contains("'Edit'")').click()")
+    else
+      find(self::CONTAINER).click_link('Edit')
+    end
   end
 
   def not_editable?
@@ -90,7 +107,12 @@ module FormHelper
   end
 
   def editable?
-    find(self::CONTAINER)[:class].include?('edit')
+    if Capybara.current_driver == :selenium_ie
+      !Capybara.evaluate_script("$('#{self::CONTAINER} a:contains("'Edit'")').length")
+               .zero?
+    else
+      find(self::CONTAINER)[:class].include?('edit')
+    end
   end
 
   def clear_field(selector)

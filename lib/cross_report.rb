@@ -45,8 +45,13 @@ class CrossReport
   def self.select_check_box_fields(**_args)
     CHECKBOX_FIELDS.each do |input, label|
       check_box = find(input)
-      label = find('label', text: label, exact_text: true)
-      label.click(wait: true) unless check_box.checked?
+      if Capybara.current_driver == :selenium_ie
+        str = "$('#{CONTAINER} label:contains(#{label})').click()"
+        page.execute_script(str) unless check_box.checked?
+      else
+        label = find('label', text: label, exact_text: true)
+        label.click(wait: true) unless check_box.checked?
+      end
     end
   end
 end

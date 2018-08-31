@@ -3,15 +3,14 @@
 require_relative '../../helpers/form_helper'
 
 def search_client(query:)
-  search_field = Capybara.find(:fillable_field, 'Search for')
   if Capybara.current_driver == :selenium_edge
-    blur_search_and_slow_text_input(search_field: search_field, query: query)
+    blur_search_and_slow_text_input(query: query)
   else
     search_field.set(query, clear: :backspace)
   end
 end
 
-def blur_search_and_slow_text_input(search_field:, query:)
+def blur_search_and_slow_text_input(query:)
   find('#search-card').click
   backspaces = [:backspace] * search_field.value.to_s.length
   search_field.native.send_keys(*backspaces)
@@ -21,19 +20,22 @@ end
 
 def select_client(text:)
   if Capybara.current_driver == :selenium_ie
-    script = "$('strong.highlighted:contains(#{text})').first().click()"
-    page.execute_script(script)
+    search_field.send_keys([:arrow_down, :enter])
   else
-    element = Capybara.find('div.autocomplete-menu .search-item', text: text)
+    element = Capybara.find('.search-item', text: text)
     element.hover
     element.click
   end
 end
 
 def click_create_new_person
-  element = Capybara.find_button('Create a new person')
-  element.hover
-  element.click
+  if Capybara.current_driver == :selenium_ie
+    Capybara.execute_script("$('button:contains("'Create a new person'")').click()")
+  else
+    element = Capybara.find_button('Create a new person')
+    element.hover
+    element.click
+  end
 end
 
 def wait_for_result_to_appear(element: 'div.autocomplete-menu')
@@ -44,4 +46,8 @@ def wait_for_result_to_appear(element: 'div.autocomplete-menu')
       loop
     end
   end
+end
+
+def search_field
+  Capybara.find(:fillable_field, 'Search for any person')
 end

@@ -52,6 +52,7 @@ module PersonFormHelper
   end
 
   def fill_input_field(text, field)
+    Capybara.find(:fillable_field, field).set('') if Capybara.current_driver == :selenium_ie
     Capybara.find(:fillable_field, field).set(text, clear: :backspace)
   end
 
@@ -62,6 +63,14 @@ module PersonFormHelper
         Capybara.fill_in(value, with: option).send_keys(:enter)
       end
     end
+  end
+
+  def select_check_box_fields(**args)
+    self.class::CHECKBOX_FIELDS.each_key do |key|
+      next if args[key].blank?
+      check_race_and_select_detail(args)
+    end
+    check_ethnicity_and_select_detail(args)
   end
 
   def fill_form_and_save(**args)
@@ -81,20 +90,36 @@ module PersonFormHelper
   end
 
   def click_save
-    Capybara.find(participant_element).click_button('Save')
+    if Capybara.current_driver == :selenium_ie
+      Capybara.execute_script("$('#{participant_element} button:contains("'Save'")').click()")
+    else
+      Capybara.find(participant_element).click_button('Save')
+    end
     WaitForAjax.wait_for_ajax
   end
 
   def click_cancel
-    Capybara.find(participant_element).click_button('Cancel')
+    if Capybara.current_driver == :selenium_ie
+      Capybara.execute_script("$('#{participant_element} button:contains("'Cancel'")').click()")
+    else
+      Capybara.find(participant_element).click_button('Cancel')
+    end
   end
 
   def edit_form
-    Capybara.find(participant_element).click_link('Edit')
+    if Capybara.current_driver == :selenium_ie
+      Capybara.execute_script("$('#{participant_element} a:contains("'Edit'")').click()")
+    else
+      Capybara.find(participant_element).click_link('Edit')
+    end
   end
 
   def click_remove
-    Capybara.find(participant_element).click_button('Remove')
+    if Capybara.current_driver == :selenium_ie
+      Capybara.execute_script("$('#{participant_element} button:contains("'Remove'")').click()")
+    else
+      Capybara.find(participant_element).click_button('Remove')
+    end
   end
 
   def not_editable?

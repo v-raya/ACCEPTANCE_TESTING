@@ -2,14 +2,6 @@
 
 # form helper
 module RaceEthnicityHelper
-  def select_check_box_fields(**args)
-    self.class::CHECKBOX_FIELDS.each_key do |key|
-      next if args[key].blank?
-      check_race_and_select_detail(args)
-    end
-    check_ethnicity_and_select_detail(args)
-  end
-
   def check_race_and_select_detail(args)
     return unless lookup_race_details_fields.keys.include?(args[:race])
     check_race(args[:race])
@@ -18,9 +10,13 @@ module RaceEthnicityHelper
 
   def check_race(value)
     snake_case = value.split(' ').join('_')
-    return if Capybara.find('input', id: "participant-#{@id}-race-#{snake_case}").checked?
+    id = "participant-#{@id}-race-#{snake_case}"
+    return if Capybara.find('input', id: id).checked?
     if Capybara.current_driver == :selenium_safari
       Capybara.find('label', text: value).click
+    elsif Capybara.current_driver == :selenium_ie
+      str = "$('#{participant_element} input[value=\"#{value}\"]').click()"
+      Capybara.execute_script(str)
     else
       Capybara.check(value, allow_label_click: true)
     end
@@ -38,10 +34,14 @@ module RaceEthnicityHelper
   end
 
   def check_ethnicity(value)
-    return if Capybara.find('input', id: "#{@id}-ethnicity-yes").checked? ||
+    yes_id = "#{@id}-ethnicity-yes"
+    return if Capybara.find('input', id: yes_id).checked? ||
               Capybara.find('input', id: "#{@id}-ethnicity-no").checked?
     if Capybara.current_driver == :selenium_safari
       Capybara.find('label', text: value).click
+    elsif Capybara.current_driver == :selenium_ie
+      str = "$('#{participant_element} input[value=\"#{value}\"]').click()"
+      Capybara.execute_script(str)
     else
       Capybara.check(value, allow_label_click: true)
     end
