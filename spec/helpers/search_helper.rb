@@ -14,13 +14,12 @@ def blur_search_and_slow_text_input(query:)
   find('#search-card').click
   backspaces = [:backspace] * search_field.value.to_s.length
   search_field.native.send_keys(*backspaces)
-
   query.to_s.split(//).each { |l| search_field.set(l, clear: :none) }
 end
 
 def select_client(text:)
   if Capybara.current_driver == :selenium_ie
-    search_field.send_keys([:arrow_down, :enter])
+    search_field.send_keys(%i[arrow_down enter])
   else
     element = Capybara.find('.search-item', text: text)
     element.hover
@@ -30,7 +29,7 @@ end
 
 def click_create_new_person
   if Capybara.current_driver == :selenium_ie
-    Capybara.execute_script("$('button:contains("'Create a new person'")').click()")
+    Capybara.execute_script("$('button:contains(\'Create a new person\')').click()")
   else
     element = Capybara.find_button('Create a new person')
     element.hover

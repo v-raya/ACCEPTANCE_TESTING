@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require_relative 'card_controls_helper'
 require_relative 'date_time_helper'
 require_relative 'race_ethnicity_helper'
 require_relative '../spec/helpers/wait_for_ajax'
@@ -8,6 +9,7 @@ require_relative '../spec/helpers/wait_for_ajax'
 module PersonFormHelper
   include WaitForAjax
   include RaceEthnicityHelper
+  include CardControlsHelper
 
   def fill_form(**args)
     within(participant_element) do
@@ -75,7 +77,7 @@ module PersonFormHelper
 
   def fill_form_and_save(**args)
     fill_form(args)
-    click_save
+    click_save(card_id: participant_element)
   end
 
   def complete_form(**args)
@@ -86,48 +88,15 @@ module PersonFormHelper
 
   def complete_form_and_save(**args)
     complete_form(args)
-    click_save
-  end
-
-  def click_save
-    if Capybara.current_driver == :selenium_ie
-      Capybara.execute_script("$('#{participant_element} button:contains("'Save'")').click()")
-    else
-      Capybara.find(participant_element).click_button('Save')
-    end
-    WaitForAjax.wait_for_ajax
-  end
-
-  def click_cancel
-    if Capybara.current_driver == :selenium_ie
-      Capybara.execute_script("$('#{participant_element} button:contains("'Cancel'")').click()")
-    else
-      Capybara.find(participant_element).click_button('Cancel')
-    end
-  end
-
-  def edit_form
-    if Capybara.current_driver == :selenium_ie
-      Capybara.execute_script("$('#{participant_element} a:contains("'Edit'")').click()")
-    else
-      Capybara.find(participant_element).click_link('Edit')
-    end
+    click_save(card_id: participant_element)
   end
 
   def click_remove
     if Capybara.current_driver == :selenium_ie
-      Capybara.execute_script("$('#{participant_element} button:contains("'Remove'")').click()")
+      Capybara.execute_script("$('#{participant_element} button:contains(\'Remove\')').click()")
     else
       Capybara.find(participant_element).click_button('Remove')
     end
-  end
-
-  def not_editable?
-    !editable?
-  end
-
-  def editable?
-    Capybara.find(participant_element)[:class].include?('edit')
   end
 
   def clear_field(selector)

@@ -1,14 +1,16 @@
 # frozen_string_literal: true
 
 require_relative 'date_time_helper'
+require_relative 'card_controls_helper'
 require_relative '../spec/helpers/wait_for_ajax'
 
 # form helper
 module FormHelper
   include WaitForAjax
+  include CardControlsHelper
 
   def fill_form(**args)
-    edit_form if not_editable?
+    edit_form(card_id: self::CONTAINER) if not_editable?(card_id: self::CONTAINER)
     within(self::CONTAINER) do
       select_fields(args)
       fill_input_fields(args)
@@ -65,7 +67,7 @@ module FormHelper
 
   def fill_form_and_save(**args)
     fill_form(args)
-    click_save
+    click_save(card_id: self::CONTAINER)
   end
 
   def complete_form(**args)
@@ -75,44 +77,7 @@ module FormHelper
 
   def complete_form_and_save(**args)
     complete_form(args)
-    click_save
-  end
-
-  def click_save
-    if Capybara.current_driver == :selenium_ie
-      Capybara.execute_script("$('#{self::CONTAINER} button:contains("'Save'")').click()")
-    else
-      find(self::CONTAINER).click_button('Save')
-    end
-  end
-
-  def click_cancel
-    if Capybara.current_driver == :selenium_ie
-      Capybara.execute_script("$('#{self::CONTAINER} button:contains("'Cancel'")').click()")
-    else
-      find(self::CONTAINER).click_button('Cancel')
-    end
-  end
-
-  def edit_form
-    if Capybara.current_driver == :selenium_ie
-      Capybara.execute_script("$('#{self::CONTAINER} a:contains("'Edit'")').click()")
-    else
-      find(self::CONTAINER).click_link('Edit')
-    end
-  end
-
-  def not_editable?
-    !editable?
-  end
-
-  def editable?
-    if Capybara.current_driver == :selenium_ie
-      !Capybara.evaluate_script("$('#{self::CONTAINER} a:contains("'Edit'")').length")
-               .zero?
-    else
-      find(self::CONTAINER)[:class].include?('edit')
-    end
+    click_save(card_id: self::CONTAINER)
   end
 
   def clear_field(selector)
