@@ -2,11 +2,11 @@
 
 require_relative 'date_time_helper'
 require_relative 'card_controls_helper'
-require_relative '../spec/helpers/wait_for_ajax'
+require_relative '../spec/helpers/wait'
 
 # form helper
 module FormHelper
-  include WaitForAjax
+  include Wait
   include CardControlsHelper
 
   def fill_form(**args)
@@ -22,7 +22,7 @@ module FormHelper
   def select_fields(**args)
     self::SELECT_FIELDS.each do |key, value|
       select(args[key], from: value)
-      WaitForAjax.wait_for_ajax
+      Wait.for_ajax
     end
   end
 
@@ -56,7 +56,7 @@ module FormHelper
 
   def select_check_box_fields(**args)
     self::CHECKBOX_FIELDS.each_key do |key|
-      if Capybara.current_driver == :selenium_ie
+      if %i[selenium_ie selenium_edge].include?(Capybara.current_driver)
         str = "$('#{self::CONTAINER} label:contains(#{args[key]})').click()"
         page.execute_script(str)
       else

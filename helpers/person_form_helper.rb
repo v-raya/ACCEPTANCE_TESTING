@@ -3,11 +3,11 @@
 require_relative 'card_controls_helper'
 require_relative 'date_time_helper'
 require_relative 'race_ethnicity_helper'
-require_relative '../spec/helpers/wait_for_ajax'
+require_relative '../spec/helpers/wait'
 
 # form helper
 module PersonFormHelper
-  include WaitForAjax
+  include Wait
   include RaceEthnicityHelper
   include CardControlsHelper
 
@@ -92,8 +92,8 @@ module PersonFormHelper
   end
 
   def click_remove
-    if Capybara.current_driver == :selenium_ie
-      Capybara.execute_script("$('#{participant_element} button:contains(\'Remove\')').click()")
+    if %i[selenium_ie selenium_edge].include?(Capybara.current_driver)
+      Capybara.execute_script("$('#{participant_element} button:contains(\"Remove\")').click()")
     else
       Capybara.find(participant_element).click_button('Remove')
     end

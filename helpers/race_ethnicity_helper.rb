@@ -14,7 +14,7 @@ module RaceEthnicityHelper
     return if Capybara.find('input', id: id).checked?
     if Capybara.current_driver == :selenium_safari
       Capybara.find('label', text: value).click
-    elsif Capybara.current_driver == :selenium_ie
+    elsif %i[selenium_ie selenium_edge].include?(Capybara.current_driver)
       str = "$('#{participant_element} input[value=\"#{value}\"]').click()"
       Capybara.execute_script(str)
     else
@@ -39,7 +39,7 @@ module RaceEthnicityHelper
               Capybara.find('input', id: "#{@id}-ethnicity-no").checked?
     if Capybara.current_driver == :selenium_safari
       Capybara.find('label', text: value).click
-    elsif Capybara.current_driver == :selenium_ie
+    elsif %i[selenium_ie selenium_edge].include?(Capybara.current_driver)
       str = "$('#{participant_element} input[value=\"#{value}\"]').click()"
       Capybara.execute_script(str)
     else

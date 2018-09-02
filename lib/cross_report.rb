@@ -35,9 +35,15 @@ class CrossReport
     super
     within CONTAINER do
       select(COMMUNICATION_METHOD.sample, from: 'Communication Method')
-      2.times do
-        fill_in('Cross Reported on Date', with: past_date,
-                                          fill_options: { clear: :backspace })
+      if %i[selenium_ie selenium_edge].include?(Capybara.current_driver)
+        element = find_button('Select Time')
+        evaluate_script("$('#cross-report-card button[title=\"Select Time\"]').click()")
+        element.native.send_keys(:enter)
+      else
+        2.times do
+          fill_in('Cross Reported on Date', with: past_date_time,
+                                            fill_options: { clear: :backspace })
+        end
       end
     end
   end
@@ -45,7 +51,7 @@ class CrossReport
   def self.select_check_box_fields(**_args)
     CHECKBOX_FIELDS.each do |input, label|
       check_box = find(input)
-      if Capybara.current_driver == :selenium_ie
+      if %i[selenium_ie selenium_edge].include?(Capybara.current_driver)
         str = "$('#{CONTAINER} label:contains(#{label})').click()"
         page.execute_script(str) unless check_box.checked?
       else

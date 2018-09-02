@@ -14,7 +14,7 @@ def fill_in_login(user)
   else
     Capybara.fill_in('Email', with: ENV['ACCEPTANCE_TEST_USER'])
     Capybara.fill_in('Password', with: ENV['ACCEPTANCE_TEST_PASSWORD'])
-    if Capybara.current_driver == :selenium_ie
+    if %i[selenium_ie selenium_edge].include?(Capybara.current_driver)
       Capybara.execute_script('document.getElementsByTagName("button")[0].click()')
     else
       Capybara.click_button('Sign In')
@@ -25,7 +25,7 @@ end
 
 def low_level_environment(user)
   Capybara.fill_in('Authorization JSON', with: user.to_json)
-  if Capybara.current_driver == :selenium_ie
+  if %i[selenium_ie selenium_edge].include?(Capybara.current_driver)
     Capybara.execute_script('document.getElementById("submitBtn").click()')
   else
     Capybara.click_button('Sign In')
@@ -36,7 +36,7 @@ def multi_factor_auth
   element = Capybara.evaluate_script('document.getElementById("validateButton")')
   return if element.blank?
   Capybara.fill_in('Enter Code', with: ENV['MFA'])
-  if Capybara.current_driver == :selenium_ie
+  if %i[selenium_ie selenium_edge].include?(Capybara.current_driver)
     Capybara.execute_script('document.getElementById("validateButton").click()')
   else
     Capybara.click_button('Verify')
