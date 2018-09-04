@@ -10,7 +10,7 @@ module PersonHelpers
                 'Romanian'],
     'Black or African American' => %w[Ethiopian Caribbean],
     'Asian' => ['Asian Indian', 'Cambodian', 'Chinese', 'Filipino', 'Hmong',
-                'Japanese', 'Korean', 'Laotion', 'Other Asian', 'Vietnamese'],
+                'Japanese', 'Korean', 'Laotian', 'Other Asian', 'Vietnamese'],
     'American Indian or Alaska Native' => ['American Indian', 'Alaska Native'],
     'Native Hawaiian or Other Pacific Islander' => ['Guamanian', 'Hawaiian',
                                                     'Other Asian/Pacific Islander',

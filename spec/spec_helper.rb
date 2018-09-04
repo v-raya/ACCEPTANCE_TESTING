@@ -18,7 +18,7 @@ Dir[File.dirname(__FILE__) + '/helpers/**/*.rb'].each { |f| require f }
 REGISTER_DRIVERS = {
   'selenium_firefox' => 'firefox',
   'selenium_edge' => 'edge'
-}
+}.freeze
 
 Chromedriver.set_version('2.38')
 
@@ -49,7 +49,7 @@ Capybara.register_driver :selenium_safari do |app|
   Capybara::Selenium::Driver.new(app, browser: :safari)
 end
 
-Capybara.default_max_wait_time = 10
+Capybara.default_max_wait_time = ENV.fetch('MAX_WAIT', 10).to_i
 
 Capybara.javascript_driver = :headless_chrome
 
