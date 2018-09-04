@@ -33,6 +33,7 @@ def low_level_environment(user)
 end
 
 def multi_factor_auth
+  Wait.for_document
   element = Capybara.evaluate_script('document.getElementById("validateButton")')
   return if element.blank?
   Capybara.fill_in('Enter Code', with: ENV['MFA'])
