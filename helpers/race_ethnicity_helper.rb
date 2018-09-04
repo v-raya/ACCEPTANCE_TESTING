@@ -37,13 +37,11 @@ module RaceEthnicityHelper
     yes_id = "#{@id}-ethnicity-yes"
     return if Capybara.find('input', id: yes_id).checked? ||
               Capybara.find('input', id: "#{@id}-ethnicity-no").checked?
-    if Capybara.current_driver == :selenium_safari
-      Capybara.find('label', text: value).click
-    elsif %i[selenium_ie selenium_edge].include?(Capybara.current_driver)
+    if %i[selenium_ie selenium_edge].include?(Capybara.current_driver)
       str = "$('#{participant_element} input[value=\"#{value}\"]').click()"
       Capybara.execute_script(str)
     else
-      Capybara.check(value, allow_label_click: true)
+      Capybara.find('label', text: value).click
     end
   end
 

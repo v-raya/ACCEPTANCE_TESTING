@@ -22,7 +22,7 @@ def select_client(text:)
   if %i[selenium_ie selenium_edge].include?(Capybara.current_driver)
     search_field.send_keys(%i[arrow_down enter])
   else
-    element = Capybara.find('.search-item', text: text)
+    element = Capybara.first('.search-item', text: text)
     element.hover
     element.click
   end

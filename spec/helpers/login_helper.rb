@@ -34,7 +34,6 @@ end
 
 def multi_factor_auth
   Wait.for_document
-  element = Capybara.evaluate_script('document.getElementById("validateButton")')
   Capybara.fill_in('Enter Code', with: ENV['MFA'])
   if %i[selenium_ie selenium_edge].include?(Capybara.current_driver)
     Capybara.execute_script('document.getElementById("validateButton").click()')
