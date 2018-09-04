@@ -3,7 +3,19 @@
 require_relative '../../helpers/form_helper'
 
 def search_client(query:)
-  search_field.set(query, clear: :backspace)
+  if Capybara.current_driver == :selenium_edge
+    document_ready?
+    blur_search_and_slow_text_input(query: query)
+  else
+    search_field.set(query, clear: :backspace)
+  end
+end
+
+def blur_search_and_slow_text_input(query:)
+  find('#search-card').click
+  backspaces = [:backspace] * search_field.value.to_s.length
+  search_field.native.send_keys(*backspaces)
+  query.to_s.split(//).each { |l| search_field.set(l, clear: :none) }
 end
 
 def select_client(text:)
@@ -37,7 +49,6 @@ def wait_for_result_to_appear(element: 'div.autocomplete-menu')
 end
 
 def search_field
-  document_ready? if Capybara.current_driver == :selenium_edge
   Capybara.find(:fillable_field, 'Search for any person')
 end
 
