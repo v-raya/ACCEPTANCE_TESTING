@@ -34,7 +34,7 @@ end
 
 def multi_factor_auth
   Wait.for_document
-  return if Capybara.page.has_no_field?('Enter Code') # for IE only
+  return if Capybara.current_url != 'https://login.integration.cwds.io/'
   Capybara.fill_in('Enter Code', with: ENV['MFA'])
   if %i[selenium_ie selenium_edge].include?(Capybara.current_driver)
     Capybara.execute_script('document.getElementById("validateButton").click()')
