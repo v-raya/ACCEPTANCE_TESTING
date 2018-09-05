@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 describe 'A State Social Worker', type: :feature do
-  user = STATE_SEALED_SOCIAL_WORKER
+  user = STATE_SENSITIVE_SOCIAL_WORKER
   let(:screening) { Screening.new }
   let(:victim) do
     {
@@ -32,7 +32,7 @@ describe 'A State Social Worker', type: :feature do
     login_user(user: user, path: new_screening_path)
   end
 
-  describe 'with Sealed privilege' do
+  describe 'with Sensitive privilege' do
     describe 'submits a referral' do
       it 'Screening Information completes and saves' do
         default_screening_information_spec
