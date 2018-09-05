@@ -33,14 +33,19 @@ def low_level_environment(user)
 end
 
 def multi_factor_auth
-  Wait.for_document
-  return if Capybara.current_url != 'https://login.integration.cwds.io/'
+  return unless mfa_page?
   Capybara.fill_in('Enter Code', with: ENV['MFA'])
   if %i[selenium_ie selenium_edge].include?(Capybara.current_driver)
     Capybara.execute_script('document.getElementById("validateButton").click()')
   else
     Capybara.click_button('Verify')
   end
+end
+
+def mfa_page?
+  sleep ENV.fetch('MAX_WAIT', Capybara.default_max_wait_time).to_i
+  Wait.for_document
+  Capybara.current_url.include?('login')
 end
 
 def logout_user
