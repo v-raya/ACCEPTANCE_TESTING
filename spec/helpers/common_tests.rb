@@ -45,8 +45,13 @@ def default_incident_information_spec
   end
 end
 
-def default_relationships_spec(**_args)
-  skip 'Waiting till Relationship card is fixed'
+def default_relationships_spec(**args)
+  old_cards_count = Capybara.find_all('div.card.participant').size
+  expect do
+    Relationship.attach_first_client(args)
+    old_cards_count
+  end.to change { Capybara.find_all('div.card.participant').size }.by(1)
+  Capybara.first('div.card.participant').click_button('Remove')
 end
 
 def default_worker_safety_spec

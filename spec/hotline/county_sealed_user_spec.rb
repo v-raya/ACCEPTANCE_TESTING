@@ -61,7 +61,7 @@ describe 'A County Social Worker', type: :feature do
       end
 
       it 'Relationships completes and saves' do
-        default_relationships_spec
+        default_relationships_spec(victim)
       end
 
       it 'Worker Safety completes and saves' do

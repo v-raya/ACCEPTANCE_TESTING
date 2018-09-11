@@ -23,11 +23,11 @@ class Screening < Snapshot
   end
 
   def click_submit
+    scroll_page(x: 0, y: 0)
     @id = Capybara.current_url.match(/\d+/).to_s
     puts "Screening ID: #{@id}"
     if %i[selenium_ie selenium_edge].include?(Capybara.current_driver)
-      script = "$('.page-header-container button').click()"
-      Capybara.evaluate_script(script)
+      Capybara.evaluate_script("$('.page-header-container button').click()")
     else
       find('div.page-header-container').click_button('Submit')
     end

@@ -1,4 +1,3 @@
-
 # frozen_string_literal: true
 
 # form helper
@@ -34,5 +33,12 @@ module CardControlsHelper
 
   def editable?(card_id:)
     Capybara.find(card_id)[:class].include?('edit')
+  end
+
+  def attach_first_client(**args)
+    sibling = first('#relationships-card b', text: args[:first_name]).find(:xpath, '..').sibling('div')
+    sibling.first('span .glyphicon-option-vertical').click
+    sibling.first('a', text: 'Attach').click
+    Wait.for_ajax
   end
 end
