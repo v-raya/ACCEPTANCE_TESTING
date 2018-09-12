@@ -47,11 +47,17 @@ end
 
 def default_relationships_spec(**args)
   old_cards_count = Capybara.find_all('div.card.participant').size
+
   expect do
     Relationship.attach_first_client(args)
+    relationship_card_id = Capybara.first('div.card.edit.participant', visible: false)[:id]
     old_cards_count
-  end.to change { Capybara.find_all('div.card.participant').size }.by(1)
-  Capybara.first('div.card.participant').click_button('Remove')
+  end.to change {
+    Capybara.find_all('div.card.participant').size
+  }.by(1)
+
+  puts relationship_card_id
+  Person.new.remove_form(card_id: "##{relationship_card_id}")
 end
 
 def default_worker_safety_spec

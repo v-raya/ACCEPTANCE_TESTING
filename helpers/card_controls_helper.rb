@@ -27,6 +27,15 @@ module CardControlsHelper
     end
   end
 
+  def remove_form(card_id:)
+    if %i[selenium_ie selenium_edge].include?(Capybara.current_driver)
+      puts '****** reached 3', card_id
+      Capybara.execute_script("$('#{card_id} button:contains(\"Remove\")').click()")
+    else
+      Capybara.find(card_id).click_button('Remove')
+    end
+  end
+
   def not_editable?(card_id:)
     !editable?(card_id: card_id)
   end
@@ -36,7 +45,10 @@ module CardControlsHelper
   end
 
   def attach_first_client(**args)
-    sibling = first('#relationships-card b', text: args[:first_name]).find(:xpath, '..').sibling('div')
+    sibling = within('#relationships-card ') do
+      first('b', text: args[:first_name])
+        .find(:xpath, '..').sibling('div')
+    end
     sibling.first('span .glyphicon-option-vertical').click
     sibling.first('a', text: 'Attach').click
     Wait.for_ajax
