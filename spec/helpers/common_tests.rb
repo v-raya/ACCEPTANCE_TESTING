@@ -45,7 +45,7 @@ def default_incident_information_spec
   end
 end
 
-def default_relationships_spec(**args)
+def default_relationships_spec(relationship_card_id: nil, **args)
   old_cards_count = Capybara.find_all('div.card.participant').size
 
   expect do
