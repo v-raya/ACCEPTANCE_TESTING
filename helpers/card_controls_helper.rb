@@ -29,7 +29,6 @@ module CardControlsHelper
 
   def remove_form(card_id:)
     if %i[selenium_ie selenium_edge].include?(Capybara.current_driver)
-      puts '****** reached 3', card_id
       Capybara.execute_script("$('#{card_id} button:contains(\"Remove\")').click()")
     else
       Capybara.find(card_id).click_button('Remove')
