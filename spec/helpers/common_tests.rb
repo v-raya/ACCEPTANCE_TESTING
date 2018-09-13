@@ -46,17 +46,13 @@ def default_incident_information_spec
 end
 
 def default_relationships_spec(relationship_card_id: nil, **args)
+  skip 'Work with QA on how to test Relationship given data inconsistencies'
   old_cards_count = Capybara.find_all('div.card.participant').size
-
   expect do
     Relationship.attach_first_client(args)
     relationship_card_id = Capybara.first('div.card.edit.participant', visible: false)[:id]
     old_cards_count
-  end.to change {
-    Capybara.find_all('div.card.participant').size
-  }.by(1)
-
-  puts relationship_card_id
+  end.to change { Capybara.find_all('div.card.participant').size }.by(1)
   Person.new.remove_form(card_id: "##{relationship_card_id}")
 end
 
