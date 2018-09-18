@@ -1,4 +1,3 @@
-
 # frozen_string_literal: true
 
 # form helper
@@ -28,11 +27,29 @@ module CardControlsHelper
     end
   end
 
+  def remove_form(card_id:)
+    if %i[selenium_ie selenium_edge].include?(Capybara.current_driver)
+      Capybara.execute_script("$('#{card_id} button:contains(\"Remove\")').click()")
+    else
+      Capybara.find(card_id).click_button('Remove')
+    end
+  end
+
   def not_editable?(card_id:)
     !editable?(card_id: card_id)
   end
 
   def editable?(card_id:)
     Capybara.find(card_id)[:class].include?('edit')
+  end
+
+  def attach_first_client(**args)
+    sibling = within('#relationships-card ') do
+      first('b', text: args[:first_name])
+        .find(:xpath, '..').sibling('div')
+    end
+    sibling.first('span .glyphicon-option-vertical').click
+    sibling.first('a', text: 'Attach').click
+    Wait.for_ajax
   end
 end

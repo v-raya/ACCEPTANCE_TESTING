@@ -9,10 +9,9 @@ require 'active_support/core_ext/object/blank'
 
 %w[person victim reporter perpetrator screening_information
    narrative incident_information allegation worker_safety
-   cross_report decision snapshot screening].each do |f|
+   cross_report decision snapshot screening relationship].each do |f|
   require [Dir.pwd, 'lib', f].join('/')
 end
-Dir[File.dirname(__FILE__) + '/support/**/*.rb'].each { |f| require f }
 Dir[File.dirname(__FILE__) + '/helpers/**/*.rb'].each { |f| require f }
 
 REGISTER_DRIVERS = {

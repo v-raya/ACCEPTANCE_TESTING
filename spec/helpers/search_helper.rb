@@ -4,17 +4,17 @@ require_relative '../../helpers/form_helper'
 
 def search_client(query:)
   if Capybara.current_driver == :selenium_edge
-    document_ready?
     blur_search_and_slow_text_input(query: query)
   else
+    scroll_page
     search_field.set(query, clear: :backspace)
   end
 end
 
 def blur_search_and_slow_text_input(query:)
+  scroll_page
   find('#search-card').click
-  backspaces = [:backspace] * search_field.value.to_s.length
-  search_field.native.send_keys(*backspaces)
+  search_field.native.send_keys(*([:backspace] * search_field.value.to_s.length))
   query.to_s.split(//).each { |l| search_field.set(l, clear: :none) }
 end
 
@@ -52,7 +52,7 @@ def search_field
   Capybara.find(:fillable_field, 'Search for any person')
 end
 
-def document_ready?
+def scroll_page(x: 0, y: 0)
   Wait.for_document
-  Capybara.execute_script("scrollTo(0, 250)")
+  Capybara.execute_script("scrollTo(#{x},#{y})")
 end

@@ -24,3 +24,7 @@ end
 def future_date_time(date_time: Faker::Time.forward(rand(1..5)))
   date_time.strftime('%m/%d/%Y %l:%M %p')
 end
+
+def date_of_birth(age: 1)
+  (Date.today - (365 * age)).strftime('%m/%d/%Y')
+end
