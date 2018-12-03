@@ -56,6 +56,15 @@ unless Capybara.current_driver == :headless_chrome
   Capybara.page.driver.browser.manage.window.maximize
 end
 
+# Register screenshot drivers
+if ENV.fetch('SCREENSHOT', false)
+  require 'capybara-screenshot/rspec'
+  Capybara.save_path = '/tmp'
+  Capybara::Screenshot.register_driver(:headless_chrome) do |driver, path|
+    driver.browser.save_screenshot path
+  end
+end
+
 # capybara session
 module Capybara
   # session
