@@ -5,6 +5,7 @@
 - [Environment Variables](#environment-variables)
 - [DSL](#dsl)
 - [Running specs](#running-specs)
+- [Taking Screenshots](#taking-screenshots)
 
 
 ## <a name="requirement"></a>Requirements
@@ -101,3 +102,7 @@ Assuming the above requirements are satisfied:
     - `ACCEPTANCE_TEST_USER=<email> ACCEPTANCE_TEST_PASSWORD=<password> APP_URL=https://web.integration.cwds.io CAPYBARA_DRIVER=selenium_chrome rspec spec/snapshot`
   - ### Docker
     - `APP_URL=http://intake.local.cwds.io CAPYBARA_DRIVER=selenium_chrome docker-compose run --rm acceptance_test`
+
+## <a name="taking-screenshots"></a>Taking Screenshots
+  - to take screenshots you need to pass the environment variable `SCREENSHOT=true` when you run tests
+  - only the `headless_chrome` driver is currently supported
