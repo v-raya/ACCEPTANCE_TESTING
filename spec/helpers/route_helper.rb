@@ -31,6 +31,5 @@ def logout_path
 end
 
 def env_prefix
-  return nil if ENV['APP_URL'].include?('local')
-  '/intake'
+  ENV.fetch('APP_URL_PREFIX', '')
 end
