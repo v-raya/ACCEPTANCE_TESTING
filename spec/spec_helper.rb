@@ -19,7 +19,7 @@ REGISTER_DRIVERS = {
   'selenium_edge' => 'edge'
 }.freeze
 
-Chromedriver.set_version('2.38')
+Chromedriver.set_version('2.44')
 
 Capybara.configure do |config|
   config.app_host                = ENV.fetch('APP_URL') { raise 'You must pass the app url with APP_URL=<url>.' }
