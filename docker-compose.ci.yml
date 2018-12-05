@@ -4,6 +4,7 @@ services:
     build: .
     environment:
       - APP_URL
+      - APP_URL_PREFIX
       - CAPYBARA_DRIVER
       - FEATURE_SET
       - ACCEPTANCE_TEST_USER
