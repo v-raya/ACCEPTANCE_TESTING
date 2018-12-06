@@ -52,7 +52,10 @@ Capybara.default_max_wait_time = ENV.fetch('MAX_WAIT', 10).to_i
 
 Capybara.javascript_driver = :headless_chrome
 
-unless Capybara.current_driver == :headless_chrome
+# Version of Chromedriver (2.38) is unable to maximize the version of
+# Chrome browser for testing selenium drivers.
+
+unless %i[headless_chrome selenium_chrome].include?(Capybara.current_driver)
   Capybara.page.driver.browser.manage.window.maximize
 end
 

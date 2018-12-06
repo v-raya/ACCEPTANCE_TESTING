@@ -49,7 +49,7 @@ def wait_for_result_to_appear(element: 'div.autocomplete-menu')
 end
 
 def search_field
-  Capybara.find(:fillable_field, 'Search for any person')
+  Capybara.find(:fillable_field, 'Search for')
 end
 
 def scroll_page(x: 0, y: 0)
