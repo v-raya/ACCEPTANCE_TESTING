@@ -19,7 +19,7 @@ REGISTER_DRIVERS = {
   'selenium_edge' => 'edge'
 }.freeze
 
-Chromedriver.set_version('2.44')
+Chromedriver.set_version('2.38')
 
 Capybara.configure do |config|
   config.app_host                = ENV.fetch('APP_URL') { raise 'You must pass the app url with APP_URL=<url>.' }
@@ -52,9 +52,9 @@ Capybara.default_max_wait_time = ENV.fetch('MAX_WAIT', 10).to_i
 
 Capybara.javascript_driver = :headless_chrome
 
-unless Capybara.current_driver == :headless_chrome
-  Capybara.page.driver.browser.manage.window.maximize
-end
+# unless Capybara.current_driver == :headless_chrome
+#   Capybara.page.driver.browser.manage.window.maximize
+# end
 
 # Register screenshot drivers
 if ENV.fetch('SCREENSHOT', false)
