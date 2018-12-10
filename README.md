@@ -56,8 +56,9 @@ Assuming the above requirements are satisfied:
       - `ENV['APP_URL']='http://intake.local.cwds.io'`
     - Running localhost
       - `ENV['APP_URL']='http://localhost:<port>'`
-  - **WARNING**
-    - If the URL does not include 'local' in the string for local tests, you WILL have routing issues
+- ### APP_URL_PREFIX
+  - defaults to empty string
+  - a string appended to APP_URL
 - ### CAPYBARA_DRIVER
   - Defaults to `headless_chrome` if not defined
   - `ENV['CAPYBARA_DRIVER']=selenium_chrome`
@@ -99,7 +100,7 @@ Assuming the above requirements are satisfied:
   - ### Locally
     - `APP_URL=http://intake.local.cwds.io CAPYBARA_DRIVER=selenium_chrome rspec spec`
   - ### Integration
-    - `ACCEPTANCE_TEST_USER=<email> ACCEPTANCE_TEST_PASSWORD=<password> APP_URL=https://web.integration.cwds.io CAPYBARA_DRIVER=selenium_chrome rspec spec/snapshot`
+    - `ACCEPTANCE_TEST_USER=<email> ACCEPTANCE_TEST_PASSWORD=<password> APP_URL=https://web.integration.cwds.io APP_URL_PREFIX=/intake CAPYBARA_DRIVER=selenium_chrome rspec spec/snapshot`
   - ### Docker
     - `APP_URL=http://intake.local.cwds.io CAPYBARA_DRIVER=selenium_chrome docker-compose run --rm acceptance_test`
 
