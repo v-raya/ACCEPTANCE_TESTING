@@ -5,6 +5,7 @@ node ('preint') {
       string(defaultValue: 'headless_chrome', description: 'Name of the capybara driver, options include: webkit, headless_chrome', name: 'CAPYBARA_DRIVER'),
       string(defaultValue: 'smoke', description: 'The set of tests, each set can be found in feature_set.yml', name: 'FEATURE_SET'),
       string(defaultValue: 'https://web.preint.cwds.io', description: 'Target URL to run the tests', name: 'APP_URL'),
+      string(defaultValue: '/intake', name: 'APP_URL_PREFIX'),
       string(defaultValue: 'latest', description: 'Target URL to run the tests', name: 'INTAKE_APP_VERSION')]),pipelineTriggers([])
     ])
 
