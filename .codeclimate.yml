@@ -1,0 +1,20 @@
+version: "2"
+checks:
+  similar-code:
+    enabled: false
+  duplication:
+    enabled: true
+  identical-code:
+    enabled: true
+plugins:
+  bundler-audit:
+    enabled: true
+  rubocop:
+    enabled: true
+    config:
+      file: .rubocop.yml
+exclude_patterns:
+  - .bundle/
+  - reports/
+  - scripts/
+  - vendor/
