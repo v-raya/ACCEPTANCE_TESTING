@@ -11,6 +11,8 @@ plugins:
     enabled: true
   rubocop:
     enabled: true
+    config:
+      file: .rubocop.yml
 exclude_patterns:
   - .bundle/
   - reports/
