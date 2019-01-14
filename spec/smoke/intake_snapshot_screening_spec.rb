@@ -18,5 +18,6 @@ describe 'Snapshot Page Ready', type: :feature do
 
   it 'when clicking Start Snapshot link' do
     Capybara.click_button('Start Snapshot')
+    expect(page).to have_button('Start Over')
   end
 end
