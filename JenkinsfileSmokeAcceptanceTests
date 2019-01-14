@@ -29,7 +29,7 @@ node ('preint') {
         sh 'docker-compose run acceptance_test'
       }
     }
-
+/*
     stage ('Integration Env Deploy') {
                build job: '/Integration Environment/intake-app-pipeline/',
                    parameters: [
@@ -40,7 +40,7 @@ node ('preint') {
                    string(name: 'APP_NAME', value: 'intake')
                    ],
                    wait: false
-    }
+    }*/
   } catch (Exception e) {
     errorcode = e
     slackSend color: 'danger', channel: '#tech_intake', message: "Intake smoke acceptance tests failed: ${env.JOB_NAME} ${env.BUILD_NUMBER}"
