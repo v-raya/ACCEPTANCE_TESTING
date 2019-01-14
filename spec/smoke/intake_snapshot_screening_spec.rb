@@ -19,4 +19,4 @@ describe 'Snapshot Page Ready', type: :feature do
   it 'when clicking Start Snapshot link' do
     Capybara.click_button('Start Snapshot')
   end
-end    
+end
