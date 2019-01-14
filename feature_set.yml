@@ -10,3 +10,4 @@ snapshot:
 
 smoke:
   - Dashboard Ready
+  - Screening Page Ready
